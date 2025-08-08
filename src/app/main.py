@@ -4,6 +4,7 @@ import numpy
 import pandas
 import matplotlib
 import filterpy
+from core.stock_data_repository import DataRepository
 
 
 print(
@@ -15,3 +16,10 @@ print(
     f'* FilterPy: {filterpy.__version__}',
     sep='\n'
 )
+
+data_repository = DataRepository()
+data_repository.fetch_periodic_data()
+data_repository.save_periodic_data()
+print(data_repository.get_dataframes())
+
+
