@@ -1,8 +1,11 @@
-from yfinance import Ticker, download
+from yfinance import download
 from pandas import DataFrame, read_csv
 from datetime import datetime
 from pathlib import Path
-from typing import List, Optional
+from typing import Optional
+from logging import getLogger
+
+log = getLogger('data_repository')
 
 class DataRepository():
     """Module that handles tasks like loading and saving stock market data.
@@ -37,7 +40,7 @@ class DataRepository():
                 multi_level_index=False
             )
         else:
-            print(f'{ticker} is already fetched.')
+            log.warning(f'{ticker} is already fetched.')
         
     def _load_all_periodic_data(self) -> None:
         """Loads all periodic ```DataFrames``` from configured repository.
@@ -66,4 +69,4 @@ class DataRepository():
                 sep=';'
             )
         else:
-            print(f'{ticker} does not exist in memory, try to fetch it first.')
+            log.warning(f'{ticker} does not exist in memory, try to fetch it first.')
