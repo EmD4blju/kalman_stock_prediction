@@ -4,7 +4,7 @@ import numpy
 import pandas
 import matplotlib
 import filterpy
-from core.stock_data_repository import DataRepository
+from core.data_repository import DataRepository
 from tools.log_controller import LogController
 from logging import getLogger
 
