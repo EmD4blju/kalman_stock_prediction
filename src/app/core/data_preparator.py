@@ -6,7 +6,7 @@ class DataPreparator():
     """
     
     @staticmethod
-    def reformat_periodic_to_supervised_data(dataframe:pd.DataFrame, k:int = 2) -> pd.DataFrame:
+    def reformat_periodic_to_supervised_data(dataframe:pd.DataFrame, target_column:str = 'Close', k:int = 2) -> pd.DataFrame:
         """Reformats **periodic stock market** ```DataFrame``` to **supervised learning** ```DataFrame```.
 
         Args:
@@ -20,7 +20,7 @@ class DataPreparator():
         #~ --- Prepare data for reformatting ---
         data_array = dataframe.to_numpy()
         supervised_dataframe = pd.DataFrame(
-            columns=['Date', 'Close'] + [f'Close_{i}' for i in range(k)],
+            columns=['Date', target_column] + [f'{target_column}_{i}' for i in range(k)],
         )
         dates = dataframe.index
         
