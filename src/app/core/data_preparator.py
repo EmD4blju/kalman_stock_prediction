@@ -1,5 +1,8 @@
 import pandas as pd
 import numpy as np
+from logging import getLogger
+
+log = getLogger('data_preparator')
 
 class DataPreparator():
     """_summary_
@@ -17,8 +20,10 @@ class DataPreparator():
             pd.DataFrame: Reformatted ```DataFrame```.
         """
         
+        log.info(f'Preparing data for target column: {target_column}, with k={k}')
+        
         #~ --- Prepare data for reformatting ---
-        data_array = dataframe.to_numpy()
+        data_array = dataframe[target_column].to_numpy()
         supervised_dataframe = pd.DataFrame(
             columns=['Date', target_column] + [f'{target_column}_{i}' for i in range(k)],
         )

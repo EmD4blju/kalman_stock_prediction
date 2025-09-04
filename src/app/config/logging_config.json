@@ -26,6 +26,16 @@
       "level": "DEBUG",
       "handlers": ["console"],
       "propagate": false
+    },
+    "data_preparator": {
+      "level": "DEBUG",
+      "handlers": ["console"],
+      "propagate": false
+    },
+    "dataset": {
+      "level": "DEBUG",
+      "handlers": ["console"],
+      "propagate": false
     }
   }
 }

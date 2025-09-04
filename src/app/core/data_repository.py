@@ -54,6 +54,8 @@ class DataRepository():
                 sep=';',
                 index_col='Date'
             )
+            log.info(f'Loaded: {ticker}')
+        log.info(f'Loaded periodic stock market data for: {set(self._dataframes.keys())}')
 
         
     def save_periodic_data(self, ticker:str = 'AMZN') -> None:
