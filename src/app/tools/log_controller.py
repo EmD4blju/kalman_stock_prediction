@@ -9,6 +9,12 @@ class LogController():
     """
 
     def __init__(self, config_path: Path = Path('src','app','config','logging_config.json'), dirs:Path = Path('logs')):
+        if not config_path.exists():
+            raise FileNotFoundError(f'Config path: {config_path} does not exist')
+        
+        if not dirs.exists():
+            raise FileNotFoundError(f'Log directory path: {dirs} does not exist')
+        
         self._config_path = config_path
         self._dirs = dirs
         

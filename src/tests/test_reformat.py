@@ -12,7 +12,7 @@ def test_reformat_should_handle_close_column():
         filepath_or_buffer=Path('src', 'tests', 'repo', 'test_dataframe_in.csv'),
         sep=';',
         index_col=0,
-    )['Close']
+    )
     
     supervised_dataframe = read_csv(
         filepath_or_buffer=Path('src', 'tests', 'repo', 'test_dataframe_out_close.csv'),
@@ -32,7 +32,7 @@ def test_reformat_should_handle_open_column():
         filepath_or_buffer=Path('src', 'tests', 'repo', 'test_dataframe_in.csv'),
         sep=';',
         index_col=0,
-    )['Open']
+    )
     
     supervised_dataframe = read_csv(
         filepath_or_buffer=Path('src', 'tests', 'repo', 'test_dataframe_out_open.csv'),
