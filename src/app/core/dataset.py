@@ -12,12 +12,12 @@ class StockDataset(Dataset):
         self.ticker = ticker
         self.target_column = target_column
         self.data = data
-        self.X = self.data.drop(columns=[target_column])
-        self.y = self.data[target_column]
+        self.X = tensor(self.data.drop(columns=[target_column]).to_numpy(), dtype=torch.float32)
+        self.y = tensor(self.data[target_column].to_numpy(), dtype=torch.float32)
         log.info(f'Created stock dataset for {ticker}, focusing target: {target_column}')
   
     def __len__(self):
         return len(self.data)
     
     def __getitem__(self, i) -> Tuple[torch.types.Tensor, torch.types.Tensor]:
-        return tensor(self.X.iloc[i].values), tensor(self.y.iloc[i])
+        return self.X[i], self.y[i]

@@ -6,7 +6,7 @@ from logging import getLogger
 log = getLogger('model')
 
 class BaseStockModel(nn.Module):
-    def __init__(self, id:str = uuid4(), ticker:str = 'AMZN', input_dim:int = 5, hidden_dim:int = 5, layer_dim:int = 5, output_dim:int = 5):
+    def __init__(self, id:str = uuid4(), ticker:str = 'AMZN', input_dim:int = 1, hidden_dim:int = 5, layer_dim:int = 1, output_dim:int = 1):
         super().__init__()
         self.id = id
         self.ticker = ticker,
@@ -25,17 +25,20 @@ class BaseStockModel(nn.Module):
 
     def forward(self, x, h0=None, c0=None):
         if h0 is None or c0 is None:
-            h0 = torch.zeros(self.layer_dim, x.size(0), self.hidden_dim)
-            c0 = torch.zeros(self.layer_dim, x.size(0), self.hidden_dim)
-        log.debug(f'Forward pass with input shape: {x.shape}, h0 shape: {h0.shape}, c0 shape: {c0.shape}')
+            batch_size = x.size(0)
+            h0 = torch.zeros(self.layer_dim, batch_size, self.hidden_dim)
+            c0 = torch.zeros(self.layer_dim, batch_size, self.hidden_dim)
+        # log.debug(f'Forward pass with input shape: {x.shape}, h0 shape: {h0.shape}, c0 shape: {c0.shape}')
         out, (hn, cn) = self.lstm_layer(x, (h0, c0))
-        log.debug(f'LSTM output: {out}')
         out = self.output_layer(out[:, -1, :])
         return out, (hn, cn)
     
     def __str__(self):
         return (
-        f'Model(id={self.id}, '
-        f'ticker={self.ticker}, '
-        f'input_dimension={self.input_dim})'
+        f'Model(id={self.id},\n'
+        f'ticker={self.ticker},\n'
+        f'input_dimension={self.input_dim}),\n'
+        f'hidden_dimension={self.hidden_dim},\n'
+        f'layer_dimension={self.layer_dim},\n'
+        f'output_dimension={self.output_dim})'
     )
