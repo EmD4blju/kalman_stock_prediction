@@ -2,8 +2,9 @@ import torch
 import pandas as pd
 from torch.utils.data import Dataset
 from torch import tensor
-from typing import Tuple
+from typing import Tuple, Any, Optional
 from logging import getLogger
+
 
 log = getLogger('dataset')
 

@@ -22,7 +22,7 @@ class DataRepository():
     def clear_dataframe(self) -> None:
         self._dataframes = {}
     
-    def fetch_periodic_data(self, ticker:str = 'AMZN', start:datetime = datetime(2002,10,29), end:datetime = datetime(2003,10,29), interval:str = '1d') -> None:
+    def fetch_periodic_data(self, ticker:str = 'AMZN', overwrite:bool = False, start:datetime = datetime(2020,10,29), end:datetime = datetime(2024,10,29), interval:str = '1d') -> None:
         """Fetches **singular** periodic stock market data using ```yFinance API``` to a ```DataFrame```. Use ```get_dataframe()``` to access.
 
         Args:
@@ -31,7 +31,7 @@ class DataRepository():
             end (datetime, optional): End date. Defaults to ```datetime(2003,10,29)```.
             interval (str, optional): Interval between records. Defaults to ```'1d'```.
         """
-        if not ticker in self._dataframes.keys():
+        if overwrite or not ticker in self._dataframes.keys():
             self._dataframes[ticker] = download(
                 tickers=[ticker],
                 start=start,

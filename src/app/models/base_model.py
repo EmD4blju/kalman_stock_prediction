@@ -28,7 +28,6 @@ class BaseStockModel(nn.Module):
             batch_size = x.size(0)
             h0 = torch.zeros(self.layer_dim, batch_size, self.hidden_dim)
             c0 = torch.zeros(self.layer_dim, batch_size, self.hidden_dim)
-        # log.debug(f'Forward pass with input shape: {x.shape}, h0 shape: {h0.shape}, c0 shape: {c0.shape}')
         out, (hn, cn) = self.lstm_layer(x, (h0, c0))
         out = self.output_layer(out[:, -1, :])
         return out, (hn, cn)
