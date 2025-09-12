@@ -27,5 +27,5 @@ log.debug(f'FilterPy: {filterpy.__version__}')
 
 
 data_repository = DataRepository()
-data_repository.fetch_periodic_data(ticker='AMZN', overwrite=True, start=datetime(2018,1,1), end=datetime(2024, 1, 1))
+data_repository.fetch_periodic_data(ticker='AMZN', overwrite=True, start=datetime(2022,1,1), end=datetime.now())
 data_repository.save_periodic_data(ticker='AMZN')
