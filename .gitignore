@@ -10,4 +10,4 @@ wheels/
 .venv
 
 # Custom
-documents/
+documents/kalman_stock_prediction
