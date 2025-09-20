@@ -57,18 +57,16 @@ class DataRepository():
             log.info(f'Loaded: {ticker}')
         log.info(f'Loaded periodic stock market data for: {set(self._dataframes.keys())}')
 
-        
-    def save_periodic_data(self, ticker:str = 'AMZN') -> None:
+    @staticmethod
+    def save_periodic_data(dataframe:DataFrame, path:str = 'AMZN') -> None:
         """Saves periodic ```DataFrame``` to ```.csv```.
 
         Args:
             ticker (str, optional): A ticker-specific data to save. Defaults to ```'AMZN'```.
         """
-        if ticker in self._dataframes.keys():
-            path = Path(self._repo_path, f'{ticker}.csv')
-            self._dataframes[ticker].to_csv(
-                path_or_buf=path,
-                sep=';'
-            )
-        else:
-            log.warning(f'{ticker} does not exist in memory, try to fetch it first.')
+        dataframe.to_csv(
+            path_or_buf=Path('src','app','repo',f'{path}.csv'),
+            sep=';',
+            index_label='Date'
+        )
+        log.info(f'Saved: {path}')
