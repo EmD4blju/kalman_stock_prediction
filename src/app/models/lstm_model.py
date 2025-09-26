@@ -5,7 +5,7 @@ from logging import getLogger
 
 log = getLogger('model')
 
-class BaseStockModel(nn.Module):
+class LSTMStockModel(nn.Module):
     def __init__(self, id:str = uuid4(), ticker:str = 'AMZN', input_dim:int = 1, hidden_dim:int = 5, layer_dim:int = 1, output_dim:int = 1):
         super().__init__()
         self.id = id
