@@ -9,5 +9,14 @@ wheels/
 # Virtual environments
 .venv
 
-# Custom
-documents/kalman_stock_prediction
+# Notes
+documents/obsidian_notes/
+
+# LaTeX auxiliary files
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
