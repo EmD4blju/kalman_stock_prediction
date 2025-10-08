@@ -130,5 +130,3 @@ Poniżej znajduje się propozycja struktury Twojej pracy inżynierskiej, która 
 ### 10. Załączniki (Opcjonalnie)
 
 - Możesz tu umieścić większe fragmenty kodu, które uznałeś za zbyt obszerne, by umieszczać je w głównym tekście, ale które są ważne dla zrozumienia implementacji.
-
-Powodzenia w pisaniu! Ta struktura powinna stanowić solidny fundament dla Twojej pracy.
