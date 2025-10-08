@@ -1,9 +1,5 @@
 # Propozycja struktury pracy inżynierskiej
-
-Poniżej znajduje się propozycja struktury Twojej pracy inżynierskiej, która jest zgodna ze standardami pisania artykułów naukowych. Każda sekcja zawiera opis tego, co powinno się w niej znaleźć.
-
 ---
-
 ### 1. Strona tytułowa
 
 - Tytuł pracy: _Zastosowanie filtrów Kalmana do poprawy predykcji cen giełdowych przy użyciu sieci LSTM_.
