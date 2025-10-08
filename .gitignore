@@ -9,8 +9,9 @@ wheels/
 # Virtual environments
 .venv
 
-# Notes
+# Documents
 documents/obsidian_notes/
+documents/article/assets/
 
 # LaTeX auxiliary files
 *.aux
