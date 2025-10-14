@@ -7,10 +7,18 @@
 \usepackage[T1]{fontenc}
 \usepackage{geometry} % For margins
 \usepackage[utf8]{inputenc} % Polish characters
+\usepackage{times} % Use Times font
+\usepackage{indentfirst} % Indent first paragraph after section
+\usepackage{titlesec} % Customize section titles
 
 %~ Document settings
 \geometry{a4paper, margin=2.5cm}
-\renewcommand{\familydefault}{\sfdefault}
+% \renewcommand{\familydefault}{\sfdefault} % Switched to Times
+
+%~ Section formatting
+\titleformat{\section}{\Large\bfseries}{\thesection.}{1em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{1em}{}
+
 
 %~ Document
 \begin{document}
@@ -53,11 +61,69 @@
 \end{titlepage}
 \pagebreak
 
+%~ Table of Contents
+\tableofcontents
+\pagebreak
+
 %~ Abstract
 \section{Streszczenie}
+\pagebreak
 
 %~ Introduction
 \section{Wstęp}
+\subsection{Tło problemu}
+
+Prognozowanie cen akcji odgrywa kluczową rolę w finansach, wspierając inwestorów w podejmowaniu świadomych decyzji zarządzania swoim portfolio.
+Chaotyczny charakter rynków sprawia jednak, że trafne przewidywanie notowań pozostaje trudnym zadaniem.
+Tradycyjna analiza techniczna bywa niewystarczająca - jest wrażliwa na szum, a wnioski często zawierają element subiektywności.
+
+W ostatnich latach dynamiczny rozwój uczenia maszynowego, zwłaszcza sieci neuronowych, 
+znacząco zmienił podejście do modelowania danych czasowych (w tym giełdowych).
+Architektury takie jak LSTM (Long Short-Term Memory) potrafią uchwycić złożone zależności i długookresowe relacje w danych, 
+co czyni je obiecującymi narzędziami do prognozowania cen.
+Nawet one pozostają jednak podatne na anomalie i zakłócenia w danych, co może zniekształcać wyniki.
+
+\subsection{Problem badawczy}
+Mimo że modele LSTM (Long Short-Term Memory) wykazują dużą skuteczność w analizie szeregów czasowych, 
+ich praktyczne zastosowanie w prognozowaniu cen giełdowych napotyka na istotne wyzwania. 
+Głównym problemem jest wysoka wrażliwość tych sieci na szum oraz losowe wahania, 
+które są nieodłącznym elementem danych finansowych.
+
+Te zniekształcenia wynikają głównie z nieprzewidywalnych zdarzeń rynkowych i 
+mogą prowadzić do niestabilności w procesie uczenia, a zatem generowania prognoz o niskiej trafności. 
+Model, zamiast uczyć się rzeczywistych trendów, może zacząć modelować przypadkowe zakłócenia, 
+co obniża jego zdolność do generalizacji na nowych, niewidzianych wcześniej danych. 
+W rezultacie, predykcje mogą być obarczone znacznym błędem, 
+co podważa ich użyteczność w podejmowaniu decyzji inwestycyjnych.
+
+\subsection{Proponowane rozwiązanie}
+Aby zapobiec negatywnemu wpływowi szumu na modele LSTM jest zastosowanie technik redukcji szumu w danych wejściowych.
+Jednym z klasycznych narzędzi tego typu jest filtr Kalmana 
+– metoda estymacji stanu w systemach dynamicznych skażonych szumem – 
+który może pełnić rolę modułu wygładzania i korekty obserwacji, podnosząc stabilność i dokładność predykcji.
+Taki filtr może działać jako warstwa przed przetwarzaniem przez LSTM,
+oczyszczając dane wejściowe z fluktuacji.
+Podanie na wejście modelu LSTM danych przefiltrowanych przez filtr Kalmana może zredukować wpływ szumu,
+pozwalając sieci skupić się na istotnych wzorcach i trendach.
+
+
+\subsection{Cel i zakres pracy}
+Celem pracy jest zbadanie skuteczności integracji filtrów Kalmana z modelami LSTM w kontekście prognozowania cen akcji.
+Zakres obejmuje:
+\begin{itemize}
+    \item Stworzenie bazowego modelu LSTM do prognozowania cen akcji.
+    \item Stworzenie modelu LSTM na bazie danych wzbogaconych o dodatkowe parametry techniczne
+    \item Implementację filtra Kalmana do przetwarzania danych wejściowych.
+    \item Stworzenie modelu LSTM bazującego na danych przefiltrowanych przez filtr Kalmana.
+    \item Porównanie wydajności trzech podejść na rzeczywistych danych giełdowych.
+\end{itemize}
+
+\subsection{Struktura pracy}
+W dalszej częsci pracy przedstawiono przegląd literatury dotyczącej prognozowania cen akcji i metod redukcji szumu.
+Następnie opisano zastosowaną metodykę badawczą, w tym szczegóły implementacji modeli i filtra Kalmana oraz informacje na temat wykorzystanych technologii.
+Kolejna sekcja prezentuje wyniki eksperymentów oraz ich analizę.
+Pracę kończy podsumowanie z wnioskami i propozycjami dalszych badań.
+
 
 %~ Fundamentals
 \section{Podstawy teoretyczne i przegląd literatury}
