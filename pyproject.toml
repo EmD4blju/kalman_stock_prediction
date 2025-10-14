@@ -9,6 +9,7 @@ dependencies = [
     "filterpy>=1.4.5",
     "matplotlib>=3.10.1",
     "numpy>=2.2.5",
+    "optuna>=4.5.0",
     "pandas>=2.2.3",
     "pyqt6>=6.9.0",
     "pytest>=8.4.1",
