@@ -51,7 +51,7 @@
         \textbf{Autor:} & Mikołaj Warda (s28034) \\
         \textbf{Kierunek studiów:} & Informatyka \\
         \textbf{Specjalizacja:} & Data Science \\
-        \textbf{Promotor:} & dr inż. Sinh Hoa Nguyen \\
+        \textbf{Promotor:} & dr Sinh Hoa Nguyen Thi \\
     \end{tabular}
     \end{flushleft}
     
@@ -67,12 +67,11 @@
 \pagebreak
 
 %~ Abstract
-\section{Streszczenie}
+\section{Abstrakt}
 \pagebreak
 
 %~ Introduction
 \section{Wstęp}
-\subsection{Tło problemu}
 
 Prognozowanie cen akcji odgrywa kluczową rolę w finansach, wspierając inwestorów w podejmowaniu świadomych decyzji zarządzania swoim portfolio.
 Chaotyczny charakter rynków sprawia jednak, że trafne przewidywanie notowań pozostaje trudnym zadaniem.
@@ -82,22 +81,16 @@ W ostatnich latach dynamiczny rozwój uczenia maszynowego, zwłaszcza sieci neur
 znacząco zmienił podejście do modelowania danych czasowych (w tym giełdowych).
 Architektury takie jak LSTM (Long Short-Term Memory) potrafią uchwycić złożone zależności i długookresowe relacje w danych, 
 co czyni je obiecującymi narzędziami do prognozowania cen.
-Nawet one pozostają jednak podatne na anomalie i zakłócenia w danych, co może zniekształcać wyniki.
 
-\subsection{Problem badawczy}
-Mimo że modele LSTM (Long Short-Term Memory) wykazują dużą skuteczność w analizie szeregów czasowych, 
+Mimo że sieci LSTM wykazują dużą skuteczność w modelowaniu szeregów czasowych, 
 ich praktyczne zastosowanie w prognozowaniu cen giełdowych napotyka na istotne wyzwania. 
 Głównym problemem jest wysoka wrażliwość tych sieci na szum oraz losowe wahania, 
-które są nieodłącznym elementem danych finansowych.
-
-Te zniekształcenia wynikają głównie z nieprzewidywalnych zdarzeń rynkowych i 
-mogą prowadzić do niestabilności w procesie uczenia, a zatem generowania prognoz o niskiej trafności. 
-Model, zamiast uczyć się rzeczywistych trendów, może zacząć modelować przypadkowe zakłócenia, 
-co obniża jego zdolność do generalizacji na nowych, niewidzianych wcześniej danych. 
+które są nieodłącznym elementem danych finansowych. Te zniekształcenia wynikają z nieprzewidywalnych zdarzeń rynkowych.
+Model, zamiast uczyć się rzeczywistych trendów, może zacząć modelować wspomniane zakłócenia, 
+co obniża jego zdolność do generalizacji na nowych danych. 
 W rezultacie, predykcje mogą być obarczone znacznym błędem, 
 co podważa ich użyteczność w podejmowaniu decyzji inwestycyjnych.
 
-\subsection{Proponowane rozwiązanie}
 Aby zapobiec negatywnemu wpływowi szumu na modele LSTM jest zastosowanie technik redukcji szumu w danych wejściowych.
 Jednym z klasycznych narzędzi tego typu jest filtr Kalmana 
 – metoda estymacji stanu w systemach dynamicznych skażonych szumem – 
@@ -107,19 +100,19 @@ oczyszczając dane wejściowe z fluktuacji.
 Podanie na wejście modelu LSTM danych przefiltrowanych przez filtr Kalmana może zredukować wpływ szumu,
 pozwalając sieci skupić się na istotnych wzorcach i trendach.
 
+Wybór tematu pracy wyniknął z chęci zdobycia wiedzy na temat działania sieci LSTM oraz zbadania wpływu filtracji danych na jakość prognoz.
+Dodatkową motywacją była możliwość wszechstronnego rozwoju ze względu na złożony charakter problemu, łączącego zagadnienia z dziedziny uczenia maszynowego, analizy szeregów czasowych oraz teorii filtrów.
 
-\subsection{Cel i zakres pracy}
-Celem pracy jest zbadanie skuteczności integracji filtrów Kalmana z modelami LSTM w kontekście prognozowania cen akcji.
+Celem jest zbadanie skuteczności integracji filtrów Kalmana z modelami LSTM w kontekście prognozowania cen akcji.
 Zakres obejmuje:
-\begin{itemize}
+\begin{enumerate}
     \item Stworzenie bazowego modelu LSTM do prognozowania cen akcji.
     \item Stworzenie modelu LSTM na bazie danych wzbogaconych o dodatkowe parametry techniczne
     \item Implementację filtra Kalmana do przetwarzania danych wejściowych.
     \item Stworzenie modelu LSTM bazującego na danych przefiltrowanych przez filtr Kalmana.
     \item Porównanie wydajności trzech podejść na rzeczywistych danych giełdowych.
-\end{itemize}
+\end{enumerate}
 
-\subsection{Struktura pracy}
 W dalszej częsci pracy przedstawiono przegląd literatury dotyczącej prognozowania cen akcji i metod redukcji szumu.
 Następnie opisano zastosowaną metodykę badawczą, w tym szczegóły implementacji modeli i filtra Kalmana oraz informacje na temat wykorzystanych technologii.
 Kolejna sekcja prezentuje wyniki eksperymentów oraz ich analizę.
