@@ -108,13 +108,13 @@ class LSTMStockModel(nn.Module):
                 actuals.extend(y.numpy().flatten())
 
         test_rmse = np.sqrt(test_loss / len(test_loader))
-        print(f'Test RMSE: {test_rmse:.4f}')
+        log.info(f'Test RMSE: {test_rmse:.4f}')
 
         predictions = scaler_y.inverse_transform(np.array(predictions).reshape(-1, 1)).flatten()
         actuals = scaler_y.inverse_transform(np.array(actuals).reshape(-1, 1)).flatten()
         
         original_test_loss = np.sqrt(loss_function(torch.tensor(predictions), torch.tensor(actuals)).item())
-        print(f'Test Loss (RMSE) on original scale: {original_test_loss:.4f}')
+        log.info(f'Test Loss (RMSE) on original scale: {original_test_loss:.4f}')
 
         errors = actuals - predictions
         
