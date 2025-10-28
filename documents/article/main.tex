@@ -3,6 +3,7 @@
 %~ Packages
 \usepackage{amsmath}   % For math
 \usepackage{graphicx}  % For images
+\usepackage{float}     % For stronger figure placement
 \usepackage{hyperref}  % For links
 \usepackage[T1]{fontenc}
 \usepackage{geometry} % For margins
@@ -15,6 +16,12 @@
 %~ Document settings
 \geometry{a4paper, margin=2.5cm}
 % \renewcommand{\familydefault}{\sfdefault} % Switched to Times
+
+% Adjust justification to prevent overfull boxes without hyphenation
+\tolerance=1000
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
 
 %~ Section formatting
 \titleformat{\section}{\Large\bfseries}{\thesection.}{1em}{}
@@ -118,9 +125,43 @@ Następnie opisano zastosowaną metodykę badawczą, w tym szczegóły implement
 Kolejna sekcja prezentuje wyniki eksperymentów oraz ich analizę.
 Pracę kończy podsumowanie z wnioskami i propozycjami dalszych badań.
 
-
 %~ Fundamentals
 \section{Podstawy teoretyczne i przegląd literatury}
+\subsection{Przewidywanie szeregów czasowych na rynkach finansowych}
+Dane finansowe, takie jak np. ceny akcji, zawierają obserwacje tworzące szeregi czasowe.
+Innymi słowy, są to dane, zebrane w określonych odstępach czasu (np. godzinowych, dziennych, tygodniowych), reprezentujące zmiany wartości finansowych.
+
+Abstrahując od rynków finansowych, przedstawię kilka przykładów szeregów czasowych z innych dziedzin, celem lepszego zobrazowania tej koncepcji:
+\begin{itemize}
+    \item \textbf{Energetyka:} Godzinowe zużycie energii elektrycznej
+    \item \textbf{Meteorologia:} Codzienny pomiar temperatury
+    \item  \textbf{Sport:} Wyniki meczów drużyny na przestrzeni sezonu
+\end{itemize}
+
+Najczęściej spotykanym formatem danych finansowych są tzw. dane OHLC.
+Przedstawione w takiej postaci informacje, są szeregiem czasowym, w którym każdy odstęp czasowy ma przypisane cztery składniki:
+\begin{itemize}
+    \item \textbf{Open (O):} Cena otwarcia - cena, po której dany instrument finansowy rozpoczął notowania w określonym okresie.
+    \item \textbf{High (H):} Cena najwyższa - najwyższa cena osiągnięta przez instrument finansowy w danym okresie.
+    \item \textbf{Low (L):} Cena najniższa - najniższa cena osiągnięta przez instrument finansowy w danym okresie.
+    \item \textbf{Close (C):} Cena zamknięcia - cena, po której instrument finansowy zakończył notowania w określonym okresie.
+\end{itemize}
+Na potrzeby tej pracy, wykorzystano wartość \textit{Close}, ze względu na jej powszechne wykorzystanie w analizie i prognozie cen akcji.
+
+Rysunek 1 przedstawia przykładowy szereg czasowy wartości \textit{Close} spółki Amazon.com Inc (AMZN) na przestrzeni kilku lat w odstępach dziennych. 
+Dane przedstawione na wykresie wyglądają na nieregularne i zawierają liczne fluktuacje, co jest charakterystyczne dla danych finansowych.
+Ta wysoka zmienność stanowi główne wyzwanie dla modeli predykcyjnych, co motywuje do poszukiwania skutecznych metod filtrujących.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/1_AMZN_stock.png}
+    \caption{Szereg czasowy wartości \textit{Close} Amazon.com Inc (AMZN) w latach 2022-2025}
+    \label{fig:amzn_stock_prices}
+\end{figure}
+
+Aby analizować takie dane, można wykorzystać modele uczenia maszynowego.
+Do najpopularniejszych podejść należą sieci rekurencyjne (RNN), w tym ich zaawansowane warianty, takie jak \textit{LSTM} (Long Short-Term Memory) czy \textit{GRU} (Gated Recurrent Units).
+Sieci te są zdolne do uchwycenia złożonych wzorców i zależności w szeregach czasowych, jednak wymagają odpowiedniego przygotowania danych.
+Oznacza to odpowiednie przygotowanie danych w taki sposób, aby model mógł je efektywnie przetworzyć i wyciągnąć z nich istotne informacje.
 
 %~ Research approach
 \section{Metodyka badań}
