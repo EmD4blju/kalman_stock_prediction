@@ -89,8 +89,8 @@ W ostatnich latach dynamiczny rozwój uczenia maszynowego, zwłaszcza sieci neur
 znacząco zmienił podejście do modelowania danych czasowych (w tym giełdowych).
 Architektury takie jak LSTM (Long Short-Term Memory) potrafią uchwycić złożone zależności i długookresowe relacje w danych, 
 co czyni je obiecującymi narzędziami do prognozowania cen, jednak ich skuteczność nadal zależy od jakości danych wejściowych.
-Głównym problemem, jak w przypadku podejść tradycyjnych, jest wysoka wrażliwość na losowe wahania, 
-które są nieodłącznym elementem danych finansowych. Te zniekształcenia wynikają z nieprzewidywalnych zdarzeń rynkowych.
+Głównym problemem, jest wysoka wrażliwość na losowe wahania, które są nieodłącznym elementem danych finansowych. 
+Te zniekształcenia wynikają z nieprzewidywalnych zdarzeń rynkowych.
 Model, zamiast uczyć się rzeczywistych trendów, modeluje wspomniane zakłócenia, 
 obniżając swoją zdolność do generalizacji na nowych danych. 
 W rezultacie, predykcje mogą być obarczone znacznym błędem, 
@@ -102,7 +102,7 @@ który może pełnić rolę modułu wygładzania i korekty obserwacji, podnoszą
 Trenowanie sieci neuronowej na przefiltrowanych danych przy użyciu filtra Kalmana może zredukować wpływ szumu, 
 pozwalając na lepsze uchwycenie istotnych wzorców i trendów w danych.
 
-W ramach niniejszej pracy dyplomowej, podjęto się zbadania skuteczności zastosowania filtra Kalmana jako etapu przetwarzania danych dla modeli LSTM w kontekście prognozowania cen akcji spółki Amazon.com Inc (AMZN) .
+W ramach niniejszej pracy dyplomowej, podjęto się zbadania skuteczności zastosowania filtru Kalmana jako etapu przetwarzania danych dla modeli LSTM w kontekście prognozowania cen akcji spółki Amazon.com Inc (AMZN) .
 Wybór tematu pracy wyniknął z chęci zdobycia wiedzy na temat działania architektury LSTM oraz zbadania wpływu filtracji danych na jakość prognoz.
 Dodatkową motywacją była możliwość wszechstronnego rozwoju ze względu na złożony charakter problemu, łączącego zagadnienia z dziedziny uczenia maszynowego, analizy szeregów czasowych oraz teorii filtrów.
 
@@ -123,7 +123,7 @@ Formalnie szeregiem czasowym określa się zbiór uporządkowanych obserwacji w 
 \end{equation}
 gdzie \( x_i \) reprezentuje wartość obserwacji w czasie \( t_i \), a \( n \) to liczba obserwacji w szeregu czasowym.
 
-Abstrahując od rynków finansowych, przedstawię kilka przykładów szeregów czasowych z innych dziedzin, celem lepszego zobrazowania tej koncepcji:
+Abstrahując od rynków finansowych, przedstawiono kilka przykładów szeregów czasowych z innych dziedzin, celem lepszego zobrazowania tej koncepcji:
 \begin{itemize}
     \item \textbf{Energetyka:} Godzinowe zużycie energii elektrycznej
     \item \textbf{Meteorologia:} Codzienny pomiar temperatury
@@ -152,7 +152,7 @@ Ta wysoka zmienność stanowi główne wyzwanie dla modeli predykcyjnych, co mot
 
 Tradycyjnie analiza danych rynkowych opierała się o wskaźniki techniczne. 
 Można je określić mianem narzędzi statystycznych reprezentujących różne aspekty zachowań cen.
-W niniejszej pracy wykorzystano trzy wskaźniki techniczne, które opiszę w następnych podsekcjach.
+W niniejszej pracy wykorzystano trzy wskaźniki techniczne, które opisano w następnych podsekcjach.
 
 \subsubsection{Wskaźnik siły względnej (Relative Strength Index, RSI)}
 Wskaźnik siły względnej (RSI) to popularny wskaźnik techniczny używany do oceny siły i prędkości zmian cen aktywów finansowych.
@@ -174,8 +174,8 @@ Wstęgi Bollingera to narzędzie analizy technicznej, dostarczające informacji 
 Składaja się z trzech linii na wykresie cenowym:
 \begin{itemize}
     \item \textbf{Środkowa linia:} Prosta średnia krocząca (SMA) obliczona na podstawie cen zamknięcia w określonym czasie. Najczęsciej używanym okresem jest 20 dni.
-    \item \textbf{Górna wstęga:} Obliczana jako suma środkowa linia i dwukrotności odchylenia standardowego cen w tym okresie.
-    \item \textbf{Dolna wstęga:} Obliczana jako różnica środkowa linia i dwukrotności odchylenia standardowego cen w tym okresie.
+    \item \textbf{Górna wstęga:} Obliczana jako suma wartości środkowej linii i dwukrotności odchylenia standardowego cen w tym okresie.
+    \item \textbf{Dolna wstęga:} Obliczana jako różnica wartości środkowej linii i dwukrotności odchylenia standardowego cen w tym okresie.
 \end{itemize}
 Na podstawie ww. składowych można zinterpretować dwie nowe miary, które zostały wykorzystane w niniejszej pracy:
 \begin{itemize}
@@ -194,10 +194,86 @@ W tradycyjnej analizie mogą posłużyć do subiektywnej interpretacji przez ana
 W nowoczesnych podejściach, opartych na modelach uczenia maszynowego, 
 można je wykorzystać do wzbogacenia danych o dodatkowe cechy, co potencjalnie może poprawić jakość prognoz.
 
-% Dzisiaj, wraz z rozwojem mocy obliczeniowej i technik uczenia maszynowego, pojawiły się bardziej zaawansowane metody analizy i prognozowania w dziedzinie finansów.
-% Do najpopularniejszych podejść należą sieci rekurencyjne (RNN), w tym ich zaawansowane warianty, takie jak \textit{LSTM} (Long Short-Term Memory) czy \textit{GRU} (Gated Recurrent Units).
-% Sieci te są zdolne do uchwycenia złożonych wzorców i zależności w szeregach czasowych, jednak wymagają odpowiedniego przygotowania danych.
-% Oznacza to odpowiednie przygotowanie danych w taki sposób, aby model mógł je efektywnie przetworzyć i wyciągnąć z nich istotne informacje.
+\subsection{Sieci neuronowe w prognozowaniu rynków finansowych}
+
+Wraz z rozwojem mocy obliczeniowej i technik uczenia maszynowego, pojawiły się bardziej zaawansowane metody analizy i prognozowania w dziedzinie finansów.
+Do najpopularniejszych podejść należą sieci rekurencyjne (RNN), w tym ich zaawansowane warianty, takie jak \textit{LSTM} (Long Short-Term Memory).
+Sieci te są zdolne do uchwycenia złożonych wzorców i zależności w szeregach czasowych.
+
+\subsubsection{Podstawy działania sieci neuronowych}
+Ważnym kamieniem milowym w dziedzinie sieci neuronowych było wprowadzenie matematycznego modelu neuronu przez McCullocha i Pitts'a w 1943 roku.
+Współcześnie można mówić o różnych architekturach takiego neuronu, jednak ich podstawowa zasada działania pozostaje podobna.
+
+Neuron otrzymuje na wejściu sygnały \( x_1, x_2, \ldots, x_n \), które są ważone przez odpowiednie wagi \( w_1, w_2, \ldots, w_n \).
+Następnie, sumuje te ważone sygnały i dodaje do nich wartość biasu \( b \):
+\begin{equation}
+    z = \sum_{i=1}^{n} w_i x_i + b
+\end{equation}
+
+Otrzymana wartość \( z \), zwana logitem (surowym wyjściem) neuronu, jest następnie przekształcana przez funkcję aktywacji \( f(z) \).
+\begin{equation}
+    y = f(z) = f(\sum_{i=1}^{n} w_i x_i + b)
+\end{equation}
+
+Funkcja aktywacji modyfikuje logit \( z \), produkując ostateczne wyjście neuronu \( y \).
+Takie wyjście jest interpretowane jako poziom aktywacji neuronu.
+W zależności od zastosowanej funkcji aktywacji, wyjście może przyjmować różne formy.
+Tą różnice najprościej zilustrować na przykładzie dwóch popularnych funkcji aktywacji: skokowej (step function) oraz sigmoidalnej (sigmoid function).
+\begin{itemize}
+    \item \textbf{Funkcja skokowa:}
+    \begin{equation}
+        f(z) = 
+        \begin{cases}
+            1 & \text{jeśli } z \geq 0 \\
+            0 & \text{jeśli } z < 0
+        \end{cases}
+    \end{equation}
+    W tym przypadku, wyjście neuronu jest binarne. 
+    Oznacza to, że neuron zostanie albo aktywowany (1), albo nieaktywowany (0), w zależności od tego, czy logit \( z \) przekracza pewien próg (w tym przypadku 0).
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/step_figure.png}
+        \caption{Wykres funkcji aktywacji skokowej}
+        \label{fig:step_function}
+    \end{figure}
+    \item \textbf{Funkcja sigmoidalna:}
+    \begin{equation}
+        f(z) = \frac{1}{1 + e^{-z}}
+    \end{equation}
+    W tym przypadku, wyjście neuronu jest ciągłe i mieści się w zakresie od 0 do 1.
+    Oznacza to, że neuron może przyjmować różne poziomy aktywacji. Czyni to sieć bardziej elastyczną i zdolną do modelowania złożonych zależności.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/sigmoid_figure.png}
+        \caption{Wykres funkcji aktywacji sigmoidalnej}
+        \label{fig:sigmoid_function}
+    \end{figure}
+\end{itemize}
+
+Znając rolę funkcji aktywacji, można lepiej wyjaśnić działanie parametrów uczonych neuronu, czyli wag \( w_i \) oraz biasu \( b \).
+Wagi określają, jak duży wpływ ma każdy sygnał wejściowy \( x_i \) na logit \( z \).
+Poprzez modelowanie wag, w trakcie procesu uczenia, sieć może nauczyć się, które cechy wejściowe są bardziej istotne dla danego zadania.
+Działanie wag na wyjście modelu można zilustrować na przykładzie funkcji sigmoidalnej. 
+
+Rysunek \ref{fig:sigmoid_weights_combined} przedstawia wpływ różnych wartości wagi \( w \) na kształt funkcji sigmoidalnej w neuronie z jednym wejściem i bez biasu.
+Po lewej stronie znajduje się wykres dla małej wagi \( w=0.1 \), gdzie funkcja zmienia się powoli i ma łagodne nachylenie.
+Po prawej stronie znajduje się wykres dla dużej wagi \( w=2.0 \), gdzie funkcja zmienia się gwałtownie i ma strome nachylenie.
+Ciekawym zjawiskiem jest to, że wraz ze wzrostem wartości wagi, funkcja sigmoidalna zaczyna przypominać funkcję skokową.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/sigmoid_w_min_figure.png}
+        % Można dodać pod-podpis, jeśli to konieczne, używając pakietu subcaption
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/sigmoid_w_max_figure.png}
+    \end{minipage}
+    \caption{Wpływ wartości wagi (w) na kształt funkcji sigmoidalnej: (po lewej) \(w=0.1\), (po prawej) \(w=2.0\).}
+    \label{fig:sigmoid_weights_combined}
+\end{figure}
 
 % %~ Research approach
 % \section{Metodyka badań}
