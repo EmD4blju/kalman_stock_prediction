@@ -140,7 +140,7 @@ Przedstawione w takiej postaci informacje tworzą szereg czasowy, w którym każ
 \end{itemize}
 Na potrzeby tej pracy, wykorzystano składnik \textit{Close}, ze względu na jego powszechne wykorzystanie w analizie i prognozie cen akcji.
 
-Rysunek 1 przedstawia przykładowy wykres cenowy względem składnika \textit{Close} spółki Amazon.com Inc (AMZN) na przestrzeni kilku lat w odstępach dziennych. 
+Rysunek \ref{fig:amzn_stock_prices} przedstawia przykładowy wykres cenowy względem składnika \textit{Close} spółki Amazon.com Inc (AMZN) na przestrzeni kilku lat w odstępach dziennych. 
 Dane przedstawione na wykresie są nieregularne i zawierają liczne fluktuacje, co jest charakterystyczne dla danych finansowych.
 Ta wysoka zmienność stanowi główne wyzwanie dla modeli predykcyjnych, co motywuje do poszukiwania skutecznych metod filtrujących.
 \begin{figure}[H]
@@ -230,27 +230,36 @@ Tą różnice najprościej zilustrować na przykładzie dwóch popularnych funkc
     \end{equation}
     W tym przypadku, wyjście neuronu jest binarne. 
     Oznacza to, że neuron zostanie albo aktywowany (1), albo nieaktywowany (0), w zależności od tego, czy logit \( z \) przekracza pewien próg (w tym przypadku 0).
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.6\textwidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/step_figure.png}
-        \caption{Wykres funkcji aktywacji skokowej}
-        \label{fig:step_function}
-    \end{figure}
     \item \textbf{Funkcja sigmoidalna:}
     \begin{equation}
         f(z) = \frac{1}{1 + e^{-z}}
     \end{equation}
     W tym przypadku, wyjście neuronu jest ciągłe i mieści się w zakresie od 0 do 1.
     Oznacza to, że neuron może przyjmować różne poziomy aktywacji. Czyni to sieć bardziej elastyczną i zdolną do modelowania złożonych zależności.
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.6\textwidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/sigmoid_figure.png}
-        \caption{Wykres funkcji aktywacji sigmoidalnej}
-        \label{fig:sigmoid_function}
-    \end{figure}
 \end{itemize}
+Rysunek \ref{fig:ste_sigmoid_comparison} przedstawia porównanie obu funkcji aktywacji.
+Po lewej stronie znajduje się wykres funkcji skokowej, gdzie wyjście nagle zmienia się z 0 na 1 w punkcie \( z=0 \).
+Po prawej stronie znajduje się wykres funkcji sigmoidalnej, gdzie wyjście zmienia się stopniowo od 0 do 1 wraz ze wzrostem wartości \( z \).
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/step_figure.png}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/sigmoid_figure.png}
+    \end{minipage}
+    \caption{Porównanie funkcji aktywacji: (po lewej) funkcja skokowa, (po prawej) funkcja sigmoidalna.}
+    \label{fig:ste_sigmoid_comparison}
+\end{figure}
+W zależności od zastosowanej funkcji aktywacji, neuron może wykazywać różne zachowania.
+W przypadku funkcji skokowej, neuron podejmuje twardą decyzję, aktywując się w pełni lub wcale.
+Przez brak elastyczności, funkcja ta nie pozwala na wyrażenie przekonania co do wyniku.
+W przeciwieństwie do niej, funkcja sigmoidalna umożliwia płynną aktywację, pozwalając uwzględnić stopień pewności.
 
 Znając rolę funkcji aktywacji, można lepiej wyjaśnić działanie parametrów uczonych neuronu, czyli wag \( w_i \) oraz biasu \( b \).
+
 Wagi określają, jak duży wpływ ma każdy sygnał wejściowy \( x_i \) na logit \( z \).
 Poprzez modelowanie wag, w trakcie procesu uczenia, sieć może nauczyć się, które cechy wejściowe są bardziej istotne dla danego zadania.
 Działanie wag na wyjście modelu można zilustrować na przykładzie funkcji sigmoidalnej. 
@@ -259,13 +268,13 @@ Rysunek \ref{fig:sigmoid_weights_combined} przedstawia wpływ różnych wartośc
 Po lewej stronie znajduje się wykres dla małej wagi \( w=0.1 \), gdzie funkcja zmienia się powoli i ma łagodne nachylenie.
 Po prawej stronie znajduje się wykres dla dużej wagi \( w=2.0 \), gdzie funkcja zmienia się gwałtownie i ma strome nachylenie.
 Ciekawym zjawiskiem jest to, że wraz ze wzrostem wartości wagi, funkcja sigmoidalna zaczyna przypominać funkcję skokową.
+Oznacza to, że neuron staje się pewniejszy swoich decyzji, aktywując się niemal natychmiast po przekroczeniu progu.
 
 \begin{figure}[H]
     \centering
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\linewidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/sigmoid_w_min_figure.png}
-        % Można dodać pod-podpis, jeśli to konieczne, używając pakietu subcaption
     \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
         \centering
@@ -273,6 +282,24 @@ Ciekawym zjawiskiem jest to, że wraz ze wzrostem wartości wagi, funkcja sigmoi
     \end{minipage}
     \caption{Wpływ wartości wagi (w) na kształt funkcji sigmoidalnej: (po lewej) \(w=0.1\), (po prawej) \(w=2.0\).}
     \label{fig:sigmoid_weights_combined}
+\end{figure}
+
+Drugim kluczowym parametrem jest obciążenie, czyli bias \( b \), który działa jako przesunięcie funkcji aktywacji wzdłuż osi poziomej.
+W istocie umożliwia to dostosowanie momentu, w którym neuron zostaje aktywowany.
+
+Rysunek \ref{fig:sigmoid_bias_combined} przedstawia wpływ różnych wartości biasu \( b \) na kształt funkcji sigmoidalnej w neuronie z jednym wejściem i wagą \( w=0.1 \).
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/sigmoid_b_min_figure.png}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/sigmoid_b_max_figure.png}
+    \end{minipage}
+    \caption{Wpływ wartości bias (b) na kształt funkcji sigmoidalnej: (po lewej) \(b=-2.82\), (po prawej) \(b=4.21\).}
+    \label{fig:sigmoid_bias_combined}
 \end{figure}
 
 % %~ Research approach
