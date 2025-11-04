@@ -200,12 +200,15 @@ Wraz z rozwojem mocy obliczeniowej i technik uczenia maszynowego, pojawiły się
 Do najpopularniejszych podejść należą sieci rekurencyjne (RNN), w tym ich zaawansowane warianty, takie jak \textit{LSTM} (Long Short-Term Memory).
 Sieci te są zdolne do uchwycenia złożonych wzorców i zależności w szeregach czasowych.
 
+W niniejszej sekcji zostały omówione podstawy działania sieci neuronowych. 
+Przedstawiona została budowa pojedynczego neuronu wchodzącego w skład sieci, kluczowe algorytmy uczenia oraz architektura LSTM.
+
 \subsubsection{Podstawy działania sieci neuronowych}
 Ważnym kamieniem milowym w dziedzinie sieci neuronowych było wprowadzenie matematycznego modelu neuronu przez McCullocha i Pitts'a w 1943 roku.
 Współcześnie można mówić o różnych architekturach takiego neuronu, jednak ich podstawowa zasada działania pozostaje podobna.
 
 Neuron otrzymuje na wejściu sygnały \( x_1, x_2, \ldots, x_n \), które są ważone przez odpowiednie wagi \( w_1, w_2, \ldots, w_n \).
-Następnie, sumuje te ważone sygnały i dodaje do nich wartość biasu \( b \):
+Następnie, sumuje te ważone sygnały i dodaje do nich wartość obciążenia (bias) \( b \):
 \begin{equation}
     z = \sum_{i=1}^{n} w_i x_i + b
 \end{equation}
@@ -215,10 +218,9 @@ Otrzymana wartość \( z \), zwana logitem (surowym wyjściem) neuronu, jest nas
     y = f(z) = f(\sum_{i=1}^{n} w_i x_i + b)
 \end{equation}
 
-Funkcja aktywacji modyfikuje logit \( z \), produkując ostateczne wyjście neuronu \( y \).
-Takie wyjście jest interpretowane jako poziom aktywacji neuronu.
+Funkcja aktywacji modyfikuje logit \( z \), produkując finalne wyjście neuronu \( y \) -- stopień aktywacji.
 W zależności od zastosowanej funkcji aktywacji, wyjście może przyjmować różne formy.
-Tą różnice najprościej zilustrować na przykładzie dwóch popularnych funkcji aktywacji: skokowej (step function) oraz sigmoidalnej (sigmoid function).
+Tą różnicę najprościej zilustrować na przykładzie dwóch popularnych funkcji aktywacji: skokowej (step function) oraz sigmoidalnej (sigmoid function).
 \begin{itemize}
     \item \textbf{Funkcja skokowa:}
     \begin{equation}
@@ -229,15 +231,15 @@ Tą różnice najprościej zilustrować na przykładzie dwóch popularnych funkc
         \end{cases}
     \end{equation}
     W tym przypadku, wyjście neuronu jest binarne. 
-    Oznacza to, że neuron zostanie albo aktywowany (1), albo nieaktywowany (0), w zależności od tego, czy logit \( z \) przekracza pewien próg (w tym przypadku 0).
+    Innymi słowy, neuron zostanie albo aktywowany (1), albo nieaktywowany (0), w zależności od tego, czy logit \( z \) przekracza pewien próg (w tym przypadku 0).
     \item \textbf{Funkcja sigmoidalna:}
     \begin{equation}
         f(z) = \frac{1}{1 + e^{-z}}
     \end{equation}
     W tym przypadku, wyjście neuronu jest ciągłe i mieści się w zakresie od 0 do 1.
-    Oznacza to, że neuron może przyjmować różne poziomy aktywacji. Czyni to sieć bardziej elastyczną i zdolną do modelowania złożonych zależności.
+    Oznacza to, że neuron może przyjmować różne poziomy aktywacji, co pozwala na wyrażenie stopnia pewności co do wyniku.
 \end{itemize}
-Rysunek \ref{fig:ste_sigmoid_comparison} przedstawia porównanie obu funkcji aktywacji.
+Rysunek \ref{fig:ste_sigmoid_comparison} przedstawia porównanie ww. funkcji aktywacji.
 Po lewej stronie znajduje się wykres funkcji skokowej, gdzie wyjście nagle zmienia się z 0 na 1 w punkcie \( z=0 \).
 Po prawej stronie znajduje się wykres funkcji sigmoidalnej, gdzie wyjście zmienia się stopniowo od 0 do 1 wraz ze wzrostem wartości \( z \).
 \begin{figure}[H]
@@ -253,21 +255,20 @@ Po prawej stronie znajduje się wykres funkcji sigmoidalnej, gdzie wyjście zmie
     \caption{Porównanie funkcji aktywacji: (po lewej) funkcja skokowa, (po prawej) funkcja sigmoidalna.}
     \label{fig:ste_sigmoid_comparison}
 \end{figure}
-W zależności od zastosowanej funkcji aktywacji, neuron może wykazywać różne zachowania.
+Istnieje wiele innych funkcji aktywacji (np. ReLU, tanh, softmax), a każda z nich ma swoje unikalne właściwości i zastosowania.
 W przypadku funkcji skokowej, neuron podejmuje twardą decyzję, aktywując się w pełni lub wcale.
 Przez brak elastyczności, funkcja ta nie pozwala na wyrażenie przekonania co do wyniku.
 W przeciwieństwie do niej, funkcja sigmoidalna umożliwia płynną aktywację, pozwalając uwzględnić stopień pewności.
 
-Znając rolę funkcji aktywacji, można lepiej wyjaśnić działanie parametrów uczonych neuronu, czyli wag \( w_i \) oraz biasu \( b \).
+Znając rolę funkcji aktywacji, można lepiej wyjaśnić działanie parametrów uczonych neuronu, czyli wag \( w_i \) oraz obciążenia \( b \).
 
 Wagi określają, jak duży wpływ ma każdy sygnał wejściowy \( x_i \) na logit \( z \).
-Poprzez modelowanie wag, w trakcie procesu uczenia, sieć może nauczyć się, które cechy wejściowe są bardziej istotne dla danego zadania.
-Działanie wag na wyjście modelu można zilustrować na przykładzie funkcji sigmoidalnej. 
+Poprzez modelowanie wag, w trakcie procesu uczenia, neuron może nauczyć się, które cechy wejściowe są bardziej istotne dla danego zadania.
 
-Rysunek \ref{fig:sigmoid_weights_combined} przedstawia wpływ różnych wartości wagi \( w \) na kształt funkcji sigmoidalnej w neuronie z jednym wejściem i bez biasu.
+Rysunek \ref{fig:sigmoid_weights_combined} przedstawia wpływ różnych wartości wagi \( w \) na funkcję sigmoidalną w neuronie z jednym wejściem i bez obciążenia.
 Po lewej stronie znajduje się wykres dla małej wagi \( w=0.1 \), gdzie funkcja zmienia się powoli i ma łagodne nachylenie.
 Po prawej stronie znajduje się wykres dla dużej wagi \( w=2.0 \), gdzie funkcja zmienia się gwałtownie i ma strome nachylenie.
-Ciekawym zjawiskiem jest to, że wraz ze wzrostem wartości wagi, funkcja sigmoidalna zaczyna przypominać funkcję skokową.
+Można zaobserwować, że wraz ze wzrostem wartości wagi, funkcja sigmoidalna zaczyna przypominać funkcję skokową.
 Oznacza to, że neuron staje się pewniejszy swoich decyzji, aktywując się niemal natychmiast po przekroczeniu progu.
 
 \begin{figure}[H]
@@ -284,8 +285,8 @@ Oznacza to, że neuron staje się pewniejszy swoich decyzji, aktywując się nie
     \label{fig:sigmoid_weights_combined}
 \end{figure}
 
-Drugim kluczowym parametrem jest obciążenie, czyli bias \( b \), który działa jako przesunięcie funkcji aktywacji wzdłuż osi poziomej.
-W istocie umożliwia to dostosowanie momentu, w którym neuron zostaje aktywowany.
+Drugim kluczowym parametrem jest obciążenie, czyli bias \( b \), który przesuwa próg funkcji aktywacji wzdłuż osi poziomej.
+W istocie umożliwia to opóźnienie lub przyspieszenie momentu, w którym neuron zostaje aktywowany.
 
 Rysunek \ref{fig:sigmoid_bias_combined} przedstawia wpływ różnych wartości biasu \( b \) na kształt funkcji sigmoidalnej w neuronie z jednym wejściem i wagą \( w=0.1 \).
 \begin{figure}[H]
@@ -300,6 +301,17 @@ Rysunek \ref{fig:sigmoid_bias_combined} przedstawia wpływ różnych wartości b
     \end{minipage}
     \caption{Wpływ wartości bias (b) na kształt funkcji sigmoidalnej: (po lewej) \(b=-2.82\), (po prawej) \(b=4.21\).}
     \label{fig:sigmoid_bias_combined}
+\end{figure}
+
+\clearpage
+Opisane powyżej elementy - wagi \( w_i \), obciążenie \( b \) oraz funkcja aktywacji \( f(z) \) - stanowią podstawę działania pojedynczego neuronu.
+
+Rysunek \ref{fig:neuron_architecture} przedstawia schemat budowy sztucznego neuronu, ilustrując jak sygnały wejściowe są przetwarzane przez wagę, sumowane z obciążeniem i przekształcane przez funkcję aktywacji.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/neuron.png}
+    \caption[Schemat budowy sztucznego neuronu]{Schemat budowy sztucznego neuronu. Źródło: Andrzej R. Jach, \href{https://commons.wikimedia.org/wiki/File:Neuron_McCullocha-Pittsa.svg}{Wikimedia Commons}, licencja \href{https://creativecommons.org/licenses/by-sa/2.5/deed.pl}{CC BY-SA 2.5}.}
+    \label{fig:neuron_architecture}
 \end{figure}
 
 % %~ Research approach
