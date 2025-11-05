@@ -203,8 +203,8 @@ Sieci te są zdolne do uchwycenia złożonych wzorców i zależności w szeregac
 W niniejszej sekcji zostały omówione podstawy działania sieci neuronowych. 
 Przedstawiona została budowa pojedynczego neuronu wchodzącego w skład sieci, kluczowe algorytmy uczenia oraz architektura LSTM.
 
-\subsubsection{Podstawy działania sieci neuronowych}
-Ważnym kamieniem milowym w dziedzinie sieci neuronowych było wprowadzenie matematycznego modelu neuronu przez McCullocha i Pitts'a w 1943 roku.
+\subsubsection{Podstawy działania sztucznego neuronu}
+Ważnym kamieniem milowym w dziedzinie uczenia maszynowego było wprowadzenie matematycznego modelu neuronu przez McCullocha i Pitts'a w 1943 roku.
 Współcześnie można mówić o różnych architekturach takiego neuronu, jednak ich podstawowa zasada działania pozostaje podobna.
 
 Neuron otrzymuje na wejściu sygnały \( x_1, x_2, \ldots, x_n \), które są ważone przez odpowiednie wagi \( w_1, w_2, \ldots, w_n \).
@@ -215,12 +215,12 @@ Następnie, sumuje te ważone sygnały i dodaje do nich wartość obciążenia (
 
 Otrzymana wartość \( z \), zwana logitem (surowym wyjściem) neuronu, jest następnie przekształcana przez funkcję aktywacji \( f(z) \).
 \begin{equation}
-    y = f(z) = f(\sum_{i=1}^{n} w_i x_i + b)
+    \hat{y} = f(z) = f(\sum_{i=1}^{n} w_i x_i + b)
 \end{equation}
 
 Funkcja aktywacji modyfikuje logit \( z \), produkując finalne wyjście neuronu \( y \) -- stopień aktywacji.
 W zależności od zastosowanej funkcji aktywacji, wyjście może przyjmować różne formy.
-Tą różnicę najprościej zilustrować na przykładzie dwóch popularnych funkcji aktywacji: skokowej (step function) oraz sigmoidalnej (sigmoid function).
+Tą różnicę najprościej zilustrować na przykładzie dwóch popularnych funkcji aktywacji:
 \begin{itemize}
     \item \textbf{Funkcja skokowa:}
     \begin{equation}
@@ -304,9 +304,9 @@ Rysunek \ref{fig:sigmoid_bias_combined} przedstawia wpływ różnych wartości b
 \end{figure}
 
 \clearpage
-Opisane powyżej elementy - wagi \( w_i \), obciążenie \( b \) oraz funkcja aktywacji \( f(z) \) - stanowią podstawę działania pojedynczego neuronu.
+Opisane powyżej elementy -- wagi \( w_i \), obciążenie \( b \) oraz funkcja aktywacji \( f(z) \) - stanowią podstawę działania sztucznego neuronu.
 
-Rysunek \ref{fig:neuron_architecture} przedstawia schemat budowy sztucznego neuronu, ilustrując jak sygnały wejściowe są przetwarzane przez wagę, sumowane z obciążeniem i przekształcane przez funkcję aktywacji.
+Rysunek \ref{fig:neuron_architecture} podsumowuje budowę sztucznego neuronu, ilustrując jak sygnały wejściowe są przetwarzane przez wagę, sumowane z obciążeniem i przekształcane przez funkcję aktywacji.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/neuron.png}
@@ -314,7 +314,64 @@ Rysunek \ref{fig:neuron_architecture} przedstawia schemat budowy sztucznego neur
     \label{fig:neuron_architecture}
 \end{figure}
 
-% %~ Research approach
+Niestety pojedyczny neuron jest ograniczony w swoich możliwościach -- może nauczyć się jedynie prostych zależności liniowo-separowalnych.
+Inaczej mówiąc, jest w stanie rozróżnić tylko te wzorce, które można oddzielić prostą linią w przestrzeni cech.
+Aby radzić sobie z bardziej złożonymi problemami, konieczne jest łączenie wielu neuronów w wielowarstwowe struktury.
+
+\subsubsection{Architektura sieci neuronowej}
+
+W celu modelowania bardziej złożonych zależności, łączy się wiele neuronów w struktury zwane sieciami neuronowymi.
+Składają się one z warstw, gdzie każda warstwa zawiera wiele neuronów.
+Typowa sieć neuronowa składa się z trzech głównych typów warstw:
+\begin{itemize}
+    \item \textbf{Warstwa wejściowa:} Odpowiada za przyjmowanie danych wejściowych.
+    \item \textbf{Warstwy ukryte:} Przetwarzają dane poprzez zestaw neuronów, ucząc się złożonych wzorców.
+    \item \textbf{Warstwa wyjściowa:} Generuje ostateczne prognozy lub klasyfikacje na podstawie przetworzonych danych.
+\end{itemize}
+Warstwy można łączyć na różne sposoby.
+Popularnym podejściem jest pełne łączenie przy wykorzystaniu warstw gęstych (Dense layers). 
+Polega ono na łączeniu każdego neuronu z jednej warstwy do każdego neuronu w następnej warstwie.
+Przepływ sygnału w takiej sieci odbywa się na zasadzie propagacji w przód (ang. forward propagation) -- od warstwy wejściowej, przez warstwy ukryte, aż do warstwy wyjściowej.
+Formalnie ten proces można opisać krokami obliczeniowymi dla każdej warstwy:
+\begin{enumerate}
+    \item \textbf{Warstwa wejściowa:}
+    \begin{equation}
+        A^{(0)} = X
+    \end{equation}
+    \item \textbf{Warstwy ukryte:}
+    \begin{equation}
+        A^{(l)} = f(W^{(l)} A^{(l-1)} + b^{(l)}) \quad \text{dla } l = 1, 2, \ldots, L-1
+    \end{equation}
+    \item \textbf{Warstwa wyjściowa:}
+    \begin{equation}
+        Y = g(W^{(L)} A^{(L-1)} + b^{(L)})
+    \end{equation}
+    gdzie:
+    \begin{itemize}
+        \item \( X \) to wektor danych wejściowych,
+        \item \( Y \) to wektor danych wyjściowych (prognoz),
+        \item \( A^{(l)} \) to aktywacje (wyjścia) warstwy \( l \),
+        \item \( W^{(l)} \) to macierz wag warstwy \( l \),
+        \item \( b^{(l)} \) to wektor obciążeń warstwy \( l \),
+        \item \( f \) to funkcja aktywacji dla warstw ukrytych,
+        \item \( g \) to funkcja aktywacji dla warstwy wyjściowej,
+        \item \( L \) to liczba warstw w sieci.
+    \end{itemize}
+\end{enumerate}
+
+Rysunek \ref{fig:nn_architecture} przedstawia schematyczną budowę prostej sieci neuronowej z jedną warstwą wejściową (zielony), dwiema warstwami ukrytymi (niebieski) i jedną warstwą wyjściową (czerwony).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/nn.png}
+    \caption{Budowa prostej sieci neuronowej z jedną warstwą wejściową, dwiema warstwami ukrytymi i jedną warstwą wyjściową. Wzorowany na: \href{https://media.geeksforgeeks.org/wp-content/uploads/20250923121847731542/Neural-Networks-Architecture.webp}{GeeksforGeeks}.}
+    \label{fig:nn_architecture}
+\end{figure}
+
+
+
+
+
+%~ Research approach
 % \section{Metodyka badań}
 
 % %~ Results
