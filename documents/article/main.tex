@@ -218,7 +218,7 @@ Otrzymana wartość \( z \), zwana logitem (surowym wyjściem) neuronu, jest nas
     \hat{y} = f(z) = f(\sum_{i=1}^{n} w_i x_i + b)
 \end{equation}
 
-Funkcja aktywacji modyfikuje logit \( z \), produkując finalne wyjście neuronu \( y \) -- stopień aktywacji.
+Funkcja aktywacji modyfikuje logit \( z \), produkując finalne wyjście neuronu \( \hat{y} \) -- stopień aktywacji.
 W zależności od zastosowanej funkcji aktywacji, wyjście może przyjmować różne formy.
 Tą różnicę najprościej zilustrować na przykładzie dwóch popularnych funkcji aktywacji:
 \begin{itemize}
@@ -344,12 +344,12 @@ Formalnie ten proces można opisać krokami obliczeniowymi dla każdej warstwy:
     \end{equation}
     \item \textbf{Warstwa wyjściowa:}
     \begin{equation}
-        \mathbf{y} = g(\mathbf{W}^{(L)} \mathbf{a}^{(L-1)} + \mathbf{b}^{(L)})
+        \mathbf{\hat{y}} = g(\mathbf{W}^{(L)} \mathbf{a}^{(L-1)} + \mathbf{b}^{(L)})
     \end{equation}
     gdzie:
     \begin{itemize}
         \item \( \mathbf{x} \) to wektor danych wejściowych,
-        \item \( \mathbf{y} \) to wektor danych wyjściowych (prognoz),
+        \item \( \mathbf{\hat{y}} \) to wektor danych wyjściowych (prognoz),
         \item \( \mathbf{a}^{(l)} \) to aktywacje (wyjścia) warstwy \( l \),
         \item \( \mathbf{W}^{(l)} \) to macierz wag warstwy \( l \),
         \item \( \mathbf{b}^{(l)} \) to wektor obciążeń warstwy \( l \),
