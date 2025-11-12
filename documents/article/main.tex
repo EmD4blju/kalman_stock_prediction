@@ -304,7 +304,7 @@ Rysunek \ref{fig:sigmoid_bias_combined} przedstawia wpływ różnych wartości b
 \end{figure}
 
 \clearpage
-Opisane powyżej elementy -- wagi \( w_i \), obciążenie \( b \) oraz funkcja aktywacji \( f(z) \) - stanowią podstawę działania sztucznego neuronu.
+Opisane powyżej parametry -- wagi \( w_i \), obciążenie \( b \) oraz funkcja aktywacji \( f(z) \) - stanowią podstawę działania sztucznego neuronu.
 
 Rysunek \ref{fig:neuron_architecture} podsumowuje budowę sztucznego neuronu, ilustrując jak sygnały wejściowe są przetwarzane przez wagę, sumowane z obciążeniem i przekształcane przez funkcję aktywacji.
 \begin{figure}[H]
@@ -323,11 +323,11 @@ Aby radzić sobie z bardziej złożonymi problemami, konieczne jest łączenie w
 W celu modelowania bardziej złożonych zależności, łączy się wiele neuronów w struktury zwane sieciami neuronowymi.
 Składają się one z warstw, gdzie każda warstwa zawiera wiele neuronów.
 Typowa sieć neuronowa składa się z trzech głównych typów warstw:
-\begin{itemize}
+\begin{enumerate}
     \item \textbf{Warstwa wejściowa:} Odpowiada za przyjmowanie danych wejściowych.
     \item \textbf{Warstwy ukryte:} Przetwarzają dane poprzez zestaw neuronów, ucząc się złożonych wzorców.
     \item \textbf{Warstwa wyjściowa:} Generuje ostateczne prognozy lub klasyfikacje na podstawie przetworzonych danych.
-\end{itemize}
+\end{enumerate}
 Warstwy można łączyć na różne sposoby.
 Popularnym podejściem jest pełne łączenie przy wykorzystaniu warstw gęstych (Dense layers). 
 Polega ono na łączeniu każdego neuronu z jednej warstwy do każdego neuronu w następnej warstwie.
@@ -367,9 +367,68 @@ Rysunek \ref{fig:nn_architecture} przedstawia schematyczną budowę prostej siec
     \label{fig:nn_architecture}
 \end{figure}
 
+Przedstawiona architektura oraz proces propagacji w przód definiują przepływ informacji w sieci neuronowej w celu generowania prognoz.
+Jednakże aby prognoza była trafna, parametry sieci -- wartości wag \( \mathbf{W}^{(l)} \) oraz obciążeń \( \mathbf{b}^{(l)} \) -- muszą zostać odpowiednio dobrane.
+Ten proces nazywany jest uczeniem sieci i zostanie omówiony w następnej podsekcji.
+
+\subsubsection{Uczenie sieci neuronowej}
+Uczenie sieci neuronowej polega na algorytmicznym dostosowywaniu jej parametrów (wag i obciążeń) w celu minimalizacji błędu prognoz.
+Działa ono w oparciu o zestaw danych zawierających zarówno dane wejściowe \( \mathbf{x} \), jak i odpowiadające im rzeczywiste wartości wyjściowe \( \mathbf{y} \).
+Innymi słowy, sieć uczy się na podstawie przykładów, aby poprawić swoje prognozy.
+
+Aby proces uczenia zwracał rzetelne wyniki, zestaw danych dzieli się na trzy niezależne podzbiory:
+\begin{itemize}
+    \item \textbf{Zbiór treningowy:} Służy do uczenia sieci poprzez dostosowywanie jej parametrów.
+    \item \textbf{Zbiór walidacyjny:} Używany do monitorowania wydajności sieci podczas treningu i dostrajania hiperparametrów.
+    \item \textbf{Zbiór testowy:} Służy do oceny ostatecznej wydajności sieci na niewidzianych wcześniej danych.
+\end{itemize}
+
+Sam proces dostosowywania parametrów sieci przeprowadzany jest na zbiorze treningowym i można go opisać w kilku kluczowych krokach:
+
+\begin{enumerate}
+
+    \item \textbf{Inicjalizacja:} Na początku, wagi \( \mathbf{W}^{(l)} \) oraz obciążenia \( \mathbf{b}^{(l)} \) są inicjalizowane małymi, losowymi wartościami.
+
+    \item \textbf{Propagacja w przód:} Dane wejściowe \( \mathbf{x} \) są przekazywane przez sieć, generując prognozy \( \mathbf{\hat{y}} \).
+
+    \item \textbf{Obliczanie błędu:} Prognoza modelu \( \mathbf{\hat{y}} \) jest porównywana z rzeczywistą wartością \( \mathbf{y} \) za pomocą funkcji kosztu (np. MSE), co pozwala na zmierzenie błędu prognozy:
+    \begin{equation}
+        L = \frac{1}{n} \sum_{i=1}^{n} (\hat{y}_i - y_i)^2
+    \end{equation}
+    gdzie \( L \) to wartość funkcji kosztu MSE, a \( n \) to liczba próbek w zbiorze treningowym.
+
+    \item \textbf{Propagacja wsteczna błędu:} Obliczony błąd jest propagowany wstecz sieci, od warstwy wyjściowej do wejściowej. 
+    Celem tego kroku jest obliczenie gradientów funkcji kosztu w każdym neuronie sieci.
+    Gradienty te wskazują kierunek i wielkość zmian, które należy wprowadzić w parametrach sieci, aby skutecznie minimalizować błąd prognozy.
+    Formalnie gradient jest pochodną funkcji kosztu względem wag lub obciążeń:
+    \begin{equation}
+        \frac{\partial L}{\partial \mathbf{W}^{(l)}}, \quad \frac{\partial L}{\partial \mathbf{b}^{(l)}}
+    \end{equation}
+
+    \item \textbf{Aktualizacja parametrów:} Wagi i obciążenia są aktualizowane za pomocą algorytmu optymalizacji (np. Stochastic Gradient Descent, Adam), wykorzystując obliczone gradienty:
+    \begin{equation}
+        \mathbf{W}^{(l)} \leftarrow \mathbf{W}^{(l)} - \eta \frac{\partial L}{\partial \mathbf{W}^{(l)}}, \quad
+        \mathbf{b}^{(l)} \leftarrow \mathbf{b}^{(l)} - \eta \frac{\partial L}{\partial \mathbf{b}^{(l)}}
+    \end{equation}
+    gdzie \( \eta \) to współczynnik nauki (learning rate), określający wielkość kroków aktualizacji.
+
+\end{enumerate}
+
+Proces ten jest powtarzany przez wiele iteracji (epok) na całym zbiorze treningowym, aż do osiągnięcia zadowalającej dokładności prognoz lub spełnienia kryteriów zatrzymania (np. minimalny błąd na zbiorze walidacyjnym).
+Wynikowo sieć neuronowa uczy się optymalnych wartości wag i obciążeń, co pozwala jej na generowanie trafnych prognoz na niewidzianych wcześniej danych.
+
+\subsubsection{Sieci rekurencyjne}
 
 
-
+% Proces ten składa się z kilku kluczowych kroków:
+% \begin{enumerate}
+%     \item \textbf{Inicjalizacja:} Na początku, wagi \( \mathbf{W}^{(l)} \) oraz obciążenia \( \mathbf{b}^{(l)} \) są inicjalizowane losowo.
+%     \item \textbf{Propagacja w przód:} Dane wejściowe są przekazywane przez sieć, generując prognozy \( \mathbf{\hat{y}} \).
+%     \item \textbf{Obliczanie błędu:} Błąd prognozy jest mierzony za pomocą funkcji kosztu (np. MSE, Cross-Entropy), porównując prognozy \( \mathbf{\hat{y}} \) z rzeczywistymi wartościami \( \mathbf{y} \).
+%     \item \textbf{Propagacja wsteczna:} Błąd jest propagowany wstecz przez sieć, obliczając gradienty funkcji kosztu względem wag i obciążeń.
+%     \item \textbf{Aktualizacja parametrów:} Wagi i obciążenia są aktualizowane za pomocą algorytmu optymalizacji (np. SGD, Adam), wykorzystując obliczone gradienty.
+% \end{enumerate}
+% Proces jest powtarzany przez wiele iteracji (epok) na całym zbiorze treningowym, aż do osiągnięcia zadowalającej dokładności prognoz.
 
 %~ Research approach
 % \section{Metodyka badań}
