@@ -246,11 +246,11 @@ Po prawej stronie znajduje się wykres funkcji sigmoidalnej, gdzie wyjście zmie
     \centering
     \begin{minipage}{0.48\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/step_figure.png}
+        \includegraphics[width=\linewidth]{assets/step_figure.png}
     \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/sigmoid_figure.png}
+        \includegraphics[width=\linewidth]{assets/sigmoid_figure.png}
     \end{minipage}
     \caption{Porównanie funkcji aktywacji: (po lewej) funkcja skokowa, (po prawej) funkcja sigmoidalna.}
     \label{fig:ste_sigmoid_comparison}
@@ -275,11 +275,11 @@ Oznacza to, że neuron staje się pewniejszy swoich decyzji, aktywując się nie
     \centering
     \begin{minipage}{0.48\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/sigmoid_w_min_figure.png}
+        \includegraphics[width=\linewidth]{assets/sigmoid_w_min_figure.png}
     \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/sigmoid_w_max_figure.png}
+        \includegraphics[width=\linewidth]{assets/sigmoid_w_max_figure.png}
     \end{minipage}
     \caption{Wpływ wartości wagi (w) na kształt funkcji sigmoidalnej: (po lewej) \(w=0.1\), (po prawej) \(w=2.0\).}
     \label{fig:sigmoid_weights_combined}
@@ -293,11 +293,11 @@ Rysunek \ref{fig:sigmoid_bias_combined} przedstawia wpływ różnych wartości b
     \centering
     \begin{minipage}{0.48\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/sigmoid_b_min_figure.png}
+        \includegraphics[width=\linewidth]{assets/sigmoid_b_min_figure.png}
     \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/sigmoid_b_max_figure.png}
+        \includegraphics[width=\linewidth]{assets/sigmoid_b_max_figure.png}
     \end{minipage}
     \caption{Wpływ wartości bias (b) na kształt funkcji sigmoidalnej: (po lewej) \(b=-2.82\), (po prawej) \(b=4.21\).}
     \label{fig:sigmoid_bias_combined}
@@ -309,7 +309,7 @@ Opisane powyżej parametry -- wagi \( w_i \), obciążenie \( b \) oraz funkcja 
 Rysunek \ref{fig:neuron_architecture} podsumowuje budowę sztucznego neuronu, ilustrując jak sygnały wejściowe są przetwarzane przez wagę, sumowane z obciążeniem i przekształcane przez funkcję aktywacji.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/neuron.png}
+    \includegraphics[width=0.8\textwidth]{assets/neuron.png}
     \caption[Schemat budowy sztucznego neuronu]{Schemat budowy sztucznego neuronu. Źródło: Andrut, Krzysztof Zajączkowski, \href{https://commons.wikimedia.org/wiki/File:Neuron_McCullocha-Pittsa.svg}{Wikimedia Commons}, licencja \href{https://creativecommons.org/licenses/by-sa/2.5/deed.pl}{CC BY-SA 2.5}.}
     \label{fig:neuron_architecture}
 \end{figure}
@@ -362,7 +362,7 @@ Formalnie ten proces można opisać krokami obliczeniowymi dla każdej warstwy:
 Rysunek \ref{fig:nn_architecture} przedstawia schematyczną budowę prostej sieci neuronowej z jedną warstwą wejściową, dwiema warstwami ukrytymi i jedną warstwą wyjściową.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/nn.png}
+    \includegraphics[width=0.8\textwidth]{assets/nn.png}
     \caption{Budowa prostej sieci neuronowej z jedną warstwą wejściową, dwiema warstwami ukrytymi i jedną warstwą wyjściową. Opracowanie własne na podstawie \href{https://media.geeksforgeeks.org/wp-content/uploads/20250923121847731542/Neural-Networks-Architecture.webp}{GeeksforGeeks}.}
     \label{fig:nn_architecture}
 \end{figure}
@@ -418,17 +418,60 @@ Proces ten jest powtarzany przez wiele iteracji (epok) na całym zbiorze trening
 Wynikowo sieć neuronowa uczy się optymalnych wartości wag i obciążeń, co pozwala jej na generowanie trafnych prognoz na niewidzianych wcześniej danych.
 
 \subsubsection{Sieci rekurencyjne}
+Tradycyjna architekura sieci neuronowej, opisana w poprzednich podsekcjach, zakłada, że dane wejściowe są niezależne od siebie.
+W przypadku danych finansowych (szeregi czasowe) takie założenie jest błędne, ponieważ obserwacje są ze sobą powiązane w czasie.
+Można sobie to wyobrazić na przykładzie cen akcji, gdzie ceny z kilku poprzednich dni wpływają na cenę w dniu dzisiejszym.
+Wówczas pojawia się potrzeba "pamiętania" wcześniejszych informacji podczas przetwarzania bieżących danych.
+Sieci rekurencyjne (RNN) zostały zaprojektowane właśnie w tym celu.
 
+Główną różnicą sieci rekurencyjnych w porównaniu do tradycyjnych sieci jest inna architektura neuronów.
+W sieciach RNN neurony te nazywane są komórkami rekurencyjnymi (RNN cells).
+Posiadają one dodatkowe połączenie zwrotne (ang. feedback connection), które pozwala na przekazywanie informacji z poprzednich kroków czasowych do bieżącego kroku.
+Formalnie, w sieciach RNN, stan ukryty \( \mathbf{h}_t \) w czasie \( t \) jest obliczany na podstawie bieżącego wejścia \( \mathbf{x}_t \) oraz poprzedniego stanu ukrytego \( \mathbf{h}_{t-1} \):
+\begin{equation}
+    \mathbf{h}_t = f(\mathbf{W}_h \mathbf{h}_{t-1} + \mathbf{W}_x \mathbf{x}_t + \mathbf{b})
+\end{equation}
+gdzie \( \mathbf{W}_h \) to macierz wag dla stanu ukrytego, \( \mathbf{W}_x \) to macierz wag dla wejścia, \( \mathbf{b} \) to wektor obciążeń, a \( f \) to funkcja aktywacji.
+Stan ukryty \( \mathbf{h}_t \) jest nośnikiem informacji z poprzednich kroków czasowych.
 
-% Proces ten składa się z kilku kluczowych kroków:
-% \begin{enumerate}
-%     \item \textbf{Inicjalizacja:} Na początku, wagi \( \mathbf{W}^{(l)} \) oraz obciążenia \( \mathbf{b}^{(l)} \) są inicjalizowane losowo.
-%     \item \textbf{Propagacja w przód:} Dane wejściowe są przekazywane przez sieć, generując prognozy \( \mathbf{\hat{y}} \).
-%     \item \textbf{Obliczanie błędu:} Błąd prognozy jest mierzony za pomocą funkcji kosztu (np. MSE, Cross-Entropy), porównując prognozy \( \mathbf{\hat{y}} \) z rzeczywistymi wartościami \( \mathbf{y} \).
-%     \item \textbf{Propagacja wsteczna:} Błąd jest propagowany wstecz przez sieć, obliczając gradienty funkcji kosztu względem wag i obciążeń.
-%     \item \textbf{Aktualizacja parametrów:} Wagi i obciążenia są aktualizowane za pomocą algorytmu optymalizacji (np. SGD, Adam), wykorzystując obliczone gradienty.
-% \end{enumerate}
-% Proces jest powtarzany przez wiele iteracji (epok) na całym zbiorze treningowym, aż do osiągnięcia zadowalającej dokładności prognoz.
+W celu wygenerowania prognozy \( \mathbf{\hat{y}}_t \) w czasie \( t \), sieć wykorzystuje stan ukryty:
+\begin{equation}
+    \mathbf{\hat{y}}_t = g(\mathbf{W}_y \mathbf{h}_t + \mathbf{b}_y)
+\end{equation}
+gdzie \( \mathbf{W}_y \) to macierz wag dla wyjścia, \( \mathbf{b}_y \) to wektor obciążeń wyjścia, a \( g \) to funkcja aktywacji wyjścia.
+
+Rysunek \ref{fig:rnn_cell} przedstawia schematyczną budowę komórki rekurencyjnej w sieci RNN.
+Aby lepiej zobrazować działanie komórki RNN, na rysunku pokazano jej rozwinięcie w czasie.
+Stan ukryty \( \mathbf{h}_t \) jest przekazywany z jednego kroku czasowego do następnego.
+Wagi \( \mathbf{W}_h \), \( \mathbf{W}_x \), \( \mathbf{W}_y \) oraz obciążenie \( \mathbf{b} \) są współdzielone przez wszystkie kroki czasowe.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{assets/rnn_cell.png}
+    \caption{Budowa komórki rekurencyjnej w sieci RNN. Opracowanie własne na podstawie \href{https://commons.wikimedia.org/wiki/File:Recurrent_neural_network_unfold.svg}{Wikimedia Commons}.}
+    \label{fig:rnn_cell}
+\end{figure}
+
+Taka architektura stanowi solidny fundament do modelowania szeregów czasowych.
+Niemniej jednak, tradycyjne sieci RNN mają pewne ograniczenia.
+Są nimi m.in. problem zanikającego i eksplodującego gradientu podczas procesu uczenia, co utrudnia naukę długoterminowych zależności w danych.
+Aby wyjaśnić na czym polegają te problemy, należy wrócić do procesu opartego na wstecznej propagacji błędu.
+
+W przypadku sieci RNN, odpowiednikiem algorytmu wstecznej propagacji jest algorytm zwany propagacją wsteczną w czasie (ang. *Backpropagation Through Time, BPTT*).
+Tak jak w przypadku klasycznej propagacji wstecznej, BPTT polega na obliczaniu gradientów funkcji kosztu względem wag i obciążeń sieci.
+Ze względu na współdzielenie wag w czasie, gradienty są sumowane przez wszystkie kroki czasowe, co daje ostateczny gradient dla każdej wagi.
+W praktyce, propagacja błędu w czasie wiąże się z wielokrotnym mnożeniem macierzy wag \( \mathbf{W}_h \) odpowiadających za stan ukryty.
+To właśnie ten mechanizm prowadzi do dwóch problemów:
+\begin{itemize}
+    \item \textbf{Problem zanikającego gradientu:} Jeśli wartości w macierzy wag \( \mathbf{W}_h \) są małe (norma macierzy mniejsza od 1), to przy wielokrotnym mnożeniu sygnał błędu (gradient) staje się wykładniczo coraz mniejszy.
+    W konsekwencji sieć nie jest w stanie nauczyć się zależności między danymi, które są od siebie odległe w czasie.
+
+    \item \textbf{Problem eksplodującego gradientu:} Jest to sytuacja odwrotna. Jeśli wartości w macierzy wag \( \mathbf{W}_h \) są duże (norma macierzy większa od 1), sygnał błędu przy wielokrotnym mnożeniu rośnie wykładniczo, stając się ogromną liczbą.
+    Na skutek tego aktualizacje wag stają się tak duże, że proces uczenia staje się niestabilny.
+\end{itemize}
+
+Aby skutecznie radzić sobie z tymi problemami, opracowano zaawansowane architektury sieci rekurencyjnych.
+Jedną z najpopularniejszych jest Long Short-Term Memory (LSTM), która zostanie omówiona w następnej podsekcji.
+
 
 %~ Research approach
 % \section{Metodyka badań}
