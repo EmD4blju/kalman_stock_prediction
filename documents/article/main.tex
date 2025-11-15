@@ -83,24 +83,25 @@
 
 Prognozowanie cen akcji odgrywa kluczową rolę w finansach, wspierając inwestorów w podejmowaniu świadomych decyzji zarządzania swoim portfolio.
 Chaotyczny charakter rynków sprawia jednak, że trafne przewidywanie notowań pozostaje trudnym zadaniem.
-Tradycyjna analiza techniczna bywa niewystarczająca - jest wrażliwa na szum, a wnioski często zawierają element subiektywności.
+Tradycyjna analiza techniczna bywa niewystarczająca - jest wrażliwa na szum, a wnioski często zawierają element subiektywności \cite{TODO_general_finanse_predicting}.
 
 W ostatnich latach dynamiczny rozwój uczenia maszynowego, zwłaszcza sieci neuronowych, 
 znacząco zmienił podejście do modelowania danych czasowych (w tym giełdowych).
 Architektury takie jak LSTM (Long Short-Term Memory) potrafią uchwycić złożone zależności i długookresowe relacje w danych, 
-co czyni je obiecującymi narzędziami do prognozowania cen, jednak ich skuteczność nadal zależy od jakości danych wejściowych.
+co czyni je obiecującymi narzędziami do prognozowania cen \cite{TODO_LSTM_paper}.
+Niemniej jednak ich skuteczność nadal zależy od jakości danych wejściowych.
 Głównym problemem, jest wysoka wrażliwość na losowe wahania, które są nieodłącznym elementem danych finansowych. 
 Te zniekształcenia wynikają z nieprzewidywalnych zdarzeń rynkowych.
 Model, zamiast uczyć się rzeczywistych trendów, modeluje wspomniane zakłócenia, 
 obniżając swoją zdolność do generalizacji na nowych danych. 
 W rezultacie, predykcje mogą być obarczone znacznym błędem, 
-co podważa ich użyteczność w podejmowaniu decyzji inwestycyjnych.
+co podważa ich użyteczność w podejmowaniu decyzji inwestycyjnych \cite{TODO_LSTM_problem}.
 
 Można temu zapobiegać stosując techniki filtracji na danych wejściowych.
 Jednym z klasycznych narzędzi tego typu jest filtr Kalmana,
 który może pełnić rolę modułu wygładzania i korekty obserwacji, podnosząc stabilność i dokładność predykcji.
 Trenowanie sieci neuronowej na przefiltrowanych danych przy użyciu filtra Kalmana może zredukować wpływ szumu, 
-pozwalając na lepsze uchwycenie istotnych wzorców i trendów w danych.
+pozwalając na lepsze uchwycenie istotnych wzorców i trendów w danych \cite{TODO_KalmanFilter_paper, TODO_FilteringInfluenceOnLearning}.
 
 W ramach niniejszej pracy dyplomowej, podjęto się zbadania skuteczności zastosowania filtru Kalmana jako etapu przetwarzania danych dla modeli LSTM w kontekście prognozowania cen akcji spółki Amazon.com Inc (AMZN) .
 Wybór tematu pracy wyniknął z chęci zdobycia wiedzy na temat działania architektury LSTM oraz zbadania wpływu filtracji danych na jakość prognoz.
@@ -117,7 +118,7 @@ Na zakończenie, w sekcji \textit{"Podsumowanie i wnioski"}, podsumowano przepro
 \subsection{Przewidywanie szeregów czasowych na rynkach finansowych}
 Dane finansowe, takie jak np. ceny akcji, zawierają obserwacje tworzące szeregi czasowe.
 Innymi słowy, są to dane, które reprezentują zmiany wartości w określonych odstępach czasu.
-Formalnie szeregiem czasowym określa się zbiór uporządkowanych obserwacji w czasie, gdzie każda obserwacja jest powiązana z określoną chwilą czasową:
+Formalnie szeregiem czasowym określa się zbiór uporządkowanych obserwacji w czasie, gdzie każda obserwacja jest powiązana z określoną chwilą czasową \cite{TODO_time_series_definition}:
 \begin{equation}
     X = \{x_1, x_2, x_3, \ldots, x_n\}
 \end{equation}
@@ -131,36 +132,36 @@ Abstrahując od rynków finansowych, przedstawiono kilka przykładów szeregów 
 \end{itemize}
 
 Najczęściej spotykanym formatem danych finansowych są tzw. dane OHLC.
-Przedstawione w takiej postaci informacje tworzą szereg czasowy, w którym każda obserwacja składa się z czterech części:
+Przedstawione w takiej postaci informacje tworzą szereg czasowy, w którym każda obserwacja składa się z czterech części \cite{TODO_OHLC_definition}:
 \begin{itemize}
     \item \textbf{Open (O):} Cena otwarcia - cena, po której dany instrument finansowy rozpoczął notowania w danym okresie.
     \item \textbf{High (H):} Cena najwyższa - najwyższa cena osiągnięta przez instrument finansowy w danym okresie.
     \item \textbf{Low (L):} Cena najniższa - najniższa cena osiągnięta przez instrument finansowy w danym okresie.
     \item \textbf{Close (C):} Cena zamknięcia - cena, po której instrument finansowy zakończył notowania w danym okresie.
 \end{itemize}
-Na potrzeby tej pracy, wykorzystano składnik \textit{Close}, ze względu na jego powszechne wykorzystanie w analizie i prognozie cen akcji.
+Na potrzeby tej pracy, wykorzystano składnik \textit{Close}, ze względu na jego powszechne wykorzystanie w analizie i prognozie cen akcji \cite{TODO_Close_price_usage}.
 
 Rysunek \ref{fig:amzn_stock_prices} przedstawia przykładowy wykres cenowy względem składnika \textit{Close} spółki Amazon.com Inc (AMZN) na przestrzeni kilku lat w odstępach dziennych. 
 Dane przedstawione na wykresie są nieregularne i zawierają liczne fluktuacje, co jest charakterystyczne dla danych finansowych.
-Ta wysoka zmienność stanowi główne wyzwanie dla modeli predykcyjnych, co motywuje do poszukiwania skutecznych metod filtrujących.
+Ta wysoka zmienność stanowi główne wyzwanie dla modeli predykcyjnych, co motywuje do poszukiwania skutecznych metod filtrujących \cite{TODO_LSTM_problem}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{/home/emdablju/Documents/projects/kalman_stock_prediction/documents/plots/1_AMZN_stock.png}
-    \caption{Wykres cenowy względem składnika \textit{Close} Amazon.com Inc (AMZN) w latach 2022-2025}
+    \caption{Wykres cenowy względem składnika \textit{Close} Amazon.com Inc (AMZN) w latach 2022-2025. Źródło danych: Yahoo Finance \cite{TODO_YahooFinance}.}
     \label{fig:amzn_stock_prices}
 \end{figure}
 
 Tradycyjnie analiza danych rynkowych opierała się o wskaźniki techniczne. 
-Można je określić mianem narzędzi statystycznych reprezentujących różne aspekty zachowań cen.
+Można je określić mianem narzędzi statystycznych reprezentujących różne aspekty zachowań cen \cite{TODO_technical_indicators_paper}.
 W niniejszej pracy wykorzystano trzy wskaźniki techniczne, które opisano w następnych podsekcjach.
 
 \subsubsection{Wskaźnik siły względnej (Relative Strength Index, RSI)}
-Wskaźnik siły względnej (RSI) to popularny wskaźnik techniczny używany do oceny siły i prędkości zmian cen aktywów finansowych.
+Wskaźnik siły względnej (RSI) to popularny wskaźnik techniczny używany do oceny siły i prędkości zmian cen aktywów finansowych \cite{TODO_RSI_paper}.
 Wyraża się go wzorem:
 \begin{equation}
     RSI = 100 - \frac{100}{1 + RS}
 \end{equation}
-gdzie \( RS \) (Relative Strength) to stosunek średnich wzrostów do średnich spadków cen w określonym czasie. Według badań, optymalny okres do obliczania RSI wynosi 14 dni.
+gdzie \( RS \) (Relative Strength) to stosunek średnich wzrostów do średnich spadków cen w określonym czasie. Według badań, optymalny okres do obliczania RSI wynosi 14 dni \cite{TODO_RSI_paper}.
 
 Produktem końcowym RSI jest liczba z zakresu od 0 do 100, która interpretowana jest następująco:
 \begin{itemize}
@@ -170,7 +171,7 @@ Produktem końcowym RSI jest liczba z zakresu od 0 do 100, która interpretowana
 \end{itemize}
 
 \subsubsection{Wstęgi Bollingera (Bollinger Bands)}
-Wstęgi Bollingera to narzędzie analizy technicznej, dostarczające informacji o zmienności rynku. 
+Wstęgi Bollingera to narzędzie analizy technicznej, dostarczające informacji o zmienności rynku \cite{TODO_bollinger_bands_paper}. 
 Składaja się z trzech linii na wykresie cenowym:
 \begin{itemize}
     \item \textbf{Środkowa linia:} Prosta średnia krocząca (SMA) obliczona na podstawie cen zamknięcia w określonym czasie. Najczęsciej używanym okresem jest 20 dni.
@@ -179,11 +180,11 @@ Składaja się z trzech linii na wykresie cenowym:
 \end{itemize}
 Na podstawie ww. składowych można zinterpretować dwie nowe miary, które zostały wykorzystane w niniejszej pracy:
 \begin{itemize}
-    \item \textbf{Bollinger Bandwidth (BBW):} Miara szerokości wstęg Bollingera, obliczana jako stosunek różnicy między górną a dolną wstęgą do środkowej linii:
+    \item \textbf{Bollinger Bandwidth (BBW):} Miara szerokości wstęg Bollingera, obliczana jako stosunek różnicy między górną a dolną wstęgą do środkowej linii \cite{TODO_bollinger_bands_paper}:
     \begin{equation}
         BBW = \frac{Upper Band - Lower Band}{Middle Line}
     \end{equation}
-    \item \textbf{Bollinger \%B (BB\%):} Miara położenia ceny względem wstęg Bollingera, obliczana jako stosunek różnicy między ceną zamknięcia a dolną wstęgą do różnicy między górną a dolną wstęgą:
+    \item \textbf{Bollinger \%B (BB\%):} Miara położenia ceny względem wstęg Bollingera, obliczana jako stosunek różnicy między ceną zamknięcia a dolną wstęgą do różnicy między górną a dolną wstęgą \cite{TODO_bollinger_bands_paper}:
     \begin{equation}
         BB\% = \frac{Close - Lower Band}{Upper Band - Lower Band}
     \end{equation}
@@ -192,34 +193,34 @@ Na podstawie ww. składowych można zinterpretować dwie nowe miary, które zost
 Opisane powyżej wskaźniki techniczne - RSI, BBW oraz BB\% - dostarczają cennych informacji o dynamice rynku. 
 W tradycyjnej analizie mogą posłużyć do subiektywnej interpretacji przez analityków.
 W nowoczesnych podejściach, opartych na modelach uczenia maszynowego, 
-można je wykorzystać do wzbogacenia danych o dodatkowe cechy, co potencjalnie może poprawić jakość prognoz.
+można je wykorzystać do wzbogacenia danych o dodatkowe cechy, co potencjalnie może poprawić jakość prognoz \cite{TODO_dataset_enrichment_indicators}.
 
 \subsection{Sieci neuronowe w prognozowaniu rynków finansowych}
 
-Wraz z rozwojem mocy obliczeniowej i technik uczenia maszynowego, pojawiły się bardziej zaawansowane metody analizy i prognozowania w dziedzinie finansów.
+Wraz z rozwojem mocy obliczeniowej i technik uczenia maszynowego, pojawiły się bardziej zaawansowane metody analizy i prognozowania w dziedzinie finansów \cite{TODO_better_methods_on_market_predictions}.
 Do najpopularniejszych podejść należą sieci rekurencyjne (RNN), w tym ich zaawansowane warianty, takie jak \textit{LSTM} (Long Short-Term Memory).
-Sieci te są zdolne do uchwycenia złożonych wzorców i zależności w szeregach czasowych.
+Sieci te są zdolne do uchwycenia złożonych wzorców i zależności w szeregach czasowych \cite{TODO_RNN_paper, TODO_LSTM_paper}.
 
 W niniejszej sekcji zostały omówione podstawy działania sieci neuronowych. 
 Przedstawiona została budowa pojedynczego neuronu wchodzącego w skład sieci, kluczowe algorytmy uczenia oraz architektura LSTM.
 
 \subsubsection{Podstawy działania sztucznego neuronu}
-Ważnym kamieniem milowym w dziedzinie uczenia maszynowego było wprowadzenie matematycznego modelu neuronu przez McCullocha i Pitts'a w 1943 roku.
+Ważnym kamieniem milowym w dziedzinie uczenia maszynowego było wprowadzenie matematycznego modelu neuronu przez McCullocha i Pitts'a w 1943 roku \cite{TODO_neuron_McCulloch_Pitts}.
 Współcześnie można mówić o różnych architekturach takiego neuronu, jednak ich podstawowa zasada działania pozostaje podobna.
 
 Neuron otrzymuje na wejściu sygnały \( x_1, x_2, \ldots, x_n \), które są ważone przez odpowiednie wagi \( w_1, w_2, \ldots, w_n \).
-Następnie, sumuje te ważone sygnały i dodaje do nich wartość obciążenia (bias) \( b \):
+Następnie, sumuje te ważone sygnały i dodaje do nich wartość obciążenia (bias) \( b \) \cite{TODO_how_neurons_process_signals}:
 \begin{equation}
     z = \sum_{i=1}^{n} w_i x_i + b
 \end{equation}
 
-Otrzymana wartość \( z \), zwana logitem (surowym wyjściem) neuronu, jest następnie przekształcana przez funkcję aktywacji \( f(z) \).
+Otrzymana wartość \( z \), zwana logitem (surowym wyjściem) neuronu, jest następnie przekształcana przez funkcję aktywacji \( f(z) \) \cite{TODO_how_neurons_process_signals}:
 \begin{equation}
     \hat{y} = f(z) = f(\sum_{i=1}^{n} w_i x_i + b)
 \end{equation}
 
 Funkcja aktywacji modyfikuje logit \( z \), produkując finalne wyjście neuronu \( \hat{y} \) -- stopień aktywacji.
-W zależności od zastosowanej funkcji aktywacji, wyjście może przyjmować różne formy.
+W zależności od zastosowanej funkcji aktywacji, wyjście może przyjmować różne formy \cite{TODO_activation_function_overview}.
 Tą różnicę najprościej zilustrować na przykładzie dwóch popularnych funkcji aktywacji:
 \begin{itemize}
     \item \textbf{Funkcja skokowa:}
@@ -231,15 +232,15 @@ Tą różnicę najprościej zilustrować na przykładzie dwóch popularnych funk
         \end{cases}
     \end{equation}
     W tym przypadku, wyjście neuronu jest binarne. 
-    Innymi słowy, neuron zostanie albo aktywowany (1), albo nieaktywowany (0), w zależności od tego, czy logit \( z \) przekracza pewien próg (w tym przypadku 0).
+    Innymi słowy, neuron zostanie albo aktywowany (1), albo nieaktywowany (0), w zależności od tego, czy logit \( z \) przekracza pewien próg (w tym przypadku 0) \cite{TODO_step_function_overview}.
     \item \textbf{Funkcja sigmoidalna:}
     \begin{equation}
         f(z) = \frac{1}{1 + e^{-z}}
     \end{equation}
     W tym przypadku, wyjście neuronu jest ciągłe i mieści się w zakresie od 0 do 1.
-    Oznacza to, że neuron może przyjmować różne poziomy aktywacji, co pozwala na wyrażenie stopnia pewności co do wyniku.
+    Oznacza to, że neuron może przyjmować różne poziomy aktywacji, co pozwala na wyrażenie stopnia pewności co do wyniku \cite{TODO_sigmoid_function_overview}.
 \end{itemize}
-Rysunek \ref{fig:ste_sigmoid_comparison} przedstawia porównanie ww. funkcji aktywacji.
+Rysunek \ref{fig:step_sigmoid_comparison} przedstawia porównanie ww. funkcji aktywacji.
 Po lewej stronie znajduje się wykres funkcji skokowej, gdzie wyjście nagle zmienia się z 0 na 1 w punkcie \( z=0 \).
 Po prawej stronie znajduje się wykres funkcji sigmoidalnej, gdzie wyjście zmienia się stopniowo od 0 do 1 wraz ze wzrostem wartości \( z \).
 \begin{figure}[H]
@@ -252,18 +253,18 @@ Po prawej stronie znajduje się wykres funkcji sigmoidalnej, gdzie wyjście zmie
         \centering
         \includegraphics[width=\linewidth]{assets/sigmoid_figure.png}
     \end{minipage}
-    \caption{Porównanie funkcji aktywacji: (po lewej) funkcja skokowa, (po prawej) funkcja sigmoidalna.}
-    \label{fig:ste_sigmoid_comparison}
+    \caption{Porównanie funkcji aktywacji: (po lewej) funkcja skokowa, (po prawej) funkcja sigmoidalna. Opracownanie własne przy użyciu Matplotlib.}
+    \label{fig:step_sigmoid_comparison}
 \end{figure}
-Istnieje wiele innych funkcji aktywacji (np. ReLU, tanh, softmax), a każda z nich ma swoje unikalne właściwości i zastosowania.
+Istnieje wiele innych funkcji aktywacji (np. ReLU, tanh, softmax), a każda z nich ma swoje unikalne właściwości i zastosowania \cite{TODO_activation_function_overview}.
 W przypadku funkcji skokowej, neuron podejmuje twardą decyzję, aktywując się w pełni lub wcale.
-Przez brak elastyczności, funkcja ta nie pozwala na wyrażenie przekonania co do wyniku.
-W przeciwieństwie do niej, funkcja sigmoidalna umożliwia płynną aktywację, pozwalając uwzględnić stopień pewności.
+Przez brak elastyczności, funkcja ta nie pozwala na wyrażenie przekonania co do wyniku \cite{TODO_step_function_overview}.
+W przeciwieństwie do niej, funkcja sigmoidalna umożliwia płynną aktywację, pozwalając uwzględnić stopień pewności \cite{TODO_sigmoid_function_overview}.
 
 Znając rolę funkcji aktywacji, można lepiej wyjaśnić działanie parametrów uczonych neuronu, czyli wag \( w_i \) oraz obciążenia \( b \).
 
 Wagi określają, jak duży wpływ ma każdy sygnał wejściowy \( x_i \) na logit \( z \).
-Poprzez modelowanie wag, w trakcie procesu uczenia, neuron może nauczyć się, które cechy wejściowe są bardziej istotne dla danego zadania.
+Poprzez modelowanie wag, w trakcie procesu uczenia, neuron może nauczyć się, które cechy wejściowe są bardziej istotne dla danego zadania \cite{TODO_weights}.
 
 Rysunek \ref{fig:sigmoid_weights_combined} przedstawia wpływ różnych wartości wagi \( w \) na funkcję sigmoidalną w neuronie z jednym wejściem i bez obciążenia.
 Po lewej stronie znajduje się wykres dla małej wagi \( w=0.1 \), gdzie funkcja zmienia się powoli i ma łagodne nachylenie.
@@ -281,12 +282,12 @@ Oznacza to, że neuron staje się pewniejszy swoich decyzji, aktywując się nie
         \centering
         \includegraphics[width=\linewidth]{assets/sigmoid_w_max_figure.png}
     \end{minipage}
-    \caption{Wpływ wartości wagi (w) na kształt funkcji sigmoidalnej: (po lewej) \(w=0.1\), (po prawej) \(w=2.0\).}
+    \caption{Wpływ wartości wagi (w) na kształt funkcji sigmoidalnej: (po lewej) \(w=0.1\), (po prawej) \(w=2.0\). Opracowanie własne przy użyciu Matplotlib.}
     \label{fig:sigmoid_weights_combined}
 \end{figure}
 
 Drugim kluczowym parametrem jest obciążenie, czyli bias \( b \), który przesuwa próg funkcji aktywacji wzdłuż osi poziomej.
-W istocie umożliwia to opóźnienie lub przyspieszenie momentu, w którym neuron zostaje aktywowany.
+W istocie umożliwia to opóźnienie lub przyspieszenie momentu, w którym neuron zostaje aktywowany \cite{TODO_bias}.
 
 Rysunek \ref{fig:sigmoid_bias_combined} przedstawia wpływ różnych wartości biasu \( b \) na kształt funkcji sigmoidalnej w neuronie z jednym wejściem i wagą \( w=0.1 \).
 \begin{figure}[H]
@@ -303,36 +304,36 @@ Rysunek \ref{fig:sigmoid_bias_combined} przedstawia wpływ różnych wartości b
     \label{fig:sigmoid_bias_combined}
 \end{figure}
 
-\clearpage
-Opisane powyżej parametry -- wagi \( w_i \), obciążenie \( b \) oraz funkcja aktywacji \( f(z) \) - stanowią podstawę działania sztucznego neuronu.
+Opisane powyżej parametry -- wagi \( w_i \), obciążenie \( b \) oraz funkcja aktywacji \( f(z) \) - stanowią podstawę działania sztucznego neuronu \cite{TODO_weights_bias_importance}.
 
 Rysunek \ref{fig:neuron_architecture} podsumowuje budowę sztucznego neuronu, ilustrując jak sygnały wejściowe są przetwarzane przez wagę, sumowane z obciążeniem i przekształcane przez funkcję aktywacji.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{assets/neuron.png}
-    \caption[Schemat budowy sztucznego neuronu]{Schemat budowy sztucznego neuronu. Źródło: Andrut, Krzysztof Zajączkowski, \href{https://commons.wikimedia.org/wiki/File:Neuron_McCullocha-Pittsa.svg}{Wikimedia Commons}, licencja \href{https://creativecommons.org/licenses/by-sa/2.5/deed.pl}{CC BY-SA 2.5}.}
+    % Andrut, Krzysztof Zajączkowski, \href{https://commons.wikimedia.org/wiki/File:Neuron_McCullocha-Pittsa.svg}{Wikimedia Commons}, licencja \href{https://creativecommons.org/licenses/by-sa/2.5/deed.pl}{CC BY-SA 2.5}.
+    \caption[Schemat budowy sztucznego neuronu]{Schemat budowy sztucznego neuronu. Źródło: \cite{wikimedia_neuron_mcculloch_pitts}}
     \label{fig:neuron_architecture}
 \end{figure}
 
 Niestety pojedyczny neuron jest ograniczony w swoich możliwościach -- może nauczyć się jedynie prostych zależności liniowo-separowalnych.
 Inaczej mówiąc, jest w stanie rozróżnić tylko te wzorce, które można oddzielić prostą linią w przestrzeni cech.
-Aby radzić sobie z bardziej złożonymi problemami, konieczne jest łączenie wielu neuronów w wielowarstwowe struktury.
+Aby radzić sobie z bardziej złożonymi problemami, konieczne jest łączenie wielu neuronów w wielowarstwowe struktury \cite{TODO_single_neuron_limitations}.
 
 \subsubsection{Architektura sieci neuronowej}
 
 W celu modelowania bardziej złożonych zależności, łączy się wiele neuronów w struktury zwane sieciami neuronowymi.
 Składają się one z warstw, gdzie każda warstwa zawiera wiele neuronów.
-Typowa sieć neuronowa składa się z trzech głównych typów warstw:
+Typowa sieć neuronowa składa się z trzech głównych typów warstw \cite{TODO_nn}:
 \begin{enumerate}
     \item \textbf{Warstwa wejściowa:} Odpowiada za przyjmowanie danych wejściowych.
     \item \textbf{Warstwy ukryte:} Przetwarzają dane poprzez zestaw neuronów, ucząc się złożonych wzorców.
     \item \textbf{Warstwa wyjściowa:} Generuje ostateczne prognozy lub klasyfikacje na podstawie przetworzonych danych.
 \end{enumerate}
-Warstwy można łączyć na różne sposoby.
-Popularnym podejściem jest pełne łączenie przy wykorzystaniu warstw gęstych (Dense layers). 
-Polega ono na łączeniu każdego neuronu z jednej warstwy do każdego neuronu w następnej warstwie.
+Warstwy można łączyć na różne sposoby, np. poprzez pełne łączenie, konwolucje czy rekurencje \cite{TODO_alternative_ways_connecting_layers}.
+W przypadku pełnego łączenia tworzy się połączenia każdego neuronu z jednej warstwy do każdego neuronu w następnej warstwie \cite{TODO_dense_layer}.
 Przepływ sygnału w takiej sieci odbywa się na zasadzie propagacji w przód (ang. forward propagation) -- od warstwy wejściowej, przez warstwy ukryte, aż do warstwy wyjściowej.
-Formalnie ten proces można opisać krokami obliczeniowymi dla każdej warstwy:
+\clearpage
+Formalnie ten proces można opisać krokami obliczeniowymi dla każdej warstwy \cite{TODO_forward_propagation}:
 \begin{enumerate}
     \item \textbf{Warstwa wejściowa:}
     \begin{equation}
@@ -367,31 +368,31 @@ Rysunek \ref{fig:nn_architecture} przedstawia schematyczną budowę prostej siec
     \label{fig:nn_architecture}
 \end{figure}
 
-Przedstawiona architektura oraz proces propagacji w przód definiują przepływ informacji w sieci neuronowej w celu generowania prognoz.
-Jednakże aby prognoza była trafna, parametry sieci -- wartości wag \( \mathbf{W}^{(l)} \) oraz obciążeń \( \mathbf{b}^{(l)} \) -- muszą zostać odpowiednio dobrane.
+Przedstawiona architektura oraz proces propagacji w przód definiują przepływ informacji w sieci neuronowej w celu generowania prognoz \cite{TODO_nn, TODO_forward_propagation}.
+Jednakże aby prognoza była trafna, parametry sieci -- wartości wag \( \mathbf{W}^{(l)} \) oraz obciążeń \( \mathbf{b}^{(l)} \) -- muszą zostać odpowiednio dobrane \cite{TODO_weights_bias_importance}.
 Ten proces nazywany jest uczeniem sieci i zostanie omówiony w następnej podsekcji.
 
 \subsubsection{Uczenie sieci neuronowej}
 Uczenie sieci neuronowej polega na algorytmicznym dostosowywaniu jej parametrów (wag i obciążeń) w celu minimalizacji błędu prognoz.
 Działa ono w oparciu o zestaw danych zawierających zarówno dane wejściowe \( \mathbf{x} \), jak i odpowiadające im rzeczywiste wartości wyjściowe \( \mathbf{y} \).
-Innymi słowy, sieć uczy się na podstawie przykładów, aby poprawić swoje prognozy.
+Innymi słowy, sieć uczy się na podstawie przykładów, aby poprawić swoje prognozy \cite{TODO_nn_modelling}.
 
-Aby proces uczenia zwracał rzetelne wyniki, zestaw danych dzieli się na trzy niezależne podzbiory:
+Aby proces uczenia zwracał rzetelne wyniki, zestaw danych dzieli się na trzy niezależne podzbiory \cite{TODO_dataset_split}:
 \begin{itemize}
-    \item \textbf{Zbiór treningowy:} Służy do uczenia sieci poprzez dostosowywanie jej parametrów.
-    \item \textbf{Zbiór walidacyjny:} Używany do monitorowania wydajności sieci podczas treningu i dostrajania hiperparametrów.
-    \item \textbf{Zbiór testowy:} Służy do oceny ostatecznej wydajności sieci na niewidzianych wcześniej danych.
+    \item \textbf{Zbiór treningowy:} Służy do uczenia sieci poprzez dostosowywanie jej parametrów \cite{TODO_train_dataset}.
+    \item \textbf{Zbiór walidacyjny:} Używany do monitorowania wydajności sieci podczas treningu i dostrajania hiperparametrów \cite{TODO_valid_dataset}.
+    \item \textbf{Zbiór testowy:} Służy do oceny ostatecznej wydajności sieci na niewidzianych wcześniej danych \cite{TODO_test_dataset}.
 \end{itemize}
 
-Sam proces dostosowywania parametrów sieci przeprowadzany jest na zbiorze treningowym i można go opisać w kilku kluczowych krokach:
+Sam proces dostosowywania parametrów sieci przeprowadzany jest na zbiorze treningowym i można go opisać w kilku kluczowych krokach \cite{TODO_nn_modelling}:
 
 \begin{enumerate}
 
-    \item \textbf{Inicjalizacja:} Na początku, wagi \( \mathbf{W}^{(l)} \) oraz obciążenia \( \mathbf{b}^{(l)} \) są inicjalizowane małymi, losowymi wartościami.
+    \item \textbf{Inicjalizacja:} Na początku, wagi \( \mathbf{W}^{(l)} \) oraz obciążenia \( \mathbf{b}^{(l)} \) są inicjalizowane małymi, losowymi wartościami \cite{TODO_weights_bias_init}.
 
-    \item \textbf{Propagacja w przód:} Dane wejściowe \( \mathbf{x} \) są przekazywane przez sieć, generując prognozy \( \mathbf{\hat{y}} \).
+    \item \textbf{Propagacja w przód:} Dane wejściowe \( \mathbf{x} \) są przekazywane przez sieć, generując prognozy \( \mathbf{\hat{y}} \) \cite{TODO_forward_propagation}.
 
-    \item \textbf{Obliczanie błędu:} Prognoza modelu \( \mathbf{\hat{y}} \) jest porównywana z rzeczywistą wartością \( \mathbf{y} \) za pomocą funkcji kosztu (np. MSE), co pozwala na zmierzenie błędu prognozy:
+    \item \textbf{Obliczanie błędu:} Prognoza modelu \( \mathbf{\hat{y}} \) jest porównywana z rzeczywistą wartością \( \mathbf{y} \) za pomocą funkcji kosztu (np. MSE), co pozwala na zmierzenie błędu prognozy \cite{TODO_measuring_loss}:
     \begin{equation}
         L = \frac{1}{n} \sum_{i=1}^{n} (\hat{y}_i - y_i)^2
     \end{equation}
@@ -400,12 +401,12 @@ Sam proces dostosowywania parametrów sieci przeprowadzany jest na zbiorze treni
     \item \textbf{Propagacja wsteczna błędu:} Obliczony błąd jest propagowany wstecz sieci, od warstwy wyjściowej do wejściowej. 
     Celem tego kroku jest obliczenie gradientów funkcji kosztu w każdym neuronie sieci.
     Gradienty te wskazują kierunek i wielkość zmian, które należy wprowadzić w parametrach sieci, aby skutecznie minimalizować błąd prognozy.
-    Formalnie gradient jest pochodną funkcji kosztu względem wag lub obciążeń:
+    Formalnie gradient jest pochodną funkcji kosztu względem wag lub obciążeń \cite{TODO_backward_propagation}:
     \begin{equation}
         \frac{\partial L}{\partial \mathbf{W}^{(l)}}, \quad \frac{\partial L}{\partial \mathbf{b}^{(l)}}
     \end{equation}
 
-    \item \textbf{Aktualizacja parametrów:} Wagi i obciążenia są aktualizowane za pomocą algorytmu optymalizacji (np. Stochastic Gradient Descent, Adam), wykorzystując obliczone gradienty:
+    \item \textbf{Aktualizacja parametrów:} Wagi i obciążenia są aktualizowane za pomocą algorytmu optymalizacji (np. Stochastic Gradient Descent, Adam), wykorzystując obliczone gradienty \cite{TODO_weights_bias_update}:
     \begin{equation}
         \mathbf{W}^{(l)} \leftarrow \mathbf{W}^{(l)} - \eta \frac{\partial L}{\partial \mathbf{W}^{(l)}}, \quad
         \mathbf{b}^{(l)} \leftarrow \mathbf{b}^{(l)} - \eta \frac{\partial L}{\partial \mathbf{b}^{(l)}}
@@ -415,26 +416,26 @@ Sam proces dostosowywania parametrów sieci przeprowadzany jest na zbiorze treni
 \end{enumerate}
 
 Proces ten jest powtarzany przez wiele iteracji (epok) na całym zbiorze treningowym, aż do osiągnięcia zadowalającej dokładności prognoz lub spełnienia kryteriów zatrzymania (np. minimalny błąd na zbiorze walidacyjnym).
-Wynikowo sieć neuronowa uczy się optymalnych wartości wag i obciążeń, co pozwala jej na generowanie trafnych prognoz na niewidzianych wcześniej danych.
+Wynikowo sieć neuronowa uczy się optymalnych wartości wag i obciążeń, co pozwala jej na generowanie trafnych prognoz na niewidzianych wcześniej danych \cite{TODO_nn_modelling}.
 
 \subsubsection{Sieci rekurencyjne}
-Tradycyjna architekura sieci neuronowej, opisana w poprzednich podsekcjach, zakłada, że dane wejściowe są niezależne od siebie.
+Tradycyjna architekura sieci neuronowej, opisana w poprzednich podsekcjach, zakłada, że dane wejściowe są niezależne od siebie \cite{TODO_nn_independent_inputs}.
 W przypadku danych finansowych (szeregi czasowe) takie założenie jest błędne, ponieważ obserwacje są ze sobą powiązane w czasie.
 Można sobie to wyobrazić na przykładzie cen akcji, gdzie ceny z kilku poprzednich dni wpływają na cenę w dniu dzisiejszym.
 Wówczas pojawia się potrzeba "pamiętania" wcześniejszych informacji podczas przetwarzania bieżących danych.
-Sieci rekurencyjne (RNN) zostały zaprojektowane właśnie w tym celu.
+Sieci rekurencyjne (RNN) zostały zaprojektowane właśnie w tym celu \cite{TODO_time_series_data}.
 
 Główną różnicą sieci rekurencyjnych w porównaniu do tradycyjnych sieci jest inna architektura neuronów.
 W sieciach RNN neurony te nazywane są komórkami rekurencyjnymi (RNN cells).
 Posiadają one dodatkowe połączenie zwrotne (ang. feedback connection), które pozwala na przekazywanie informacji z poprzednich kroków czasowych do bieżącego kroku.
-Formalnie, w sieciach RNN, stan ukryty \( \mathbf{h}_t \) w czasie \( t \) jest obliczany na podstawie bieżącego wejścia \( \mathbf{x}_t \) oraz poprzedniego stanu ukrytego \( \mathbf{h}_{t-1} \):
+Formalnie, w sieciach RNN, stan ukryty \( \mathbf{h}_t \) w czasie \( t \) jest obliczany na podstawie bieżącego wejścia \( \mathbf{x}_t \) oraz poprzedniego stanu ukrytego \( \mathbf{h}_{t-1} \) \cite{TODO_RNN_cells}:
 \begin{equation}
     \mathbf{h}_t = f(\mathbf{W}_h \mathbf{h}_{t-1} + \mathbf{W}_x \mathbf{x}_t + \mathbf{b})
 \end{equation}
 gdzie \( \mathbf{W}_h \) to macierz wag dla stanu ukrytego, \( \mathbf{W}_x \) to macierz wag dla wejścia, \( \mathbf{b} \) to wektor obciążeń, a \( f \) to funkcja aktywacji.
-Stan ukryty \( \mathbf{h}_t \) jest nośnikiem informacji z poprzednich kroków czasowych.
+Stan ukryty \( \mathbf{h}_t \) jest nośnikiem informacji z poprzednich kroków czasowych \cite{TODO_hidden_state}.
 
-W celu wygenerowania prognozy \( \mathbf{\hat{y}}_t \) w czasie \( t \), sieć wykorzystuje stan ukryty:
+W celu wygenerowania prognozy \( \mathbf{\hat{y}}_t \) w czasie \( t \), sieć wykorzystuje stan ukryty \cite{TODO_RNN_output}:
 \begin{equation}
     \mathbf{\hat{y}}_t = g(\mathbf{W}_y \mathbf{h}_t + \mathbf{b}_y)
 \end{equation}
@@ -447,30 +448,31 @@ Wagi \( \mathbf{W}_h \), \( \mathbf{W}_x \), \( \mathbf{W}_y \) oraz obciążeni
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{assets/rnn_cell.png}
-    \caption{Budowa komórki rekurencyjnej w sieci RNN. Opracowanie własne na podstawie \href{https://commons.wikimedia.org/wiki/File:Recurrent_neural_network_unfold.svg}{Wikimedia Commons}.}
+    % \href{https://commons.wikimedia.org/wiki/File:Recurrent_neural_network_unfold.svg}{Wikimedia Commons}
+    \caption{Budowa komórki rekurencyjnej w sieci RNN. Opracowanie własne na podstawie \cite{wikimedia_rnn_unfold}.}
     \label{fig:rnn_cell}
 \end{figure}
 
-Taka architektura stanowi solidny fundament do modelowania szeregów czasowych.
+Taka architektura stanowi solidny fundament do modelowania szeregów czasowych \cite{TODO_RNN_for_time_series_modelling}.
 Niemniej jednak, tradycyjne sieci RNN mają pewne ograniczenia.
-Są nimi m.in. problem zanikającego i eksplodującego gradientu podczas procesu uczenia, co utrudnia naukę długoterminowych zależności w danych.
+Są nimi m.in. problem zanikającego i eksplodującego gradientu podczas procesu uczenia, co utrudnia naukę długoterminowych zależności w danych \cite{TODO_vanishing_gradient, TODO_exploding_gradient}.
 Aby wyjaśnić na czym polegają te problemy, należy wrócić do procesu opartego na wstecznej propagacji błędu.
 
 W przypadku sieci RNN, odpowiednikiem algorytmu wstecznej propagacji jest algorytm zwany propagacją wsteczną w czasie (ang. *Backpropagation Through Time, BPTT*).
-Tak jak w przypadku klasycznej propagacji wstecznej, BPTT polega na obliczaniu gradientów funkcji kosztu względem wag i obciążeń sieci.
+Tak jak w przypadku klasycznej propagacji wstecznej, BPTT polega na obliczaniu gradientów funkcji kosztu względem wag i obciążeń sieci \cite{TODO_BPTT}.
 Ze względu na współdzielenie wag w czasie, gradienty są sumowane przez wszystkie kroki czasowe, co daje ostateczny gradient dla każdej wagi.
-W praktyce, propagacja błędu w czasie wiąże się z wielokrotnym mnożeniem macierzy wag \( \mathbf{W}_h \) odpowiadających za stan ukryty.
+W praktyce, propagacja błędu w czasie wiąże się z wielokrotnym mnożeniem macierzy wag \( \mathbf{W}_h \) odpowiadających za stan ukryty \cite{TODO_repetetive_multiplication_of_weights}.
 To właśnie ten mechanizm prowadzi do dwóch problemów:
 \begin{itemize}
     \item \textbf{Problem zanikającego gradientu:} Jeśli wartości w macierzy wag \( \mathbf{W}_h \) są małe (norma macierzy mniejsza od 1), to przy wielokrotnym mnożeniu sygnał błędu (gradient) staje się wykładniczo coraz mniejszy.
-    W konsekwencji sieć nie jest w stanie nauczyć się zależności między danymi, które są od siebie odległe w czasie.
+    W konsekwencji sieć nie jest w stanie nauczyć się zależności między danymi, które są od siebie odległe w czasie \cite{TODO_vanishing_gradient}.
 
     \item \textbf{Problem eksplodującego gradientu:} Jest to sytuacja odwrotna. Jeśli wartości w macierzy wag \( \mathbf{W}_h \) są duże (norma macierzy większa od 1), sygnał błędu przy wielokrotnym mnożeniu rośnie wykładniczo, stając się ogromną liczbą.
-    Na skutek tego aktualizacje wag stają się tak duże, że proces uczenia staje się niestabilny.
+    Na skutek tego aktualizacje wag stają się tak duże, że proces uczenia staje się niestabilny \cite{TODO_exploding_gradient}.
 \end{itemize}
 
 Aby skutecznie radzić sobie z tymi problemami, opracowano zaawansowane architektury sieci rekurencyjnych.
-Jedną z najpopularniejszych jest Long Short-Term Memory (LSTM), która zostanie omówiona w następnej podsekcji.
+Jedną z najpopularniejszych jest Long Short-Term Memory (LSTM), która zostanie omówiona w następnej podsekcji \cite{TODO_LSTM}.
 
 
 %~ Research approach
