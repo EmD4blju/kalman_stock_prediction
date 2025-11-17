@@ -425,17 +425,17 @@ Można sobie to wyobrazić na przykładzie cen akcji, gdzie ceny z kilku poprzed
 Wówczas pojawia się potrzeba "pamiętania" wcześniejszych informacji podczas przetwarzania bieżących danych.
 Sieci rekurencyjne (RNN) zostały zaprojektowane właśnie w tym celu \cite{TODO_time_series_data}.
 
-Główną różnicą sieci rekurencyjnych w porównaniu do tradycyjnych sieci jest inna architektura neuronów.
-W sieciach RNN neurony te nazywane są komórkami rekurencyjnymi (RNN cells).
-Posiadają one dodatkowe połączenie zwrotne (ang. feedback connection), które pozwala na przekazywanie informacji z poprzednich kroków czasowych do bieżącego kroku.
-Formalnie, w sieciach RNN, stan ukryty \( \mathbf{h}_t \) w czasie \( t \) jest obliczany na podstawie bieżącego wejścia \( \mathbf{x}_t \) oraz poprzedniego stanu ukrytego \( \mathbf{h}_{t-1} \) \cite{TODO_RNN_cells}:
+Podstawowym budulcem sieci RNN jest komórka rekurencyjna, która posiada zdolność do przechowywania stanu ukrytego \( \mathbf{h}_t \) \cite{TODO_RNN_cells}.
+Stan ukryty \( \mathbf{h}_t \) jest nośnikiem informacji z poprzednich kroków czasowych \cite{TODO_hidden_state}.
+Aby skutecznie taką informację utrwalić, sieci RNN wykorzystują mechanizm rekurencji, gdzie wyjście z poprzedniego kroku czasowego jest wykorzystywane jako dodatkowe wejście do bieżącego kroku \cite{TODO_RNN_recurrence}.
+
+Formalnie, stan ukryty \( \mathbf{h}_t \) w czasie \( t \) jest wektorem obliczanym na podstawie bieżącego wejścia \( \mathbf{x}_t \) oraz poprzedniego stanu ukrytego \( \mathbf{h}_{t-1} \) \cite{TODO_RNN_cells}:
 \begin{equation}
     \mathbf{h}_t = f(\mathbf{W}_h \mathbf{h}_{t-1} + \mathbf{W}_x \mathbf{x}_t + \mathbf{b})
 \end{equation}
 gdzie \( \mathbf{W}_h \) to macierz wag dla stanu ukrytego, \( \mathbf{W}_x \) to macierz wag dla wejścia, \( \mathbf{b} \) to wektor obciążeń, a \( f \) to funkcja aktywacji.
-Stan ukryty \( \mathbf{h}_t \) jest nośnikiem informacji z poprzednich kroków czasowych \cite{TODO_hidden_state}.
 
-W celu wygenerowania prognozy \( \mathbf{\hat{y}}_t \) w czasie \( t \), sieć wykorzystuje stan ukryty \cite{TODO_RNN_output}:
+Gdy obliczony zostanie ostatni stan ukryty \( \mathbf{h}_t \), sieć może wygenerować prognozę \( \mathbf{\hat{y}}_t \) na podstawie tego stanu \cite{TODO_RNN_output}:
 \begin{equation}
     \mathbf{\hat{y}}_t = g(\mathbf{W}_y \mathbf{h}_t + \mathbf{b}_y)
 \end{equation}
@@ -444,7 +444,7 @@ gdzie \( \mathbf{W}_y \) to macierz wag dla wyjścia, \( \mathbf{b}_y \) to wekt
 Rysunek \ref{fig:rnn_cell} przedstawia schematyczną budowę komórki rekurencyjnej w sieci RNN.
 Aby lepiej zobrazować działanie komórki RNN, na rysunku pokazano jej rozwinięcie w czasie.
 Stan ukryty \( \mathbf{h}_t \) jest przekazywany z jednego kroku czasowego do następnego.
-Wagi \( \mathbf{W}_h \), \( \mathbf{W}_x \), \( \mathbf{W}_y \) oraz obciążenie \( \mathbf{b} \) są współdzielone przez wszystkie kroki czasowe.
+% Wagi \( \mathbf{W}_h \), \( \mathbf{W}_x \), \( \mathbf{W}_y \) oraz obciążenie \( \mathbf{b} \) są współdzielone przez wszystkie kroki czasowe.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{assets/rnn_cell.png}
@@ -459,9 +459,15 @@ Są nimi m.in. problem zanikającego i eksplodującego gradientu podczas procesu
 Aby wyjaśnić na czym polegają te problemy, należy wrócić do procesu opartego na wstecznej propagacji błędu.
 
 W przypadku sieci RNN, odpowiednikiem algorytmu wstecznej propagacji jest algorytm zwany propagacją wsteczną w czasie (ang. *Backpropagation Through Time, BPTT*).
-Tak jak w przypadku klasycznej propagacji wstecznej, BPTT polega na obliczaniu gradientów funkcji kosztu względem wag i obciążeń sieci \cite{TODO_BPTT}.
-Ze względu na współdzielenie wag w czasie, gradienty są sumowane przez wszystkie kroki czasowe, co daje ostateczny gradient dla każdej wagi.
-W praktyce, propagacja błędu w czasie wiąże się z wielokrotnym mnożeniem macierzy wag \( \mathbf{W}_h \) odpowiadających za stan ukryty \cite{TODO_repetetive_multiplication_of_weights}.
+Tak jak w przypadku klasycznej propagacji wstecznej, BPTT polega na obliczaniu gradientów funkcji kosztu względem wag i obciążeń sieci.
+Ze względu na współdzielenie wag w czasie, gradienty są sumowane przez wszystkie kroki czasowe, co daje ostateczny gradient dla każdej wagi \cite{TODO_BPTT}:
+\begin{equation}
+    \frac{\partial L}{\partial \mathbf{W}_h} = \sum_{t=1}^{T} \frac{\partial L}{\partial \mathbf{h}_t} \frac{\partial \mathbf{h}_t}{\partial \mathbf{W}_h}
+\end{equation}
+W praktyce, propagacja błędu w czasie wiąże się z wielokrotnym mnożeniem macierzy wag \( \mathbf{W}_h \) odpowiadających za stan ukryty \cite{TODO_repetetive_multiplication_of_weights}:
+\begin{equation}
+    \frac{\partial L}{\partial \mathbf{h}_t} = \frac{\partial L}{\partial \mathbf{h}_T} \prod_{k=t+1}^{T} \frac{\partial \mathbf{h}_k}{\partial \mathbf{h}_{k-1}}
+\end{equation}
 To właśnie ten mechanizm prowadzi do dwóch problemów:
 \begin{itemize}
     \item \textbf{Problem zanikającego gradientu:} Jeśli wartości w macierzy wag \( \mathbf{W}_h \) są małe (norma macierzy mniejsza od 1), to przy wielokrotnym mnożeniu sygnał błędu (gradient) staje się wykładniczo coraz mniejszy.
@@ -473,6 +479,14 @@ To właśnie ten mechanizm prowadzi do dwóch problemów:
 
 Aby skutecznie radzić sobie z tymi problemami, opracowano zaawansowane architektury sieci rekurencyjnych.
 Jedną z najpopularniejszych jest Long Short-Term Memory (LSTM), która zostanie omówiona w następnej podsekcji \cite{TODO_LSTM}.
+
+\subsubsection{Sieci Long Short-Term Memory}
+Sieci Long Short-Term Memory (LSTM) zostały zaprojektowane, aby niwelować problemy zanikającego i eksplodującego gradientu występujące w tradycyjnych sieciach RNN \cite{TODO_LSTM}.
+
+
+
+% Dzięki temu LSTM są w stanie efektywnie uchwycić zarówno krótkoterminowe, jak i długoterminowe zależności w danych szeregów czasowych \cite{TODO_LSTM_for_time_series}.
+
 
 
 %~ Research approach
