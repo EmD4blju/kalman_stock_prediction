@@ -482,10 +482,70 @@ Jedną z najpopularniejszych jest Long Short-Term Memory (LSTM), która zostanie
 
 \subsubsection{Sieci Long Short-Term Memory}
 Sieci Long Short-Term Memory (LSTM) zostały zaprojektowane, aby niwelować problemy zanikającego i eksplodującego gradientu występujące w tradycyjnych sieciach RNN \cite{TODO_LSTM}.
+Cechę tę osiągnięto poprzez wprowadzenie mechanizmów zwanych bramkami (ang. *gates*) oraz dodatkowego stanu komórki \( \mathbf{C}_t \) \cite{TODO_LSTM_cells}.
+Stan komórki \( \mathbf{C}_t \), w odróżnieniu od stanu ukrytego \( \mathbf{h}_t \), jest nośnikiem długoterminowych informacji.
+Dzięki temu LSTM mogą efektywnie przechowywać i wykorzystywać informacje z odległych kroków czasowych \cite{TODO_LSTM_long_term_memory}.
+Komórka LSTM składa sie z trzech głównych bramek \cite{TODO_LSTM_gates}:
+\begin{enumerate}
+    \item \textbf{Bramka zapominania (Forget Gate):} Decyduje, które informacje z poprzedniego stanu komórki \( \mathbf{C}_{t-1} \) należy zachować, a które odrzucić.
+    \item \textbf{Bramka wejścia (Input Gate):} Określa, które nowe informacje z bieżącego wejścia \( \mathbf{x}_t \) powinny zostać dodane do stanu komórki \( \mathbf{C}_t \).
+    \item \textbf{Bramka wyjścia (Output Gate):} Kontroluje, które informacje ze stanu komórki \( \mathbf{C}_t \) zostaną wykorzystane do wygenerowania bieżącego stanu ukrytego \( \mathbf{h}_t \).
+\end{enumerate}
 
+Rysunek \ref{fig:lstm_cell} przedstawia schematyczną budowę komórki LSTM wraz z jej trzema bramkami.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{assets/lstm_cell.png}
+    \caption{Budowa komórki LSTM z trzema bramkami: bramką zapominania, bramką wejścia i bramką wyjścia. Opracowanie własne na podstawie \cite{lstm_cell_drawing}.}
+    \label{fig:lstm_cell}
+\end{figure}
 
+Każda z bramek w komórce LSTM działa na podobnej zasadzie jak tradycyjny neuron, wykorzystując funkcję aktywacji sigmoidalnej do generowania wartości między 0 a 1 \cite{TODO_LSTM_gates}.
+Służy to określeniu stopnia przepuszczania informacji przez daną bramkę.
+Przepływ informacji w komórce LSTM można opisać następującymi krokami \cite{TODO_LSTM_operations}:
+\begin{enumerate}
+    \item \textbf{Bramka zapominania:} Oblicza się wartość bramki zapominania \( \mathbf{f}_t \) na podstawie bieżącego wejścia \( \mathbf{x}_t \) oraz poprzedniego stanu ukrytego \( \mathbf{h}_{t-1} \). 
+    Otrzymana wartość decyduje, które informacje z poprzedniego stanu komórki \( \mathbf{C}_{t-1} \) należy zachować \cite{TODO_LSTM_forgetting}:
+    \begin{equation}
+        \mathbf{f}_t = \sigma(\mathbf{W}_f [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_f)
+    \end{equation}
+    \begin{equation}
+        \mathbf{C}_t = \mathbf{f}_t * \mathbf{C}_{t-1}
+    \end{equation}
 
-% Dzięki temu LSTM są w stanie efektywnie uchwycić zarówno krótkoterminowe, jak i długoterminowe zależności w danych szeregów czasowych \cite{TODO_LSTM_for_time_series}.
+    \item \textbf{Bramka wejścia:} Oblicza się wartość bramki wejścia \( \mathbf{i}_t \) oraz tworzy się kandydat na nowe informacje \( \tilde{\mathbf{C}}_t \) na podstawie bieżącego wejścia \( \mathbf{x}_t \) oraz poprzedniego stanu ukrytego \( \mathbf{h}_{t-1} \).
+    Następnie, przy pomocy nowych informacji aktualizuje się stan komórki \( \mathbf{C}_t \) \cite{TODO_LSTM_input}:
+    \begin{equation}
+        \mathbf{i}_t = \sigma(\mathbf{W}_i [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_i)
+    \end{equation}
+    \begin{equation}
+        \tilde{\mathbf{C}}_t = \tanh(\mathbf{W}_C [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_C)
+    \end{equation}
+    \begin{equation}
+        \mathbf{C}_t = \mathbf{C}_t + \mathbf{i}_t * \tilde{\mathbf{C}}_t
+    \end{equation}
+
+    \item \textbf{Bramka wyjścia:} Oblicza się wartość bramki wyjścia \( \mathbf{o}_t \) na podstawie bieżącego wejścia \( \mathbf{x}_t \) oraz poprzedniego stanu ukrytego \( \mathbf{h}_{t-1} \).
+    Następnie, generuje się bieżący stan ukryty \( \mathbf{h}_t \) na podstawie zaktualizowanego stanu komórki \( \mathbf{C}_t \) \cite{TODO_LSTM_output}:
+    \begin{equation}
+        \mathbf{o}_t = \sigma(\mathbf{W}_o [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_o)
+    \end{equation}
+    \begin{equation}
+        \mathbf{h}_t = \mathbf{o}_t * \tanh(\mathbf{C}_t)
+    \end{equation}
+    gdzie:
+    \begin{itemize}
+        \item \( \sigma \) to funkcja aktywacji sigmoidalnej,
+        \item \( \tanh \) to funkcja aktywacji tangens hiperboliczny,
+        \item \( \mathbf{W}_f, \mathbf{W}_i, \mathbf{W}_C, \mathbf{W}_o \) to macierze wag dla poszczególnych bramek,
+        \item \( \mathbf{b}_f, \mathbf{b}_i, \mathbf{b}_C, \mathbf{b}_o \) to wektory obciążeń dla poszczególnych bramek.
+    \end{itemize}
+\end{enumerate}
+
+Kluczem do skutecznej minimalizacji problemu zanikającego gradientu w LSTM jest mechanizm bramek, który umożliwia selektywne przepuszczanie informacji przez stan komórki \( \mathbf{C}_t \) \cite{TODO_LSTM_vanishing_gradient_solution}.
+Zamiast wielokrotnego mnożenia wag, jak ma to miejsce w tradycyjnych RNN, LSTM wykorzystują operacje dodawania do aktualizacji stanu komórki oraz mnożenia do określenia stopnia zachowania informacji.
+Dzięki takiej architekturze, gradienty mogą przepływać przez sieć w sposób bardziej kontrolowany, co znacząco ogranicza ryzyko ich zanikania lub eksplodowania i poprawia stabilność procesu uczenia \cite{TODO_LSTM_gradient_flow}.
+
 
 
 
