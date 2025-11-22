@@ -546,8 +546,73 @@ Kluczem do skutecznej minimalizacji problemu zanikającego gradientu w LSTM jest
 Zamiast wielokrotnego mnożenia wag, jak ma to miejsce w tradycyjnych RNN, LSTM wykorzystują operacje dodawania do aktualizacji stanu komórki oraz mnożenia do określenia stopnia zachowania informacji.
 Dzięki takiej architekturze, gradienty mogą przepływać przez sieć w sposób bardziej kontrolowany, co znacząco ogranicza ryzyko ich zanikania lub eksplodowania i poprawia stabilność procesu uczenia \cite{TODO_LSTM_gradient_flow}.
 
+\clearpage
+\subsubsection{Filtr Kalmana}
+Sieci neuronowe (w tym LSTM) są potężnymi narzędziami do modelowania danych.
+Jednakże w praktyce, dane często zawierają szumy i fluktuacje, które wprowadzają niepożądane błędy w prognozach \cite{TODO_data_noise}.
+W przypadku cen akcji, takie zakłócenia mogą wynikać z nagłych wydarzeń rynkowo-politycznych, np.: niespodziewanych decyzji regulacyjnych czy kryzysów gospodarczych \cite{TODO_stock_price_fluctuations}.
+Aby skutecznie minimalizować wpływ takich szumów, stosuje się różne techniki filtracji danych.
 
+Ogólne pojęcie filtracji odnosi się do procesu usuwania niepożądanych części sygnału, w celu uzyskania czystszego sygnału \cite{TODO_signal_filtering}.
+Jedną z zaawansowanych metod filtracji jest filtr Kalmana.
+Filtr Kalmana to algorytm rekurencyjny służący do estymacji stanu dynamicznego systemu (np. poruszającego się pojazdu, cen akcji) \cite{TODO_kalman_filter}.
+Działa on poprzez łączenie dwóch źródeł informacji:
+\begin{itemize}
+    \item \textbf{Modelu predykcyjnego:} Opisuje, jak stan systemu zmienia się w czasie.
+    \item \textbf{Pomiarów obserwacyjnych:} Dostarcza informacji o aktualnym stanie systemu.
+\end{itemize}
+Obydwie z ww. informacji są obarczone niepewnością -- model predykcyjny może nie uwzględniać wszystkich czynników wpływających na system, a pomiary mogą być zanieczyszczone szumem \cite{TODO_kalman_filter_uncertainty}.
+Z tego powodu filtr Kalmana wykorzystuje podejście probabilistyczne, aby w sposób optymalny łączyć te dwie informacje i uzyskać jak najlepszą estymację stanu systemu \cite{TODO_kalman_filter_probabilistic_approach}.
+Proces działania filtru Kalmana można podzielić na trzy główne kroki \cite{TODO_kalman_filter_steps}:
+\begin{enumerate}
+    \item \textbf{Inicjalizacja stanu:} Na początku definiuje się początkowy stan systemu \(\mathbf{x}\) oraz macierz kowariancji błędu estymacji \(\mathbf{P}\) \cite{TODO_kalman_filter_initialization}.
+    Na początku można założyć, że stan jest nieznany, więc macierz \(\mathbf{P}\) jest ustawiona na dużą wartość, co odzwierciedla wysoką niepewność.
+    
+    Kluczowe jest również zdefiniowanie macierzy opisujących model systemu:
+    \begin{itemize}
+        \item \( \mathbf{F} \) -- \textbf{macierz przejścia stanu}, która opisuje, zmianę stanu systemu w czasie.
+        \item \( \mathbf{H} \) -- \textbf{macierz obserwacji}, która mapuje prawdziwy stan systemu \( \mathbf{x} \) na przestrzeń pomiarową \( \mathbf{z} \).
+        \item \( \mathbf{Q} \) -- \textbf{macierz kowariancji szumu procesu}, która reprezentuje niepewność związaną z modelem predykcyjnym (np. czynniki nieujęte w modelu).
+        \item \( \mathbf{R} \) -- \textbf{macierz kowariancji szumu pomiarowego}, która reprezentuje niepewność związaną z samymi pomiarami (np. niedokładność czujnika).
+        \item \( \mathbf{B} \) -- \textbf{macierz sterowania} (opcjonalna), która opisuje wpływ zewnętrznego sterowania \( \mathbf{u} \) na stan systemu.
+    \end{itemize}
 
+    \item \textbf{Predykcja:} Wyznacza się przewidywany stan systemu \(\mathbf{\hat{x}}\) oraz przewidywaną macierz kowariancji błędu estymacji \(\mathbf{\hat{P}}\) \cite{TODO_kalman_filter_prediction}:
+    \begin{equation}
+        \mathbf{\hat{x}} = \mathbf{F} \mathbf{x} + \mathbf{B} \mathbf{u}
+    \end{equation}
+    \begin{equation}
+        \mathbf{\hat{P}} = \mathbf{F} \mathbf{P} \mathbf{F}^T + \mathbf{Q}
+    \end{equation}
+
+    \item \textbf{Aktualizacja:} Gdy dostępny jest nowy pomiar \(\mathbf{z}\), wyznacza się resztę pomiarową (ang. residual) \(\mathbf{y}\), oraz zysk Kalmana \(\mathbf{K}\) (ang. Kalman gain) \cite{TODO_kalman_filter_update}:
+    \begin{equation}
+        \mathbf{y} = \mathbf{z} - \mathbf{H} \mathbf{\hat{x}}
+    \end{equation}
+    \begin{equation}
+        \mathbf{K} = \mathbf{\hat{P}} \mathbf{H}^T (\mathbf{H} \mathbf{\hat{P}} \mathbf{H}^T + \mathbf{R})^{-1}
+    \end{equation}
+    Następnie, aktualizuje się estymowany stan \(\mathbf{x}\) oraz macierz kowariancji błędu estymacji \(\mathbf{P}\):
+    \begin{equation}
+        \mathbf{x} = \mathbf{\hat{x}} + \mathbf{K} \mathbf{y}
+    \end{equation}
+    \begin{equation}
+        \mathbf{P} = (\mathbf{I} - \mathbf{K} \mathbf{H}) \mathbf{\hat{P}}
+    \end{equation}
+    Zaktualizowane wartości stanu \(\mathbf{x}\) oraz macierzy \(\mathbf{P}\) są następnie wykorzystywane w kolejnym kroku predykcji.
+\end{enumerate}
+
+Rysunek \ref{fig:kalman_filter_cycle} przedstawia schematyczny cykl działania filtru Kalmana, ilustrując kroki predykcji i aktualizacji.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{assets/kalman_filter_cycle.png}
+    \caption{Cykl działania filtru Kalmana, ilustrujący kroki predykcji i aktualizacji. Opracowanie własne na podstawie \cite{kalman_filter_cycle_drawing}.}
+    \label{fig:kalman_filter_cycle}
+\end{figure}
+
+W kontekście prognozowania cen akcji, filtr Kalmana może być użyty do odszumienia danych w fazie ich wstępnego przetwarzania \cite{TODO_kalman_filter_stock_prices}.
+Dzięki temu sieć LSTM otrzymuje czystsze dane wejściowe, co może prowadzić do bardziej trafnych prognoz.
+Integracja filtru Kalmana z siecią LSTM pozwala na skuteczne łączenie zalet obu metod: zdolności LSTM do modelowania złożonych zależności czasowych oraz umiejętności filtru Kalmana do redukcji szumów w danych \cite{TODO_kalman_lstm_integration}.
 
 %~ Research approach
 % \section{Metodyka badań}
