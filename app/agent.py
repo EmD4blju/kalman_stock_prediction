@@ -38,7 +38,6 @@ class PredictionState(TypedDict):
     raw_prices: list[float] | None
     dates: list[str] | None
     enriched_features: dict | None
-    kalman_filtered_prices: list[float] | None
     data_source: str | None  # 'yfinance' or 'local'
     
     # Prediction outputs (original scale)
@@ -76,7 +75,7 @@ def load_stock_data(state: PredictionState) -> PredictionState:
     - Base model: last 3 closing prices before target date
     - Enriched model: last 3 closing prices + RSI(14) + Bandwidth(20) + %B(20)
       This requires at least 20 days of data for Bollinger Bands calculation
-    - Kalman model: last 3 closing prices (Kalman filtered)
+    - Kalman model: last 3 closing prices (original, unfiltered)
     
     Falls back to local CSV data if yfinance is unavailable.
     """
@@ -160,37 +159,11 @@ def load_stock_data(state: PredictionState) -> PredictionState:
             "%B": float(percent_b_values.iloc[-1]) if not pd.isna(percent_b_values.iloc[-1]) else 0.5,
         }
         
-        # Apply Kalman filter for kalman model
-        # Using the same parameters as in the pipeline
-        kalman_F = [[1, 1], [0, 1]]
-        kalman_H = [[1, 0]]
-        kalman_P = 1.0
-        kalman_R = 1.0
-        kalman_Q = [[0.001, 0], [0, 0.001]]
-        
-        kf = KalmanFilter(dim_x=2, dim_z=1)
-        kf.x = np.array([[close_prices[0]], [0.]])
-        kf.F = np.array(kalman_F)
-        kf.H = np.array(kalman_H)
-        kf.P = kalman_P
-        kf.R = kalman_R
-        kf.Q = np.array(kalman_Q)
-        
-        kalman_filtered = []
-        for z in close_prices:
-            kf.predict()
-            kf.update(z)
-            kalman_filtered.append(kf.x[0, 0])
-        
-        # Last 3 kalman filtered prices (reversed)
-        kalman_filtered_prices = kalman_filtered[-3:][::-1]
-        
         return {
             **state,
             "raw_prices": raw_prices,
             "dates": dates[-3:],
             "enriched_features": enriched_features,
-            "kalman_filtered_prices": kalman_filtered_prices,
             "data_source": data_source,
             "status": "data_loaded"
         }
@@ -351,9 +324,10 @@ def predict_kalman_model(state: PredictionState) -> PredictionState:
         with open(scaler_y_path, 'rb') as f:
             scaler_y = pickle.load(f)
         
-        # Prepare input - kalman model uses 3 lagged Kalman-filtered prices
-        kalman_prices = np.array(state["kalman_filtered_prices"]).reshape(1, -1)
-        scaled_input = scaler_X.transform(kalman_prices)
+        # Prepare input - kalman model uses 3 lagged prices (original, unfiltered)
+        # Same as base model - the model was trained on original data
+        raw_prices = np.array(state["raw_prices"]).reshape(1, -1)
+        scaled_input = scaler_X.transform(raw_prices)
         
         # Reshape for LSTM: (batch, seq_len, features)
         feature_number = scaled_input.shape[1]  # 3 features
@@ -414,7 +388,6 @@ def run_prediction(target_date: str, ticker: str = "AMZN") -> dict:
         "raw_prices": None,
         "dates": None,
         "enriched_features": None,
-        "kalman_filtered_prices": None,
         "data_source": None,
         "base_model_prediction": None,
         "enriched_model_prediction": None,
