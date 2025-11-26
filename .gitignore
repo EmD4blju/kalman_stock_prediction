@@ -164,3 +164,6 @@ mlruns/*
 # custom
 obsidian_notes/
 PJATK_PL_sygnet.png
+data/*
+!data/raw/
+!data/raw/AMZN.csv
