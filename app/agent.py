@@ -2,9 +2,12 @@
 
 This module implements a LangGraph agent that orchestrates the 
 data loading and model prediction workflow for stock price forecasting.
+
+Note: This module requires the kalman_stock_prediction package to be installed
+in development mode (pip install -e .) for proper import resolution.
 """
 
-from typing import TypedDict, Annotated, Any
+from typing import TypedDict
 from datetime import datetime, timedelta
 from pathlib import Path
 import pickle
@@ -18,8 +21,6 @@ from ta.volatility import BollingerBands
 from filterpy.kalman import KalmanFilter
 from langgraph.graph import StateGraph, START, END
 
-import sys
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 from kalman_stock_prediction.models.lstm_model import LSTMStockModel
 
 
@@ -100,7 +101,8 @@ def load_stock_data(state: PredictionState) -> PredictionState:
                              end=end_date.strftime("%Y-%m-%d"))
             if df.empty:
                 df = None
-        except Exception:
+        except (ConnectionError, TimeoutError, OSError) as e:
+            # Network-related errors - fall back to local data
             df = None
         
         # Fallback to local data if yfinance fails
@@ -203,7 +205,8 @@ def predict_base_model(state: PredictionState) -> PredictionState:
         return state
     
     try:
-        # Load model
+        # Load model (weights_only=False is required because we store model config
+        # alongside weights - trusted model files from this repository)
         model_path = PROJECT_ROOT / "models" / "base_model" / "model.pth"
         model_data = torch.load(model_path, weights_only=False)
         config = model_data['model_config']
@@ -257,7 +260,8 @@ def predict_enriched_model(state: PredictionState) -> PredictionState:
         return state
     
     try:
-        # Load model
+        # Load model (weights_only=False is required because we store model config
+        # alongside weights - trusted model files from this repository)
         model_path = PROJECT_ROOT / "models" / "enhanced_model" / "model.pth"
         model_data = torch.load(model_path, weights_only=False)
         config = model_data['model_config']
@@ -321,7 +325,8 @@ def predict_kalman_model(state: PredictionState) -> PredictionState:
         return state
     
     try:
-        # Load model
+        # Load model (weights_only=False is required because we store model config
+        # alongside weights - trusted model files from this repository)
         model_path = PROJECT_ROOT / "models" / "kalman_model" / "model.pth"
         model_data = torch.load(model_path, weights_only=False)
         config = model_data['model_config']

@@ -2,16 +2,13 @@
 
 A Streamlit application for testing stock market prediction models.
 Uses LangGraph for orchestrating the data loading and prediction workflow.
+
+Note: This module requires the kalman_stock_prediction package to be installed
+in development mode (pip install -e .) for proper import resolution.
 """
 
 import streamlit as st
 from datetime import datetime, timedelta
-import sys
-from pathlib import Path
-
-# Add project paths
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
-sys.path.insert(0, str(Path(__file__).parent))
 
 from agent import run_prediction
 
