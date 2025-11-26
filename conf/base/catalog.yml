@@ -1,0 +1,179 @@
+# Here you can define all your datasets by using simple YAML syntax.
+#
+# Documentation for this file format can be found in "The Data Catalog"
+# Link: https://docs.kedro.org/en/stable/data/data_catalog.html
+
+raw_dataset:
+  type: pandas.CSVDataset
+  filepath: data/raw/AMZN.csv
+  load_args:
+    sep: ";"
+
+raw_enriched_dataset:
+  type: pandas.CSVDataset
+  filepath: data/raw/AMZN_enriched.csv
+
+supervised_dataset:
+  type: pandas.CSVDataset
+  filepath: data/processed/supervised_dataset.csv
+
+enriched_supervised_dataset:
+  type: pandas.CSVDataset
+  filepath: data/processed/enriched_supervised_dataset.csv
+
+scaled_dataset:
+  type: pandas.CSVDataset
+  filepath: data/scaled/scaled_dataset.csv
+
+enriched_scaled_dataset:
+  type: pandas.CSVDataset
+  filepath: data/scaled/enriched_scaled_dataset.csv
+
+scaler_X:
+  type: pickle.PickleDataset
+  filepath: data/scalers/scaler_X.pkl
+
+scaler_y:
+  type: pickle.PickleDataset
+  filepath: data/scalers/scaler_y.pkl
+
+enriched_scaler_X:
+  type: pickle.PickleDataset
+  filepath: data/scalers/enriched_scaler_X.pkl
+
+enriched_scaler_y:
+  type: pickle.PickleDataset
+  filepath: data/scalers/enriched_scaler_y.pkl
+
+train_dataset:
+  type: pandas.CSVDataset
+  filepath: data/model_input/train.csv
+
+val_dataset:
+  type: pandas.CSVDataset
+  filepath: data/model_input/val.csv
+
+test_dataset:
+  type: pandas.CSVDataset
+  filepath: data/model_input/test.csv
+
+enriched_train_dataset:
+  type: pandas.CSVDataset
+  filepath: data/model_input/enriched_train.csv
+
+enriched_val_dataset:
+  type: pandas.CSVDataset
+  filepath: data/model_input/enriched_val.csv
+
+enriched_test_dataset:
+  type: pandas.CSVDataset
+  filepath: data/model_input/enriched_test.csv
+
+kalman_dataset:
+  type: pandas.CSVDataset
+  filepath: data/raw/AMZN_kalman.csv
+
+kalman_supervised_dataset:
+  type: pandas.CSVDataset
+  filepath: data/processed/kalman_supervised_dataset.csv
+
+kalman_scaled_dataset:
+  type: pandas.CSVDataset
+  filepath: data/scaled/kalman_scaled_dataset.csv
+
+kalman_scaler_X:
+  type: pickle.PickleDataset
+  filepath: data/scalers/kalman_scaler_X.pkl
+
+kalman_scaler_y:
+  type: pickle.PickleDataset
+  filepath: data/scalers/kalman_scaler_y.pkl
+
+kalman_train_dataset:
+  type: pandas.CSVDataset
+  filepath: data/model_input/kalman_train.csv
+
+kalman_val_dataset:
+  type: pandas.CSVDataset
+  filepath: data/model_input/kalman_val.csv
+
+kalman_test_dataset:
+  type: pandas.CSVDataset
+  filepath: data/model_input/kalman_test.csv
+
+# Model outputs
+base_model:
+  type: kalman_stock_prediction.models.pytorch_model_dataset.PyTorchModelDataset
+  filepath: models/base_model/model.pth
+
+base_model_metrics:
+  type: json.JSONDataset
+  filepath: models/base_model/train_metrics.json
+
+enriched_model:
+  type: kalman_stock_prediction.models.pytorch_model_dataset.PyTorchModelDataset
+  filepath: models/enhanced_model/model.pth
+
+enriched_model_metrics:
+  type: json.JSONDataset
+  filepath: models/enhanced_model/train_metrics.json
+
+kalman_model:
+  type: kalman_stock_prediction.models.pytorch_model_dataset.PyTorchModelDataset
+  filepath: models/kalman_model/model.pth
+
+kalman_model_metrics:
+  type: json.JSONDataset
+  filepath: models/kalman_model/train_metrics.json
+
+# Evaluation outputs - Base Model
+base_model_test_metrics:
+  type: json.JSONDataset
+  filepath: models/base_model/test_metrics.json
+
+base_model_actual_vs_predicted_plot:
+  type: kalman_stock_prediction.models.matplotlib_dataset.MatplotlibDataset
+  filepath: models/base_model/actual_vs_predicted.png
+
+base_model_error_distribution_plot:
+  type: kalman_stock_prediction.models.matplotlib_dataset.MatplotlibDataset
+  filepath: models/base_model/error_distribution.png
+
+# Evaluation outputs - Enriched Model
+enriched_model_test_metrics:
+  type: json.JSONDataset
+  filepath: models/enhanced_model/test_metrics.json
+
+enriched_model_actual_vs_predicted_plot:
+  type: kalman_stock_prediction.models.matplotlib_dataset.MatplotlibDataset
+  filepath: models/enhanced_model/actual_vs_predicted.png
+
+enriched_model_error_distribution_plot:
+  type: kalman_stock_prediction.models.matplotlib_dataset.MatplotlibDataset
+  filepath: models/enhanced_model/error_distribution.png
+
+# Evaluation outputs - Kalman Model (Filtered Data)
+kalman_model_filtered_test_metrics:
+  type: json.JSONDataset
+  filepath: models/kalman_model/test_metrics_filtered.json
+
+kalman_model_filtered_actual_vs_predicted_plot:
+  type: kalman_stock_prediction.models.matplotlib_dataset.MatplotlibDataset
+  filepath: models/kalman_model/actual_vs_predicted_filtered.png
+
+kalman_model_filtered_error_distribution_plot:
+  type: kalman_stock_prediction.models.matplotlib_dataset.MatplotlibDataset
+  filepath: models/kalman_model/error_distribution_filtered.png
+
+# Evaluation outputs - Kalman Model (Original Data)
+kalman_model_original_test_metrics:
+  type: json.JSONDataset
+  filepath: models/kalman_model/test_metrics_original.json
+
+kalman_model_original_actual_vs_predicted_plot:
+  type: kalman_stock_prediction.models.matplotlib_dataset.MatplotlibDataset
+  filepath: models/kalman_model/actual_vs_predicted_original.png
+
+kalman_model_original_error_distribution_plot:
+  type: kalman_stock_prediction.models.matplotlib_dataset.MatplotlibDataset
+  filepath: models/kalman_model/error_distribution_original.png

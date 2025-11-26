@@ -1,0 +1,43 @@
+target_column: "Close"
+timesteps: 3
+scaling_method: "minmax"
+val_size: 0.2
+test_size: 0.1
+rsi_window: 14
+bb_window: 20
+bb_window_dev: 2
+kalman_F: [[1, 1], [0, 1]]
+kalman_H: [[1, 0]]
+kalman_P: 1.0
+kalman_R: 1.0
+kalman_Q: [[0.001, 0], [0, 0.001]]
+
+# Model training parameters
+base_model:
+  target_column: "Close"
+  epochs: 20
+  batch_size: 16
+  learning_rate: 0.001
+  hidden_dim: 27
+  layer_dim: 1
+
+enriched_model:
+  target_column: "Close"
+  epochs: 50
+  batch_size: 16
+  learning_rate: 0.001
+  hidden_dim: 64
+  layer_dim: 2
+
+kalman_model:
+  target_column: "Close"
+  epochs: 20
+  batch_size: 16
+  learning_rate: 0.001
+  hidden_dim: 27
+  layer_dim: 1
+
+# Model evaluation parameters
+evaluation:
+  target_column: "Close"
+  batch_size: 10
