@@ -1,0 +1,12 @@
+{
+  "test_mse": 27.559032440185547,
+  "test_rmse": 5.249669745820736,
+  "test_mae": 3.925992012023926,
+  "test_r2": 0.831956148147583,
+  "mean_error": -2.487794876098633,
+  "std_error": 4.622759819030762,
+  "min_error": -20.560775756835938,
+  "max_error": 13.875961303710938,
+  "model_type": "kalman_original",
+  "evaluation_data": "original"
+}

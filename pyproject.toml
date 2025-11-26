@@ -1,21 +1,47 @@
+[build-system]
+requires = [ "setuptools",]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "nnkalmanseer"
-version = "0.1.0"
-description = "Add your description here"
+requires-python = ">=3.9"
+name = "kalman_stock_prediction"
 readme = "README.md"
-requires-python = ">=3.12"
+dynamic = [ "version",]
 dependencies = [
-    "colorlog>=6.9.0",
-    "filterpy>=1.4.5",
-    "matplotlib>=3.10.1",
-    "numpy>=2.2.5",
-    "optuna>=4.5.0",
-    "pandas>=2.2.3",
-    "pyqt6>=6.9.0",
-    "pytest>=8.4.1",
-    "scikit-learn>=1.7.1",
-    "seaborn>=0.13.2",
-    "ta>=0.11.0",
-    "torch>=2.8.0",
-    "yfinance>=0.2.58",
+ "ipython>=8.10",
+ "jupyterlab>=3.0",
+ "notebook",
+ "kedro~=1.0.0",
+ "pandas>=2.3.3",
+ "scikit-learn>=1.6.1",
+ "kedro-datasets[matplotlib,pandas,plotly]>=4.1.0",
+ "ta>=0.11.0",
+ "filterpy>=1.4.5",
+ "optuna>=4.6.0",
+ "torch>=2.8.0",
+ "seaborn>=0.13.2",
+ "matplotlib>=3.9.4",
 ]
+
+[project.scripts]
+kalman-stock-prediction = "kalman_stock_prediction.__main__:main"
+
+[tool.kedro]
+package_name = "kalman_stock_prediction"
+project_name = "kalman_stock_prediction"
+kedro_init_version = "1.0.0"
+tools = "['None']"
+example_pipeline = "False"
+source_dir = "src"
+
+[project.entry-points."kedro.hooks"]
+
+[tool.setuptools.dynamic.version]
+attr = "kalman_stock_prediction.__version__"
+
+[tool.setuptools.packages.find]
+where = [ "src",]
+namespaces = false
+
+[tool.kedro_telemetry]
+project_id = "1204f0df591048d0aa0bd58f0bc95e8c"
