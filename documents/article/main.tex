@@ -615,8 +615,25 @@ Dzięki temu sieć LSTM otrzymuje czystsze dane wejściowe, co może prowadzić 
 Integracja filtru Kalmana z siecią LSTM pozwala na skuteczne łączenie zalet obu metod: zdolności LSTM do modelowania złożonych zależności czasowych oraz umiejętności filtru Kalmana do redukcji szumów w danych \cite{TODO_kalman_lstm_integration}.
 
 %~ Research approach
-% \section{Metodyka badań}
+\clearpage
+\section{Metodyka badań}
+Celem przeprowadzonych badań było porównanie skuteczności predykcji cen akcji przy użyciu tradycyjnej sieci LSTM oraz sieci LSTM wspomaganej filtrem Kalmana.
+W niniejszym rozdziale przedstawiono szczegółowy opis metodologii badawczej zastosowanej w pracy, obejmujący proces przygotowania danych, implementację modeli, procedurę uczenia oraz metryki oceny wydajności.
 
+\subsection{Środowisko badawcze}
+Do przeprowadzenia eksperymentów wykorzystano język programowania Python 3.12 oraz następujące biblioteki:
+\begin{itemize}
+    \item \textbf{Pandas:} Biblioteka służąca do manipulacji i analizy danych, w szczególności do pracy z danymi tabelarycznymi i szeregami czasowymi. Została wykorzystana do wczytywania, czyszczenia oraz transformacji danych giełdowych.
+    \item \textbf{NumPy:} Podstawowy pakiet do obliczeń naukowych w Pythonie, zapewniający wsparcie dla wielowymiarowych tablic i macierzy oraz szerokiej gamy funkcji matematycznych.
+    \item \textbf{PyTorch:} Jedna z wiodących platform do uczenia głębokiego, wykorzystana do zdefiniowania architektury sieci LSTM, implementacji pętli treningowej oraz przeprowadzenia procesu uczenia modeli.
+    \item \textbf{Optuna:} Biblioteka do automatycznej optymalizacji hiperparametrów modeli uczenia maszynowego, która została użyta do znalezienia optymalnych wartości takich parametrów jak liczba warstw LSTM, liczba neuronów w warstwach, współczynnik nauki oraz wielkość partii treningowej (batch size).
+    \item \textbf{Scikit-learn:} Kompleksowa biblioteka do uczenia maszynowego, z której wykorzystano m.in. narzędzia do skalowania danych (MinMaxScaler) oraz obliczania metryk oceny modeli (MSE, RMSE).
+    \item \textbf{FilterPy:} Specjalistyczna biblioteka dostarczająca implementacje różnych algorytmów filtrujących, w tym filtru Kalmana, który został użyty do odszumiania danych wejściowych.
+    \item \textbf{Technical Analysis (ta):} Biblioteka umożliwiająca obliczanie wskaźników analizy technicznej, które zostały wykorzystane do wzbogacenia zestawu cech wejściowych modeli.
+    \item \textbf{Matplotlib \& Seaborn:} Biblioteki do wizualizacji danych, które posłużyły do generowania wszystkich wykresów przedstawionych w pracy, m.in. wykresów cen, krzywych uczenia i porównań predykcji z wartościami rzeczywistymi.
+    \item \textbf{yfinance:} Biblioteka umożliwiająca pobieranie historycznych danych rynkowych z serwisu Yahoo! Finance.
+\end{itemize}
+Całość kodu została zorganizowana w ramach projektu Kedro, co zapewniło modularność, reużywalność oraz łatwość zarządzania eksperymentami.
 % %~ Results
 % \section{Wyniki i dyskusja}
 

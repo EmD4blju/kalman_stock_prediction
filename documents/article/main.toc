@@ -11,3 +11,5 @@
 \contentsline {subsubsection}{\numberline {2.2.4}Sieci rekurencyjne}{12}{subsubsection.2.2.4}%
 \contentsline {subsubsection}{\numberline {2.2.5}Sieci Long Short-Term Memory}{14}{subsubsection.2.2.5}%
 \contentsline {subsubsection}{\numberline {2.2.6}Filtr Kalmana}{16}{subsubsection.2.2.6}%
+\contentsline {section}{\numberline {3}Metodyka badań}{18}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Środowisko badawcze}{18}{subsection.3.1}%
