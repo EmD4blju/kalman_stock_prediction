@@ -13,3 +13,8 @@
 \contentsline {subsubsection}{\numberline {2.2.6}Filtr Kalmana}{16}{subsubsection.2.2.6}%
 \contentsline {section}{\numberline {3}Metodyka badań}{18}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Środowisko badawcze}{18}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Przygotowanie danych}{19}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Pobranie danych}{19}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Przetwarzanie wstępne i inżynieria cech}{19}{subsubsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.3}Skalowanie danych}{20}{subsubsection.3.2.3}%
+\contentsline {subsubsection}{\numberline {3.2.4}Podział danych}{20}{subsubsection.3.2.4}%

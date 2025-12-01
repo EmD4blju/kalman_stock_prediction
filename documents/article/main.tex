@@ -634,6 +634,91 @@ Do przeprowadzenia eksperymentów wykorzystano język programowania Python 3.12 
     \item \textbf{yfinance:} Biblioteka umożliwiająca pobieranie historycznych danych rynkowych z serwisu Yahoo! Finance.
 \end{itemize}
 Całość kodu została zorganizowana w ramach projektu Kedro, co zapewniło modularność, reużywalność oraz łatwość zarządzania eksperymentami.
+
+\clearpage
+\subsection{Przygotowanie danych}
+Proces przygotowania danych stanowił pierwszy etap badań.
+Jego celem było uzyskanie oczyszczonego i odpowiednio sformatowanego zestawu danych giełdowych spółki Amazon (AMZN), który mógł zostać użyty do trenowania i testowania modeli LSTM.
+Proces ten obejmował następujące kroki odpowiednio: pobrania danych, przetwarzania wstępnego, inżynierii cech oraz podziału na zbiory treningowy, walidacyjny i testowy \cite{TODO_preprocessing_practices}.
+
+\subsubsection{Pobranie danych}
+Dane historyczne dotyczące cen akcji spółki Amazon zostały pobrane z serwisu Yahoo! Finance przy użyciu biblioteki yfinance.
+Zbiór danych objemował dzienne notowania z okresu od 3 stycznia 2022 roku do 11 września 2025 roku.
+Każdy rekord w surowym zbiorze danych zawierał informacje OHLC (Open, High, Low, Close), wolumen obrotu oraz datę notowania \cite{TODO_yfinance_data_retrieval}.
+Tabela \ref{tab:raw_data_sample} przedstawia przykładowe rekordy z pobranego zbioru danych.
+\begin{table}[H]
+    \centering
+    \caption{Przykładowe rekordy z surowego zbioru danych dla spółki AMZN. Źródło: \cite{TODO_yfinance}}
+    \label{tab:raw_data_sample}
+    \begin{tabular}{lrrrrr}
+        \hline
+        \textbf{Date} & \textbf{Open} & \textbf{High} & \textbf{Low} & \textbf{Close} & \textbf{Volume} \\
+        \hline
+        2022-01-03 & 170.40 & 170.70 & 166.16 & 167.55 & 63520000 \\
+        2022-01-04 & 167.52 & 171.40 & 166.35 & 170.44 & 70726000 \\
+        2022-01-05 & 164.36 & 167.13 & 164.36 & 166.88 & 64302000 \\
+        2022-01-06 & 163.25 & 164.80 & 161.94 & 163.45 & 51958000 \\
+        2022-01-07 & 162.55 & 165.24 & 162.03 & 163.84 & 46606000 \\
+        ... & ... & ... & ... \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Przetwarzanie wstępne i inżynieria cech}
+Surowe dane w formie szeregu czasowego nie są bezpośrednio kompatybilne z architekturą sieci LSTM, która oczekuje danych w formacie nadzorowanym, tj. par (sekwencja wejściowa, wartość docelowa). 
+W związku z tym, pierwszym krokiem było przekształcenie danych do odpowiedniego formatu, który zawierałby sekwencje historycznych cen jako wejścia oraz odpowiadające im przyszłe ceny jako wartości docelowe \cite{TODO_time_series_formatting}.
+Tabela \ref{tab:formatted_data_sample} przedstawia przykładowe rekordy z przetworzonego zbioru danych.
+\begin{table}[H]
+    \centering
+    \caption{Przykładowa struktura danych po przekształceniu do formatu nadzorowanego.}
+    \label{tab:formatted_data_sample}
+    \begin{tabular}{cccc}
+        \hline
+        \textbf{Close} & \textbf{Close (t-1)} & \textbf{Close (t-2)} & \textbf{Close (t-3)} \\
+        \hline
+        163.25 & 164.36 & 167.52 & 170.40 \\
+        162.55 & 163.25 & 164.36 & 167.52 \\
+        161.49 & 162.55 & 163.25 & 164.36 \\
+        165.36 & 161.49 & 162.55 & 163.25 \\
+        165.21 & 165.36 & 161.49 & 162.55 \\
+        ... & ... & ... & ... \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Po tym fundamentalnym etapie, który był wspólny dla wszystkich eksperymentów, dalsze kroki przetwarzania i inżynierii cech zostały zróżnicowane. 
+Celem tego zróżnicowania było przygotowanie trzech odrębnych wariantów zbioru danych, z których każdy był dedykowany jednemu z porównywanych modeli.
+
+\begin{enumerate}
+    \item \textbf{Zbiór dla modelu bazowego (Base Model):} W tym wariancie nie stosowano zaawansowanej inżynierii cech. Jedyną cechą wejściową była historyczna cena zamknięcia (Close). Celem tego modelu było ustanowienie punktu odniesienia (baseline) dla oceny bardziej złożonych podejść.
+
+    \item \textbf{Zbiór dla modelu wzbogaconego (Enriched Model):} Ten zbiór został rozszerzony o dodatkowe cechy uzyskane w procesie inżynierii cech. Do ceny zamknięcia dołączono trzy wskaźniki analizy technicznej: wskaźnik siły względnej (RSI), szerokość wstęg Bollingera (BBW) oraz procentowe położenie ceny względem wstęg (\%B). Miało to na celu weryfikację, czy dostarczenie modelowi dodatkowego kontekstu o dynamice rynku poprawi jego skuteczność predykcyjną.
+
+    \item \textbf{Zbiór dla modelu z filtrem Kalmana (Kalman Model):} W tym podejściu cena zamknięcia została poddana procesowi filtracji przy użyciu filtru Kalmana. Model ten, podobnie jak model bazowy, wykorzystywał tylko jedną cechę wejściową, jednak była to jej wygładzona, odszumiona wersja. Celem było zbadanie głównej hipotezy pracy -- czy wstępna filtracja danych pozytywnie wpływa na jakość predykcji sieci LSTM.
+\end{enumerate}
+
+Po zdefiniowaniu cech dla każdego z trzech wariantów, wszystkie zbiory zostały poddane tym samym, końcowym etapom przetwarzania, aby zapewnić spójność i rzetelność porównania.
+
+\subsubsection{Skalowanie danych}
+Skalowanie cech wejściowych jest kluczowym krokiem w przygotowaniu danych do trenowania sieci neuronowych -- przyspiesza oraz stabilizuje proces uczenia sieci neuronowej \cite{TODO_data_scaling_importance}.
+W ramach ninejszej pracy zbadano i porównano dwie strategie skaleowania danych:
+\begin{itemize}
+    \item \textbf{Normalizacja (Min-Max Scaling):} Przekształca wartości cech do z góry określonego zakresu, w tym przypadku [0, 1].
+    \item \textbf{Standaryzacja (Z-score Standardization):} Przekształca dane tak, aby miały średnią równą 0 i odchylenie standardowe równe 1.
+\end{itemize}
+Ważnym aspektem metodologicznym było dopasowanie skalera wyłącznie na danych treningowych. 
+Następnie ten sam, dopasowany skaler został użyty do transformacji zarówno zbioru walidacyjnego, jak i testowego. 
+Takie podejście zapobiega "przeciekowi danych" (data leakage) z przyszłości do modelu, co jest niezbędne dla uzyskania wiarygodnych i rzetelnych wyników \cite{TODO_data_leakage_prevention}.
+
+\subsubsection{Podział danych}
+Po zakończeniu wszystkich etapów przetwarzania i inżynierii cech, zbiory danych zostały podzielone na trzy odrębne części:
+\begin{itemize}
+    \item \textbf{Zbiór treningowy (Training Set):} Obejmuje 90\% wszystkich danych i służy do trenowania modeli LSTM.
+    \item \textbf{Zbiór walidacyjny (Validation Set):} Obejmuje 20\% danych treningowych i jest wykorzystywany do monitorowania wydajności modeli podczas treningu oraz do strojenia hiperparametrów.
+    \item \textbf{Zbiór testowy (Test Set):} Obejmuje pozostałe 10\% danych i służy do ostatecznej oceny wydajności wytrenowanych modeli.
+\end{itemize}
+Podział danych został przeprowadzony w sposób chronologiczny, aby zachować naturalną kolejność czasową szeregów danych giełdowych i uniknąć potencjalnych problemów związanych z przeciekiem danych \cite{TODO_time_series_data_splitting}.
+
 % %~ Results
 % \section{Wyniki i dyskusja}
 

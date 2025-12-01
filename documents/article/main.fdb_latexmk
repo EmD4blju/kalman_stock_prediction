@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1764423532.42623 "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" "main.pdf" "main" 1764423544.39236 0
+["pdflatex"] 1764588839.14944 "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" "main.pdf" "main" 1764588841.87524 0
   "/etc/texmf/web2c/texmf.cnf" 1759393268.57976 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" 1764423531.35701 46086 48dce3f759c7c78895419421b7fd7641 ""
+  "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" 1764588835.84652 52841 6b44544b3f2f0818abad2449fade79b5 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm" 1136768653 4524 6bce29db5bc272ba5f332261583fee9c ""
@@ -119,10 +119,10 @@
   "assets/sigmoid_w_max_figure.png" 1764156088.53684 14343 85a977bb67ebede219272544aa797325 ""
   "assets/sigmoid_w_min_figure.png" 1764156088.53684 17778 05ce7490df5af9eb8fcf1733e3c72da8 ""
   "assets/step_figure.png" 1764156088.53784 12443 b74fda3afebbeb3a800c355a2fd8d45a ""
-  "main.aux" 1764423543.98905 9656 e5c2c04e740b66c0b1355916c8f588ab "pdflatex"
-  "main.out" 1764423543.99405 2990 b1eeb2bf0a33e97bc0a5c065fbb2c0a4 "pdflatex"
-  "main.tex" 1764423531.35701 46086 48dce3f759c7c78895419421b7fd7641 ""
-  "main.toc" 1764423543.99505 1420 0d8d16fc6e3a24d162111003de0a9aa3 "pdflatex"
+  "main.aux" 1764588841.75038 11287 e37549282494d2f70f964bc255a39a80 "pdflatex"
+  "main.out" 1764588841.75238 3878 b10bdd7441e14aa774a35d7227160f7b "pdflatex"
+  "main.tex" 1764588835.84652 52841 6b44544b3f2f0818abad2449fade79b5 ""
+  "main.toc" 1764588841.75238 1903 8a0763788f5d8684a2b01d16e61ec942 "pdflatex"
   (generated)
   "main.aux"
   "main.log"
