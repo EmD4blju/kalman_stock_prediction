@@ -12,6 +12,9 @@
 \usepackage{times} % Use Times font
 \usepackage{indentfirst} % Indent first paragraph after section
 \usepackage{titlesec} % Customize section titles
+\usepackage{float}     % For stronger figure placement
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
 
 %~ Document settings
 \geometry{a4paper, margin=2.5cm}
@@ -618,6 +621,12 @@ Integracja filtru Kalmana z siecią LSTM pozwala na skuteczne łączenie zalet o
 \clearpage
 \section{Metodyka badań}
 Celem przeprowadzonych badań było porównanie skuteczności predykcji cen akcji przy użyciu tradycyjnej sieci LSTM oraz sieci LSTM wspomaganej filtrem Kalmana.
+W tym celu zaprojektowano i zaimplementowano trzy odrębne modele, z których każdy służył weryfikacji innej hipotezy badawczej:
+\begin{itemize}
+    \item \textbf{Model bazowy (Base Model):} Stanowił punkt odniesienia (ang. \textit{baseline}). Jego zadaniem było prognozowanie cen wyłącznie na podstawie ich historycznych wartości, przy użyciu prostej architektury LSTM.
+    \item \textbf{Model wzbogacony (Enriched Model):} Miał na celu weryfikację, czy dostarczenie modelowi dodatkowego kontekstu rynkowego w postaci wskaźników analizy technicznej poprawi jakość predykcji.
+    \item \textbf{Model z filtrem Kalmana (Kalman Model):} Służył do zbadania głównej hipotezy pracy -- czy wstępna filtracja i odszumienie danych wejściowych przy użyciu filtru Kalmana pozytywnie wpływa na skuteczność prognoz sieci LSTM.
+\end{itemize}
 W niniejszym rozdziale przedstawiono szczegółowy opis metodologii badawczej zastosowanej w pracy, obejmujący proces przygotowania danych, implementację modeli, procedurę uczenia oraz metryki oceny wydajności.
 
 \subsection{Środowisko badawcze}
@@ -667,6 +676,7 @@ Tabela \ref{tab:raw_data_sample} przedstawia przykładowe rekordy z pobranego zb
 \subsubsection{Przetwarzanie wstępne i inżynieria cech}
 Surowe dane w formie szeregu czasowego nie są bezpośrednio kompatybilne z architekturą sieci LSTM, która oczekuje danych w formacie nadzorowanym, tj. par (sekwencja wejściowa, wartość docelowa). 
 W związku z tym, pierwszym krokiem było przekształcenie danych do odpowiedniego formatu, który zawierałby sekwencje historycznych cen jako wejścia oraz odpowiadające im przyszłe ceny jako wartości docelowe \cite{TODO_time_series_formatting}.
+Na potrzeby przeprowadzenia eksperymentów podjęto decyzję uwzględnieniu cen zamknięcia (Close) z trzech poprzednich dni jako cech wejściowych do przewidywania ceny zamknięcia w dniu następnym.
 Tabela \ref{tab:formatted_data_sample} przedstawia przykładowe rekordy z przetworzonego zbioru danych.
 \begin{table}[H]
     \centering
@@ -687,37 +697,82 @@ Tabela \ref{tab:formatted_data_sample} przedstawia przykładowe rekordy z przetw
 \end{table}
 
 Po tym fundamentalnym etapie, który był wspólny dla wszystkich eksperymentów, dalsze kroki przetwarzania i inżynierii cech zostały zróżnicowane. 
-Celem tego zróżnicowania było przygotowanie trzech odrębnych wariantów zbioru danych, z których każdy był dedykowany jednemu z porównywanych modeli.
+Powodem tego była potrzeba przygotowania trzech odrębnych wariantów zbioru danych, z których każdy był dedykowany jednemu z porównywanych modeli.
 
 \begin{enumerate}
-    \item \textbf{Zbiór dla modelu bazowego (Base Model):} W tym wariancie nie stosowano zaawansowanej inżynierii cech. Jedyną cechą wejściową była historyczna cena zamknięcia (Close). Celem tego modelu było ustanowienie punktu odniesienia (baseline) dla oceny bardziej złożonych podejść.
+    \item \textbf{Zbiór dla modelu bazowego (Base Model):} W tym wariancie nie stosowano zaawansowanej inżynierii cech. Jedyną cechą wejściową była historyczna cena zamknięcia (Close).
 
-    \item \textbf{Zbiór dla modelu wzbogaconego (Enriched Model):} Ten zbiór został rozszerzony o dodatkowe cechy uzyskane w procesie inżynierii cech. Do ceny zamknięcia dołączono trzy wskaźniki analizy technicznej: wskaźnik siły względnej (RSI), szerokość wstęg Bollingera (BBW) oraz procentowe położenie ceny względem wstęg (\%B). Miało to na celu weryfikację, czy dostarczenie modelowi dodatkowego kontekstu o dynamice rynku poprawi jego skuteczność predykcyjną.
+    \item \textbf{Zbiór dla modelu wzbogaconego (Enriched Model):} Ten zbiór został rozszerzony o dodatkowe cechy uzyskane w procesie inżynierii cech. Do ceny zamknięcia dołączono trzy wskaźniki analizy technicznej: wskaźnik siły względnej (RSI), szerokość wstęg Bollingera (BBW) oraz procentowe położenie ceny względem wstęg (\%B).
 
-    \item \textbf{Zbiór dla modelu z filtrem Kalmana (Kalman Model):} W tym podejściu cena zamknięcia została poddana procesowi filtracji przy użyciu filtru Kalmana. Model ten, podobnie jak model bazowy, wykorzystywał tylko jedną cechę wejściową, jednak była to jej wygładzona, odszumiona wersja. Celem było zbadanie głównej hipotezy pracy -- czy wstępna filtracja danych pozytywnie wpływa na jakość predykcji sieci LSTM.
+    \item \textbf{Zbiór dla modelu z filtrem Kalmana (Kalman Model):} W tym podejściu cena zamknięcia została poddana procesowi filtracji przy użyciu filtru Kalmana.
 \end{enumerate}
 
 Po zdefiniowaniu cech dla każdego z trzech wariantów, wszystkie zbiory zostały poddane tym samym, końcowym etapom przetwarzania, aby zapewnić spójność i rzetelność porównania.
 
 \subsubsection{Skalowanie danych}
 Skalowanie cech wejściowych jest kluczowym krokiem w przygotowaniu danych do trenowania sieci neuronowych -- przyspiesza oraz stabilizuje proces uczenia sieci neuronowej \cite{TODO_data_scaling_importance}.
-W ramach ninejszej pracy zbadano i porównano dwie strategie skaleowania danych:
+W ramach ninejszej pracy zbadano i porównano dwie strategie skalowania danych:
 \begin{itemize}
     \item \textbf{Normalizacja (Min-Max Scaling):} Przekształca wartości cech do z góry określonego zakresu, w tym przypadku [0, 1].
     \item \textbf{Standaryzacja (Z-score Standardization):} Przekształca dane tak, aby miały średnią równą 0 i odchylenie standardowe równe 1.
 \end{itemize}
 Ważnym aspektem metodologicznym było dopasowanie skalera wyłącznie na danych treningowych. 
 Następnie ten sam, dopasowany skaler został użyty do transformacji zarówno zbioru walidacyjnego, jak i testowego. 
-Takie podejście zapobiega "przeciekowi danych" (data leakage) z przyszłości do modelu, co jest niezbędne dla uzyskania wiarygodnych i rzetelnych wyników \cite{TODO_data_leakage_prevention}.
+Takie podejście zapobiega "przeciekowi danych" (ang. data leakage) z przyszłości do modelu, co jest niezbędne dla uzyskania wiarygodnych i rzetelnych wyników \cite{TODO_data_leakage_prevention}.
 
 \subsubsection{Podział danych}
 Po zakończeniu wszystkich etapów przetwarzania i inżynierii cech, zbiory danych zostały podzielone na trzy odrębne części:
 \begin{itemize}
-    \item \textbf{Zbiór treningowy (Training Set):} Obejmuje 90\% wszystkich danych i służy do trenowania modeli LSTM.
-    \item \textbf{Zbiór walidacyjny (Validation Set):} Obejmuje 20\% danych treningowych i jest wykorzystywany do monitorowania wydajności modeli podczas treningu oraz do strojenia hiperparametrów.
+    \item \textbf{Zbiór treningowy (Training Set):} Obejmuje 72\% danych i służy do trenowania modeli LSTM.
+    \item \textbf{Zbiór walidacyjny (Validation Set):} Obejmuje 18\% danych i jest wykorzystywany do monitorowania wydajności modeli podczas treningu oraz do strojenia hiperparametrów.
     \item \textbf{Zbiór testowy (Test Set):} Obejmuje pozostałe 10\% danych i służy do ostatecznej oceny wydajności wytrenowanych modeli.
 \end{itemize}
 Podział danych został przeprowadzony w sposób chronologiczny, aby zachować naturalną kolejność czasową szeregów danych giełdowych i uniknąć potencjalnych problemów związanych z przeciekiem danych \cite{TODO_time_series_data_splitting}.
+
+\subsection{Architektura modeli}
+W niniejszej pracy porównano trzy różne modele LSTM, z których każdy charakteryzował się odmiennym podejściem do przetwarzania danych wejściowych.
+Wszystkie modele zostały zaimplementowane przy użyciu biblioteki PyTorch, co zapewniło elastyczność i wydajność niezbędną do przeprowadzenia eksperymentów \cite{TODO_pytorch_usage}.
+
+Chociaż ogólny schemat tworzenia modeli był wspólny, to jednak poszczególne modele różniły się kluczowymi hiperparametrami architektury, takimi jak wymiar danych wejściowych, liczba warstw LSTM oraz liczba neuronów w warstwach ukrytych. 
+Różnice te wynikały z różnicy w charakterystyce danych wejściowych, których dany model miał używać do predykcji cen akcji.
+Poniżej przedstawiono szczegółowy opis każdego z trzech modeli.
+
+
+\subsubsection{Model bazowy (Base Model)}
+Model bazowy stanowił najprostszą implementację, zaprojektowaną w celu ustanowienia punktu odniesienia (ang. \textit{baseline}). 
+Architektura modelu bazowego składała się z jednej warstwy LSTM z 27 neuronami w warstwie ukrytej, co zapewniało wystarczającą zdolność modelowania prostych zależności czasowych w danych wejściowych.
+
+\subsubsection{Model wzbogacony (Enriched Model)}
+Model wzbogacony rozszerzał architekturę modelu bazowego poprzez dodanie trzech wskaźników analizy technicznej (RSI, BBW, \%B) jako dodatkowych cech wejściowych.
+Z tego względu zastosowano bardziej złożoną architekturę, obejmującą dwie warstwy LSTM oraz większą liczbę neuronów w warstwach ukrytych.
+
+
+\subsubsection{Model z filtrem Kalmana (Kalman Model)}
+Model ten operował na takich samych danych jak model bazowy, jednak przed podaniem ich na wejście sieci LSTM, dane te były poddawane procesowi filtracji przy użyciu filtru Kalmana.
+Jego architektura była tożsama z architekturą modelu bazowego, co pozwalało na bezpośrednie porównanie wpływu samej filtracji danych na wyniki predykcji.
+
+\vspace{0.5cm}
+Tabela \ref{tab:model_architecture_params} przedstawia zestawienie kluczowych hiperparametrów architektury każdego z trzech modeli LSTM użytych w eksperymentach.
+\begin{table}[H]
+    \centering
+    \caption{Zestawienie kluczowych hiperparametrów architektury modeli.}
+    \label{tab:model_architecture_params}
+    \begin{tabular}{lccc}
+        \hline
+        \textbf{Hiperparametr} & \textbf{Base Model} & \textbf{Enriched Model} & \textbf{Kalman Model} \\
+        \hline
+        Wymiar wejścia & 1 & 4 & 1 \\
+        Liczba warstw LSTM & 1 & 2 & 1 \\
+        Liczba neuronów ukrytych & 27 & 64 & 27 \\
+        Wymiar wyjścia & 1 & 1 & 1 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Podsumowując, architektury trzech modeli zostały świadomie zróżnicowane, aby umożliwić rzetelne zbadanie postawionych hipotez. 
+Model bazowy i model z filtrem Kalmana posiadały identyczną, prostą architekturę, co pozwoliło na wyizolowanie i ocenę wpływu samej filtracji danych. 
+Z kolei model wzbogacony, ze względu na wielowymiarowy charakter danych wejściowych, został wyposażony w bardziej złożoną strukturę, zdolną do przetwarzania bogatszego zestawu informacji. 
+W kolejnej sekcji opisano proces uczenia i ewaluacji tych modeli.
 
 % %~ Results
 % \section{Wyniki i dyskusja}
