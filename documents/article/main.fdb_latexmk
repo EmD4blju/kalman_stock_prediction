@@ -1,9 +1,10 @@
 # Fdb version 4
-["pdflatex"] 1764670635.84481 "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" "main.pdf" "main" 1764670638.56826 0
+["pdflatex"] 1765197838.874 "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" "main.pdf" "main" 1765197841.98585 0
   "/etc/texmf/web2c/texmf.cnf" 1759393268.57976 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" 1764670632.57855 56727 e287bf066fb1c73a3e107121422fc24c ""
+  "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" 1765197835.3299 61645 1b4320fcff0eac5464c16ef8017a9836 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
+  "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmb8c.tfm" 1136768653 1340 d2f6275bc4fa3f07e3bc50aae2c71eab ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm" 1136768653 4524 6bce29db5bc272ba5f332261583fee9c ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmb8t.tfm" 1136768653 6880 f19b8995b61c334d78fc734065f6b4d4 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmr8c.tfm" 1136768653 1352 fa28a7e6d323c65ce7d13d5342ff6be2 ""
@@ -38,6 +39,7 @@
   "/usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb" 1136849748 44729 811d6c62865936705a31c797a1d5dada ""
   "/usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb" 1136849748 46026 6dab18b61c907687b520c72847215a68 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb" 1136849748 45458 a3faba884469519614ca56ba5f6b1de1 ""
+  "/usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmb8c.vf" 1136768653 3556 f148a8ed6ef01fed553027171e4f9b22 ""
   "/usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmb8t.vf" 1136768653 2340 df9c920cc5688ebbf16a93f45ce7bdd3 ""
   "/usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmr8c.vf" 1136768653 3556 8a9a6dcbcd146ef985683f677f4758a6 ""
   "/usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmr8t.vf" 1136768653 2348 91706c542228501c410c266421fbe30c ""
@@ -124,10 +126,10 @@
   "assets/sigmoid_w_max_figure.png" 1764156088.53684 14343 85a977bb67ebede219272544aa797325 ""
   "assets/sigmoid_w_min_figure.png" 1764156088.53684 17778 05ce7490df5af9eb8fcf1733e3c72da8 ""
   "assets/step_figure.png" 1764156088.53784 12443 b74fda3afebbeb3a800c355a2fd8d45a ""
-  "main.aux" 1764670638.46874 12186 bc53bcee6448172ebd1afeeab647e687 "pdflatex"
-  "main.out" 1764670638.46974 4769 123560210f4f40f22de2c6ecf8b0b952 "pdflatex"
-  "main.tex" 1764670632.57855 56727 e287bf066fb1c73a3e107121422fc24c ""
-  "main.toc" 1764670638.46974 2316 3b888eb1b9d2c241559b1a26bd5298a0 "pdflatex"
+  "main.aux" 1765197841.85893 12838 f5712946a97c7df1faacfa1dae2fcdb1 "pdflatex"
+  "main.out" 1765197841.86093 5429 2f391a54eae9298fe93c3819bcc51073 "pdflatex"
+  "main.tex" 1765197835.3299 61645 1b4320fcff0eac5464c16ef8017a9836 ""
+  "main.toc" 1765197841.86093 2691 50208bfc71f6e94fdf2bd3ba562b860c "pdflatex"
   (generated)
   "main.aux"
   "main.log"

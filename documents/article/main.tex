@@ -644,7 +644,6 @@ Do przeprowadzenia eksperymentów wykorzystano język programowania Python 3.12 
 \end{itemize}
 Całość kodu została zorganizowana w ramach projektu Kedro, co zapewniło modularność, reużywalność oraz łatwość zarządzania eksperymentami.
 
-\clearpage
 \subsection{Przygotowanie danych}
 Proces przygotowania danych stanowił pierwszy etap badań.
 Jego celem było uzyskanie oczyszczonego i odpowiednio sformatowanego zestawu danych giełdowych spółki Amazon (AMZN), który mógł zostać użyty do trenowania i testowania modeli LSTM.
@@ -773,6 +772,59 @@ Podsumowując, architektury trzech modeli zostały świadomie zróżnicowane, ab
 Model bazowy i model z filtrem Kalmana posiadały identyczną, prostą architekturę, co pozwoliło na wyizolowanie i ocenę wpływu samej filtracji danych. 
 Z kolei model wzbogacony, ze względu na wielowymiarowy charakter danych wejściowych, został wyposażony w bardziej złożoną strukturę, zdolną do przetwarzania bogatszego zestawu informacji. 
 W kolejnej sekcji opisano proces uczenia i ewaluacji tych modeli.
+
+\subsection{Proces uczenia}
+% Proces uczenia każdego z trzech modeli został przeprowadzony w sposób niezależny, z wykorzystaniem tych samych zasad i procedur, aby zapewnić rzetelność i porównywalność wyników.
+% Obejmował on strojenie hiperparametrów, definiowanie funkcji straty oraz wybór algorytmu optymalizacji, własciwy trening na danych treningowych oraz monitorowanie wydajności na zbiorze walidacyjnym.
+Proces uczenia objemował strojenie hiperparametrów, wybór funkcji straty oraz algorytmu optymalizacji, własciwy trening na danych treningowych oraz monitorowanie wydajności na zbiorze walidacyjnym.
+Każdy z trzech modeli był trenowany niezależnie, z zastosowaniem tych samych procedur, aby zapewnić odpowiednią porównywalność wyników.
+
+\subsubsection{Strojenie hiperparametrów}
+W celu znalezienia optymalnych wartości hiperparametrów dla każdego z modeli, zastosowano bibliotekę Optuna do automatyzacji tego procesu \cite{TODO_hyperparameter_optimization}.
+Przeszukiwana przestrzeń hiperparametrów była wspólna dla wszystkich modeli i obejmowała:
+\begin{itemize}
+    \item \textbf{Liczba warstw LSTM:} wartości całkowite z zakresu [1, 3].
+    \item \textbf{Liczba neuronów w warstwach ukrytych:} wartości całkowite z zakresu [16, 128].
+    \item \textbf{Współczynnik nauki (learning rate):} wartości z rozkładu logarytmicznego w zakresie [1e-4, 1e-2].
+    \item \textbf{Wielkość partii treningowej (batch size):} wybór spośród wartości [16, 32, 64, 128].
+    \item \textbf{Liczba epok treningowych:} wartości całkowite z zakresu [10, 100].
+\end{itemize}
+Dla każdego modelu przeprowadzono 50 prób optymalizacji (ang. trials), a najlepsze zestawy hiperparametrów zostały następnie w ostatecznym treningu modeli.
+
+\subsubsection{Przebieg procesu uczenia}
+Finalny trening modeli przeprowadzono na zbiorze treningowym, wykorzystując zoptymalizowane zestawy hiperparametrów. 
+Jako funkcję kosztu, której wartość była minimalizowana w trakcie uczenia, wybrano błąd średniokwadratowy (MSE). 
+Do aktualizacji wag modelu posłużył optymalizator Adam, będący standardem w zadaniach uczenia głębokiego ze względu na jego efektywność i adaptacyjny dobór współczynnika uczenia \cite{TODO_adam_optimizer}.
+
+Liczba epok, przez które trenowano każdy model, została również ustalona jako jeden z hiperparametrów w procesie automatycznego strojenia. 
+Wydajność modelu w trakcie uczenia była na bieżąco monitorowana na zbiorze walidacyjnym. 
+Pozwoliło to na generowanie krzywych uczenia i weryfikację, czy model nie wykazuje oznak znacznego przeuczenia (ang. \textit{overfitting}).
+
+\subsubsection{Metryki oceny}
+Do oceny wydajności modeli w trakcie procesu uczenia zastosowano trzy metryki:
+\begin{itemize}
+    \item \textbf{Mean Squared Error (MSE):} Miara średniego kwadratu różnic między wartościami przewidywanymi a rzeczywistymi.
+    \begin{equation}
+        \text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+    \end{equation}
+    gdzie \( y_i \) to rzeczywista wartość, \( \hat{y}_i \) to wartość przewidywana przez model, a \( n \) to liczba próbek.
+    \item \textbf{Root Mean Squared Error (RMSE):} Pierwiastek kwadratowy z MSE, który daje wynik w tych samych jednostkach co dane wejściowe.
+    \begin{equation}
+        \text{RMSE} = \sqrt{\text{MSE}} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}
+    \end{equation}
+    gdzie \( y_i \) to rzeczywista wartość, \( \hat{y}_i \) to wartość przewidywana przez model, a \( n \) to liczba próbek.
+    \item \textbf{R-squared (R²):} Miara dopasowania modelu, wskazująca, jaka część wariancji danych jest wyjaśniona przez model.
+    \begin{equation}
+        R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}
+    \end{equation}
+    gdzie \( y_i \) to rzeczywista wartość, \( \hat{y}_i \) to wartość przewidywana przez model, \( \bar{y} \) to średnia, a \( n \) to liczba próbek.
+\end{itemize}
+
+Cały proces uczenia został zaimplementowany jako pipeline w ramach projektu Kedro, co pozwoliło na ustrukturyzowanie i zautomatyzowanie wszystkich opisanych kroków. 
+Dzięki modularnej naturze Kedro, każdy etap -- od strojenia hiperparametrów za pomocą Optuny, po finalny trening modeli -- został zdefiniowany jako oddzielny, reużywalny węzeł (ang. \textit{node}). 
+Parametry procesu, takie jak przeszukiwane zakresy hiperparametrów czy liczba prób optymalizacji, zostały odseparowane od logiki kodu i umieszczone w plikach konfiguracyjnych. 
+Takie podejście zapewniło nie tylko przejrzystość i łatwość zarządzania eksperymentami, ale przede wszystkim gwarantowało powtarzalność (ang. \textit{reproducibility}) procesu uczenia dla każdego z trzech modeli \cite{TODO_kedro_reproducibility}.
+Po zakończeniu treningu, wytrenowane modele zostały poddane ewaluacji na zbiorze testowym.
 
 % %~ Results
 % \section{Wyniki i dyskusja}
