@@ -813,7 +813,7 @@ Do oceny wydajności modeli w trakcie procesu uczenia zastosowano trzy metryki:
         \text{RMSE} = \sqrt{\text{MSE}} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}
     \end{equation}
     gdzie \( y_i \) to rzeczywista wartość, \( \hat{y}_i \) to wartość przewidywana przez model, a \( n \) to liczba próbek.
-    \item \textbf{R-squared (R²):} Miara dopasowania modelu, wskazująca, jaka część wariancji danych jest wyjaśniona przez model.
+    \item \textbf{R-squared \(R^2\):} Miara dopasowania modelu, wskazująca, jaka część wariancji danych jest wyjaśniona przez model.
     \begin{equation}
         R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}
     \end{equation}
@@ -821,7 +821,6 @@ Do oceny wydajności modeli w trakcie procesu uczenia zastosowano trzy metryki:
 \end{itemize}
 
 Cały proces uczenia został zaimplementowany jako pipeline w ramach projektu Kedro, co pozwoliło na ustrukturyzowanie i zautomatyzowanie wszystkich opisanych kroków. 
-Dzięki modularnej naturze Kedro, każdy etap -- od strojenia hiperparametrów za pomocą Optuny, po finalny trening modeli -- został zdefiniowany jako oddzielny, reużywalny węzeł (ang. \textit{node}). 
 Parametry procesu, takie jak przeszukiwane zakresy hiperparametrów czy liczba prób optymalizacji, zostały odseparowane od logiki kodu i umieszczone w plikach konfiguracyjnych. 
 Takie podejście zapewniło nie tylko przejrzystość i łatwość zarządzania eksperymentami, ale przede wszystkim gwarantowało powtarzalność (ang. \textit{reproducibility}) procesu uczenia dla każdego z trzech modeli \cite{TODO_kedro_reproducibility}.
 Po zakończeniu treningu, wytrenowane modele zostały poddane ewaluacji na zbiorze testowym.
