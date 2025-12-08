@@ -52,7 +52,7 @@ def train_base_model(
     val_loader = DataLoader(val_stock_dataset, batch_size=batch_size, shuffle=False)
     
     # Initialize model
-    feature_number = train_stock_dataset.X.shape[1]
+    sequence_length = train_stock_dataset.X.shape[1]
     model = LSTMStockModel(
         id='base_model',
         ticker='AMZN',
@@ -73,7 +73,7 @@ def train_base_model(
         optimizer=optimizer,
         loss_function=loss_function,
         epochs=epochs,
-        feature_number=feature_number
+        sequence_length=sequence_length
     )
     
     # Calculate RMSE on original scale (human-readable)
@@ -142,11 +142,13 @@ def train_enriched_model(
     val_loader = DataLoader(val_stock_dataset, batch_size=batch_size, shuffle=False)
     
     # Initialize model
-    feature_number = train_stock_dataset.X.shape[1]
+    input_dim = 4
+    sequence_length = train_stock_dataset.X.shape[1] // input_dim
+    
     model = LSTMStockModel(
         id='enriched_model',
         ticker='AMZN_ENHANCED',
-        input_dim=1,
+        input_dim=input_dim,
         hidden_dim=hidden_dim,
         layer_dim=layer_dim,
         output_dim=1
@@ -163,10 +165,10 @@ def train_enriched_model(
         optimizer=optimizer,
         loss_function=loss_function,
         epochs=epochs,
-        feature_number=feature_number
+        sequence_length=sequence_length
     )
     
-    # Calculate RMSE on original scale (human-readable)
+    # Calculate RMSE on original scale
     val_actuals_original = scaler_y.inverse_transform(np.array(val_actuals).reshape(-1, 1)).flatten()
     val_predictions_original = scaler_y.inverse_transform(np.array(val_predictions).reshape(-1, 1)).flatten()
     val_rmse_original = np.sqrt(np.mean((val_actuals_original - val_predictions_original) ** 2))
@@ -232,7 +234,7 @@ def train_kalman_model(
     val_loader = DataLoader(val_stock_dataset, batch_size=batch_size, shuffle=False)
     
     # Initialize model
-    feature_number = train_stock_dataset.X.shape[1]
+    sequence_length = train_stock_dataset.X.shape[1]
     model = LSTMStockModel(
         id='kalman_model',
         ticker='AMZN_KALMAN',
@@ -253,7 +255,7 @@ def train_kalman_model(
         optimizer=optimizer,
         loss_function=loss_function,
         epochs=epochs,
-        feature_number=feature_number
+        sequence_length=sequence_length
     )
     
     # Calculate RMSE on original scale (human-readable)

@@ -125,9 +125,10 @@ def main():
                         st.markdown(f"- {day_label}: **${price:.2f}**")
             
             with col2:
-                st.markdown("**Technical Indicators:**")
+                st.markdown("**Technical Indicators (Most Recent):**")
                 if result.get("enriched_features"):
-                    features = result["enriched_features"]
+                    # enriched_features is now a list of 3 dicts, get the most recent (last one)
+                    features = result["enriched_features"][-1]  # t-0 is the most recent
                     st.markdown(f"- RSI (14-day): **{features['RSI']:.2f}**")
                     st.markdown(f"- Bandwidth (20-day): **{features['Bandwidth']:.4f}**")
                     st.markdown(f"- %B (20-day): **{features['%B']:.4f}**")

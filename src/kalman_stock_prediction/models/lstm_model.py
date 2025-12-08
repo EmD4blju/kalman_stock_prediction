@@ -49,7 +49,7 @@ class LSTMStockModel(nn.Module):
         f'output_dimension={self.output_dim})'
     )
     
-    def perform_training(self, train_loader, validation_loader, optimizer, loss_function, epochs, feature_number, verbose=True):
+    def perform_training(self, train_loader, validation_loader, optimizer, loss_function, epochs, sequence_length, verbose=True):
         train_mse_list, val_mse_list = [], []
         train_r2_list, val_r2_list = [], []
 
@@ -58,7 +58,7 @@ class LSTMStockModel(nn.Module):
             train_actuals, train_predictions = [], []
             for X, y in train_loader:
                 optimizer.zero_grad()
-                X, y = X.reshape(-1, feature_number, self.input_dim), y.reshape(-1, 1)
+                X, y = X.reshape(-1, sequence_length, self.input_dim), y.reshape(-1, 1)
                 outputs, _ = self(X)
                 loss = loss_function(outputs, y)
                 loss.backward()
@@ -70,7 +70,7 @@ class LSTMStockModel(nn.Module):
             val_actuals, val_predictions = [], []
             with torch.no_grad():
                 for X, y in validation_loader:
-                    X, y = X.reshape(-1, feature_number, self.input_dim), y.reshape(-1, 1)
+                    X, y = X.reshape(-1, sequence_length, self.input_dim), y.reshape(-1, 1)
                     outputs, _ = self(X)
                     val_actuals.extend(y.numpy().flatten())
                     val_predictions.extend(outputs.numpy().flatten())
@@ -93,7 +93,7 @@ class LSTMStockModel(nn.Module):
         val_errors = np.array(val_actuals) - np.array(val_predictions)
         return train_mse_list, val_mse_list, train_r2_list, val_r2_list, val_actuals, val_predictions, val_errors
 
-    def evaluate(self, test_loader, loss_function, scaler_y, feature_number):
+    def evaluate(self, test_loader, loss_function, scaler_y, sequence_length):
         self.eval()
         test_loss = 0
         predictions = []
@@ -101,7 +101,7 @@ class LSTMStockModel(nn.Module):
 
         with torch.no_grad():
             for X, y in test_loader:
-                X, y = X.reshape(-1, feature_number, self.input_dim), y.reshape(-1, 1)
+                X, y = X.reshape(-1, sequence_length, self.input_dim), y.reshape(-1, 1)
                 outputs, _ = self(X)
                 test_loss += loss_function(outputs, y).item()
                 predictions.extend(outputs.numpy().flatten())
@@ -121,7 +121,7 @@ class LSTMStockModel(nn.Module):
         return actuals, predictions, errors
     
     @staticmethod
-    def optimize_hyperparameters(train_dataset, validation_dataset, feature_number, ticker, input_dim, output_dim, n_trials=100):
+    def optimize_hyperparameters(train_dataset, validation_dataset, sequence_length, ticker, input_dim, output_dim, n_trials=100):
 
         def objective(trial):
             hidden_dim = trial.suggest_int('hidden_dim', 60, 80)
@@ -150,7 +150,7 @@ class LSTMStockModel(nn.Module):
                 optimizer=optimizer,
                 loss_function=loss_function,
                 epochs=epochs,
-                feature_number=feature_number,
+                sequence_length=sequence_length,
                 verbose=False
             )
             return val_mse_list[-1]

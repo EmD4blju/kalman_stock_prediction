@@ -71,33 +71,53 @@ def reformat_periodic_to_supervised_data(dataframe:pd.DataFrame, target_column:s
 
     #~ --- Prepare data for reformatting ---
     data_array = dataframe[target_column].to_numpy()
-    
-    
-    supervised_dataframe = pd.DataFrame(
-        columns=['Date', target_column] + [f'{target_column}_{i}' for i in range(timesteps)],
-    )
     dates = dataframe.index
-    
     
     #~ --- Check for enrichment columns ---
     enrichment_columns = []
-    if {'RSI', 'Bandwidth', '%B'}.issubset(dataframe.columns):
+    has_enrichment = {'RSI', 'Bandwidth', '%B'}.issubset(dataframe.columns)
+    if has_enrichment:
         enrichment_columns = ['RSI', 'Bandwidth', '%B']
-        for col in enrichment_columns:
-            supervised_dataframe[col] = None
-        
+    
+    #~ --- Build column names ---
+    column_names = ['Date']
+    
+    if has_enrichment:
+        # Create columns for each timestep with all features
+        for i in range(timesteps - 1, -1, -1):  # timesteps-1, timesteps-2, ..., 1, 0
+            column_names.append(f'{target_column}_{i}')
+            for enr_col in enrichment_columns:
+                column_names.append(f'{enr_col}_{i}')
+    else:
+        # Create columns for regular data (only Close values)
+        for i in range(timesteps - 1, -1, -1):  # timesteps-1, timesteps-2, ..., 1, 0
+            column_names.append(f'{target_column}_{i}')
+    
+    # Add target column
+    column_names.append(target_column)
+    
+    supervised_dataframe = pd.DataFrame(columns=column_names)
+    
     #~ --- Reformat ---
     for i in range(timesteps, len(data_array)):
         current_date = dates[i]
         current_item = data_array[i]
-        previous_items = data_array[i-timesteps:i][::-1]
         
-        row_data = [current_date, current_item, *previous_items]
+        row_data = [current_date]
         
-        # Add enrichment values if they exist
-        if enrichment_columns:
-            for col in enrichment_columns:
-                row_data.append(dataframe.loc[dates[i], col])
+        if has_enrichment:
+            # Add historical timesteps with all features
+            for j in range(i - timesteps, i):  # From oldest to newest
+                row_data.append(data_array[j])
+                for enr_col in enrichment_columns:
+                    row_data.append(dataframe.loc[dates[j], enr_col])
+        else:
+            # Add only Close values for historical timesteps
+            previous_items = data_array[i-timesteps:i][::-1]
+            row_data.extend(previous_items)
+        
+        # Add target value
+        row_data.append(current_item)
         
         supervised_dataframe.loc[i-timesteps] = row_data
     

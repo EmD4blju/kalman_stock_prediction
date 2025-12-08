@@ -37,7 +37,7 @@ class PredictionState(TypedDict):
     # Data loading state
     raw_prices: list[float] | None
     dates: list[str] | None
-    enriched_features: dict | None
+    enriched_features: list[dict] | None  # List of 3 dicts with Close, RSI, Bandwidth, %B for each timestep
     data_source: str | None  # 'yfinance' or 'local'
     
     # Prediction outputs (original scale)
@@ -152,12 +152,28 @@ def load_stock_data(state: PredictionState) -> PredictionState:
         bandwidth_values = bb_indicator.bollinger_wband()
         percent_b_values = bb_indicator.bollinger_pband()
         
-        # Get the latest enriched features (for the prediction date)
-        enriched_features = {
-            "RSI": float(rsi_values.iloc[-1]) if not pd.isna(rsi_values.iloc[-1]) else 50.0,
-            "Bandwidth": float(bandwidth_values.iloc[-1]) if not pd.isna(bandwidth_values.iloc[-1]) else 0.0,
-            "%B": float(percent_b_values.iloc[-1]) if not pd.isna(percent_b_values.iloc[-1]) else 0.5,
-        }
+        # Get enriched features for last 3 timesteps (for new model structure)
+        # Structure: [t-2, t-1, t-0] where t-0 is most recent
+        enriched_features = [
+            {
+                "Close": float(close_prices[-3]),
+                "RSI": float(rsi_values.iloc[-3]) if not pd.isna(rsi_values.iloc[-3]) else 50.0,
+                "Bandwidth": float(bandwidth_values.iloc[-3]) if not pd.isna(bandwidth_values.iloc[-3]) else 0.0,
+                "%B": float(percent_b_values.iloc[-3]) if not pd.isna(percent_b_values.iloc[-3]) else 0.5,
+            },
+            {
+                "Close": float(close_prices[-2]),
+                "RSI": float(rsi_values.iloc[-2]) if not pd.isna(rsi_values.iloc[-2]) else 50.0,
+                "Bandwidth": float(bandwidth_values.iloc[-2]) if not pd.isna(bandwidth_values.iloc[-2]) else 0.0,
+                "%B": float(percent_b_values.iloc[-2]) if not pd.isna(percent_b_values.iloc[-2]) else 0.5,
+            },
+            {
+                "Close": float(close_prices[-1]),
+                "RSI": float(rsi_values.iloc[-1]) if not pd.isna(rsi_values.iloc[-1]) else 50.0,
+                "Bandwidth": float(bandwidth_values.iloc[-1]) if not pd.isna(bandwidth_values.iloc[-1]) else 0.0,
+                "%B": float(percent_b_values.iloc[-1]) if not pd.isna(percent_b_values.iloc[-1]) else 0.5,
+            }
+        ]
         
         return {
             **state,
@@ -205,13 +221,15 @@ def predict_base_model(state: PredictionState) -> PredictionState:
             scaler_y = pickle.load(f)
         
         # Prepare input - base model uses 3 lagged prices as features
-        raw_prices = np.array(state["raw_prices"]).reshape(1, -1)
-        scaled_input = scaler_X.transform(raw_prices)
+        raw_prices = state["raw_prices"]
+        # Create DataFrame with proper column names to avoid warning
+        input_df = pd.DataFrame([raw_prices], columns=["Close_2", "Close_1", "Close_0"])
+        scaled_input = scaler_X.transform(input_df)
         
         # Reshape for LSTM: (batch, seq_len, features)
-        feature_number = scaled_input.shape[1]  # 3 features
+        sequence_length = scaled_input.shape[1]  # 3 timesteps
         input_tensor = torch.tensor(scaled_input, dtype=torch.float32)
-        input_tensor = input_tensor.reshape(-1, feature_number, 1)
+        input_tensor = input_tensor.reshape(-1, sequence_length, 1)
         
         # Predict
         with torch.no_grad():
@@ -259,24 +277,34 @@ def predict_enriched_model(state: PredictionState) -> PredictionState:
         with open(scaler_y_path, 'rb') as f:
             scaler_y = pickle.load(f)
         
-        # Prepare input - enriched model uses 3 lagged prices + RSI + Bandwidth + %B
-        # Feature order: Close_0, Close_1, Close_2, RSI, Bandwidth, %B
-        raw_prices = state["raw_prices"]
+        # Prepare input - enriched model uses 3 timesteps with 4 features each
+        # Structure: [Close_2, RSI_2, Bandwidth_2, %B_2, Close_1, RSI_1, Bandwidth_1, %B_1, Close_0, RSI_0, Bandwidth_0, %B_0]
+        # This matches the new preprocessing format
         enriched_features = state["enriched_features"]
         
-        features = raw_prices + [
-            enriched_features["RSI"],
-            enriched_features["Bandwidth"],
-            enriched_features["%B"]
-        ]
+        # Flatten features in correct order: t-2, t-1, t-0
+        features = []
+        feature_names = []
+        for i, timestep in enumerate(enriched_features):
+            idx = 2 - i  # t-2, t-1, t-0
+            features.extend([
+                timestep["Close"],
+                timestep["RSI"],
+                timestep["Bandwidth"],
+                timestep["%B"]
+            ])
+            feature_names.extend([f"Close_{idx}", f"RSI_{idx}", f"Bandwidth_{idx}", f"%B_{idx}"])
         
-        input_array = np.array(features).reshape(1, -1)
-        scaled_input = scaler_X.transform(input_array)
+        # Create DataFrame with proper column names to avoid warning
+        input_df = pd.DataFrame([features], columns=feature_names)
+        scaled_input = scaler_X.transform(input_df)
         
-        # Reshape for LSTM: (batch, seq_len, features)
-        feature_number = scaled_input.shape[1]  # 6 features
+        # Reshape for LSTM: (batch, seq_len, features_per_timestep)
+        # For enriched model: input_dim=4 (Close, RSI, Bandwidth, %B), sequence_length=3
+        input_dim = 4
+        sequence_length = 3
         input_tensor = torch.tensor(scaled_input, dtype=torch.float32)
-        input_tensor = input_tensor.reshape(-1, feature_number, 1)
+        input_tensor = input_tensor.reshape(-1, sequence_length, input_dim)
         
         # Predict
         with torch.no_grad():
@@ -326,13 +354,15 @@ def predict_kalman_model(state: PredictionState) -> PredictionState:
         
         # Prepare input - kalman model uses 3 lagged prices (original, unfiltered)
         # Same as base model - the model was trained on original data
-        raw_prices = np.array(state["raw_prices"]).reshape(1, -1)
-        scaled_input = scaler_X.transform(raw_prices)
+        raw_prices = state["raw_prices"]
+        # Create DataFrame with proper column names to avoid warning
+        input_df = pd.DataFrame([raw_prices], columns=["Close_2", "Close_1", "Close_0"])
+        scaled_input = scaler_X.transform(input_df)
         
         # Reshape for LSTM: (batch, seq_len, features)
-        feature_number = scaled_input.shape[1]  # 3 features
+        sequence_length = scaled_input.shape[1]  # 3 timesteps
         input_tensor = torch.tensor(scaled_input, dtype=torch.float32)
-        input_tensor = input_tensor.reshape(-1, feature_number, 1)
+        input_tensor = input_tensor.reshape(-1, sequence_length, 1)
         
         # Predict
         with torch.no_grad():

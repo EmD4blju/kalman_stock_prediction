@@ -94,7 +94,7 @@ def evaluate_base_model(
     # Create dataset and loader
     test_stock_dataset = StockDataset(test_dataset, ticker='AMZN', target_column=target_column)
     test_loader = DataLoader(test_stock_dataset, batch_size=batch_size, shuffle=False)
-    feature_number = test_stock_dataset.X.shape[1]
+    sequence_length = test_stock_dataset.X.shape[1]
     
     # Setup loss function
     loss_function = MSELoss()
@@ -104,7 +104,7 @@ def evaluate_base_model(
         test_loader=test_loader,
         loss_function=loss_function,
         scaler_y=scaler_y,
-        feature_number=feature_number
+        sequence_length=sequence_length
     )
     
     # Calculate metrics
@@ -168,7 +168,8 @@ def evaluate_enriched_model(
     # Create dataset and loader
     test_stock_dataset = StockDataset(test_dataset, ticker='AMZN_ENHANCED', target_column=target_column)
     test_loader = DataLoader(test_stock_dataset, batch_size=batch_size, shuffle=False)
-    feature_number = test_stock_dataset.X.shape[1]
+    # For enriched model: input_dim=4, so sequence_length = total_features / 4
+    sequence_length = test_stock_dataset.X.shape[1] // 4
     
     # Setup loss function
     loss_function = MSELoss()
@@ -178,7 +179,7 @@ def evaluate_enriched_model(
         test_loader=test_loader,
         loss_function=loss_function,
         scaler_y=scaler_y,
-        feature_number=feature_number
+        sequence_length=sequence_length
     )
     
     # Calculate metrics
@@ -242,7 +243,7 @@ def evaluate_kalman_model_filtered(
     # Create dataset and loader
     test_stock_dataset = StockDataset(test_dataset, ticker='AMZN_KALMAN', target_column=target_column)
     test_loader = DataLoader(test_stock_dataset, batch_size=batch_size, shuffle=False)
-    feature_number = test_stock_dataset.X.shape[1]
+    sequence_length = test_stock_dataset.X.shape[1]
     
     # Setup loss function
     loss_function = MSELoss()
@@ -252,7 +253,7 @@ def evaluate_kalman_model_filtered(
         test_loader=test_loader,
         loss_function=loss_function,
         scaler_y=scaler_y,
-        feature_number=feature_number
+        sequence_length=sequence_length
     )
     
     # Calculate metrics
@@ -317,7 +318,7 @@ def evaluate_kalman_model_original(
     # Create dataset and loader
     test_stock_dataset = StockDataset(test_dataset, ticker='AMZN', target_column=target_column)
     test_loader = DataLoader(test_stock_dataset, batch_size=batch_size, shuffle=False)
-    feature_number = test_stock_dataset.X.shape[1]
+    sequence_length = test_stock_dataset.X.shape[1]
     
     # Setup loss function
     loss_function = MSELoss()
@@ -327,7 +328,7 @@ def evaluate_kalman_model_original(
         test_loader=test_loader,
         loss_function=loss_function,
         scaler_y=scaler_y,
-        feature_number=feature_number
+        sequence_length=sequence_length
     )
     
     # Calculate metrics
