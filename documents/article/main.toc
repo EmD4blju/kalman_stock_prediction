@@ -22,8 +22,8 @@
 \contentsline {subsubsection}{\numberline {3.3.1}Model bazowy (Base Model)}{21}{subsubsection.3.3.1}%
 \contentsline {subsubsection}{\numberline {3.3.2}Model wzbogacony (Enriched Model)}{21}{subsubsection.3.3.2}%
 \contentsline {subsubsection}{\numberline {3.3.3}Model z filtrem Kalmana (Kalman Model)}{21}{subsubsection.3.3.3}%
-\contentsline {subsection}{\numberline {3.4}Proces uczenia}{22}{subsection.3.4}%
-\contentsline {subsubsection}{\numberline {3.4.1}Strojenie hiperparametrów}{22}{subsubsection.3.4.1}%
-\contentsline {subsubsection}{\numberline {3.4.2}Przebieg procesu uczenia}{22}{subsubsection.3.4.2}%
-\contentsline {subsubsection}{\numberline {3.4.3}Metryki oceny}{23}{subsubsection.3.4.3}%
-\contentsline {subsection}{\numberline {3.5}Proces ewaluacji}{23}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.4}Metryki oceny}{22}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Proces uczenia}{23}{subsection.3.5}%
+\contentsline {subsubsection}{\numberline {3.5.1}Strojenie hiperparametrów}{23}{subsubsection.3.5.1}%
+\contentsline {subsubsection}{\numberline {3.5.2}Przebieg procesu uczenia}{23}{subsubsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.6}Proces ewaluacji}{24}{subsection.3.6}%

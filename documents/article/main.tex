@@ -647,7 +647,7 @@ Całość kodu została zorganizowana w ramach projektu Kedro, co zapewniło mod
 \subsection{Przygotowanie danych}
 Proces przygotowania danych stanowił pierwszy etap badań.
 Jego celem było uzyskanie oczyszczonego i odpowiednio sformatowanego zestawu danych giełdowych spółki Amazon (AMZN), który mógł zostać użyty do trenowania i testowania modeli LSTM.
-Proces ten obejmował następujące kroki odpowiednio: pobrania danych, przetwarzania wstępnego, inżynierii cech oraz podziału na zbiory treningowy, walidacyjny i testowy \cite{TODO_preprocessing_practices}.
+Proces ten obejmował następujące kroki: pobrania danych, przetwarzania wstępnego, inżynierii cech oraz podziału na zbiory treningowy, walidacyjny i testowy \cite{TODO_preprocessing_practices}.
 
 \subsubsection{Pobranie danych}
 Dane historyczne dotyczące cen akcji spółki Amazon zostały pobrane z serwisu Yahoo! Finance przy użyciu biblioteki yfinance.
@@ -751,7 +751,7 @@ Model ten operował na takich samych danych jak model bazowy, jednak przed podan
 Jego architektura była tożsama z architekturą modelu bazowego, co pozwalało na bezpośrednie porównanie wpływu samej filtracji danych na wyniki predykcji.
 
 \vspace{0.5cm}
-Tabela \ref{tab:model_architecture_params} przedstawia zestawienie kluczowych hiperparametrów architektury każdego z trzech modeli LSTM użytych w eksperymentach.
+Tabela \ref{tab:model_architecture_params} przedstawia zestawienie kluczowych hiperparametrów architektury każdego z modeli, które uzyskano w wyniku procesu optymalizacji.
 \begin{table}[H]
     \centering
     \caption{Zestawienie kluczowych hiperparametrów architektury modeli.}
@@ -773,9 +773,27 @@ Model bazowy i model z filtrem Kalmana posiadały identyczną, prostą architekt
 Z kolei model wzbogacony, ze względu na wielowymiarowy charakter danych wejściowych, został wyposażony w bardziej złożoną strukturę, zdolną do przetwarzania bogatszego zestawu informacji. 
 W kolejnej sekcji opisano proces uczenia i ewaluacji tych modeli.
 
+\subsection{Metryki oceny}
+Do monitorowania wydajności modeli w trakcie procesu uczenia oraz do finalnej oceny ich skuteczności na zbiorze testowym, wybrano trzy powszechnie stosowane metryki regresji:
+\begin{itemize}
+    \item \textbf{Mean Squared Error (MSE):} Miara średniego kwadratu różnic między wartościami przewidywanymi a rzeczywistymi.
+    \begin{equation}
+        \text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+    \end{equation}
+    gdzie \( y_i \) to rzeczywista wartość, \( \hat{y}_i \) to wartość przewidywana przez model, a \( n \) to liczba próbek.
+    \item \textbf{Root Mean Squared Error (RMSE):} Pierwiastek kwadratowy z MSE, który daje wynik w tych samych jednostkach co dane wejściowe.
+    \begin{equation}
+        \text{RMSE} = \sqrt{\text{MSE}} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}
+    \end{equation}
+    gdzie \( y_i \) to rzeczywista wartość, \( \hat{y}_i \) to wartość przewidywana przez model, a \( n \) to liczba próbek.
+    \item \textbf{R-squared \(R^2\):} Miara dopasowania modelu, wskazująca, jaka część wariancji danych jest wyjaśniona przez model.
+    \begin{equation}
+        R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}
+    \end{equation}
+    gdzie \( y_i \) to rzeczywista wartość, \( \hat{y}_i \) to wartość przewidywana przez model, \( \bar{y} \) to średnia, a \( n \) to liczba próbek.
+\end{itemize}
+
 \subsection{Proces uczenia}
-% Proces uczenia każdego z trzech modeli został przeprowadzony w sposób niezależny, z wykorzystaniem tych samych zasad i procedur, aby zapewnić rzetelność i porównywalność wyników.
-% Obejmował on strojenie hiperparametrów, definiowanie funkcji straty oraz wybór algorytmu optymalizacji, własciwy trening na danych treningowych oraz monitorowanie wydajności na zbiorze walidacyjnym.
 Proces uczenia objemował strojenie hiperparametrów, wybór funkcji straty oraz algorytmu optymalizacji, własciwy trening na danych treningowych oraz monitorowanie wydajności na zbiorze walidacyjnym.
 Każdy z trzech modeli był trenowany niezależnie, z zastosowaniem tych samych procedur, aby zapewnić odpowiednią porównywalność wyników.
 
@@ -797,28 +815,8 @@ Jako funkcję kosztu, której wartość była minimalizowana w trakcie uczenia, 
 Do aktualizacji wag modelu posłużył optymalizator Adam, będący standardem w zadaniach uczenia głębokiego ze względu na jego efektywność i adaptacyjny dobór współczynnika uczenia \cite{TODO_adam_optimizer}.
 
 Liczba epok, przez które trenowano każdy model, została również ustalona jako jeden z hiperparametrów w procesie automatycznego strojenia. 
-Wydajność modelu w trakcie uczenia była na bieżąco monitorowana na zbiorze walidacyjnym. 
+Wydajność modelu w trakcie uczenia była na bieżąco monitorowana na zbiorze walidacyjnym z wykorzystaniem zdefiniowanych wcześniej metryk (MSE, RMSE, \(R^2\)).
 Pozwoliło to na generowanie krzywych uczenia i weryfikację, czy model nie wykazuje oznak znacznego przeuczenia (ang. \textit{overfitting}).
-
-\subsubsection{Metryki oceny}
-Do oceny wydajności modeli w trakcie procesu uczenia zastosowano trzy metryki:
-\begin{itemize}
-    \item \textbf{Mean Squared Error (MSE):} Miara średniego kwadratu różnic między wartościami przewidywanymi a rzeczywistymi.
-    \begin{equation}
-        \text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
-    \end{equation}
-    gdzie \( y_i \) to rzeczywista wartość, \( \hat{y}_i \) to wartość przewidywana przez model, a \( n \) to liczba próbek.
-    \item \textbf{Root Mean Squared Error (RMSE):} Pierwiastek kwadratowy z MSE, który daje wynik w tych samych jednostkach co dane wejściowe.
-    \begin{equation}
-        \text{RMSE} = \sqrt{\text{MSE}} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}
-    \end{equation}
-    gdzie \( y_i \) to rzeczywista wartość, \( \hat{y}_i \) to wartość przewidywana przez model, a \( n \) to liczba próbek.
-    \item \textbf{R-squared \(R^2\):} Miara dopasowania modelu, wskazująca, jaka część wariancji danych jest wyjaśniona przez model.
-    \begin{equation}
-        R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}
-    \end{equation}
-    gdzie \( y_i \) to rzeczywista wartość, \( \hat{y}_i \) to wartość przewidywana przez model, \( \bar{y} \) to średnia, a \( n \) to liczba próbek.
-\end{itemize}
 
 Cały proces uczenia został zaimplementowany jako pipeline w ramach projektu Kedro, co pozwoliło na ustrukturyzowanie i zautomatyzowanie wszystkich opisanych kroków. 
 Parametry procesu, takie jak przeszukiwane zakresy hiperparametrów czy liczba prób optymalizacji, zostały umieszczone w plikach konfiguracyjnych. 
@@ -826,8 +824,23 @@ Takie podejście zapewniło nie tylko przejrzystość i łatwość zarządzania 
 Po zakończeniu treningu, wytrenowane modele zostały poddane ewaluacji na zbiorze testowym.
 
 \subsection{Proces ewaluacji}
+Po zakończeniu procesu uczenia, każdy z trzech modeli został poddany ocenie na zbiorze testowym, który stanowił 10\% wszystkich danych i nie był wykorzystywany podczas treningu ani walidacji.
+Celem ewaluacji było uzyskanie porównywalnych wyników wydajności modeli, które odzwierciedlałyby ich zdolność do generalizacji na nieznanych danych.
+Do oceny wydajności modeli na zbiorze testowym zastosowano zdefiniowane wcześniej metryki (MSE, RMSE oraz \(R^2\)).
+Produktami końcowymi ewaluacji były:
+\begin{itemize}
+    \item Zestawienie wyników metryk wydajności dla każdego z modeli.
+    \item Wykresy porównujące przewidywane ceny akcji z rzeczywistymi wartościami na zbiorze testowym.
+    \item Analiza błędów predykcji w postaci histogramów ich rozkładu.
+\end{itemize}
+Cały proces, od generowania metryk po wizualizacje, został zaimplementowany jako zautomatyzowany pipeline w ramach projektu Kedro, co zapewniło spójność i powtarzalność całego eksperymentu \cite{TODO_kedro_evaluation}. 
+Tak przygotowane i zestawione wyniki posłużyły jako podstawa do przeprowadzenia szczegółowej analizy porównawczej, interpretacji rezultatów oraz sformułowania wniosków dotyczących skuteczności poszczególnych podejść.
 
-% %~ Results
+\vspace{0.5cm}
+Niniejszy rozdział przedstawił kompleksową metodykę badań, obejmującą proces przygotowania danych, implementację i trenowanie trzech odrębnych modeli LSTM oraz procedurę ich ewaluacji.
+Taka struktura przeprowadzenia badania miała na celu zapewnienie rzetelności, powtarzalności i porównywalności wyników.
+W następnym rozdziale zaprezentowane zostaną wyniki przeprowadzonych eksperymentów oraz ich szczegółowa analiza.
+
 % \section{Wyniki i dyskusja}
 
 % %~ Summary
