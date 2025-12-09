@@ -26,3 +26,4 @@
 \contentsline {subsubsection}{\numberline {3.4.1}Strojenie hiperparametrów}{22}{subsubsection.3.4.1}%
 \contentsline {subsubsection}{\numberline {3.4.2}Przebieg procesu uczenia}{22}{subsubsection.3.4.2}%
 \contentsline {subsubsection}{\numberline {3.4.3}Metryki oceny}{23}{subsubsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.5}Proces ewaluacji}{23}{subsection.3.5}%

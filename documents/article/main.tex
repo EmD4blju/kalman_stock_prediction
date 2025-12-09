@@ -621,13 +621,13 @@ Integracja filtru Kalmana z siecią LSTM pozwala na skuteczne łączenie zalet o
 \clearpage
 \section{Metodyka badań}
 Celem przeprowadzonych badań było porównanie skuteczności predykcji cen akcji przy użyciu tradycyjnej sieci LSTM oraz sieci LSTM wspomaganej filtrem Kalmana.
-W tym celu zaprojektowano i zaimplementowano trzy odrębne modele, z których każdy służył weryfikacji innej hipotezy badawczej:
+Z tego powodu zaprojektowano i zaimplementowano trzy odrębne modele, z których każdy służył weryfikacji innej hipotezy badawczej:
 \begin{itemize}
     \item \textbf{Model bazowy (Base Model):} Stanowił punkt odniesienia (ang. \textit{baseline}). Jego zadaniem było prognozowanie cen wyłącznie na podstawie ich historycznych wartości, przy użyciu prostej architektury LSTM.
     \item \textbf{Model wzbogacony (Enriched Model):} Miał na celu weryfikację, czy dostarczenie modelowi dodatkowego kontekstu rynkowego w postaci wskaźników analizy technicznej poprawi jakość predykcji.
     \item \textbf{Model z filtrem Kalmana (Kalman Model):} Służył do zbadania głównej hipotezy pracy -- czy wstępna filtracja i odszumienie danych wejściowych przy użyciu filtru Kalmana pozytywnie wpływa na skuteczność prognoz sieci LSTM.
 \end{itemize}
-W niniejszym rozdziale przedstawiono szczegółowy opis metodologii badawczej zastosowanej w pracy, obejmujący proces przygotowania danych, implementację modeli, procedurę uczenia oraz metryki oceny wydajności.
+W niniejszym rozdziale przedstawiono szczegółowy opis metodologii badawczej zastosowanej w pracy, obejmujący proces przygotowania danych, implementację modeli, procedurę uczenia, metryki oceny wydajności i sposób ewaluacji.
 
 \subsection{Środowisko badawcze}
 Do przeprowadzenia eksperymentów wykorzystano język programowania Python 3.12 oraz następujące biblioteki:
@@ -789,10 +789,10 @@ Przeszukiwana przestrzeń hiperparametrów była wspólna dla wszystkich modeli 
     \item \textbf{Wielkość partii treningowej (batch size):} wybór spośród wartości [16, 32, 64, 128].
     \item \textbf{Liczba epok treningowych:} wartości całkowite z zakresu [10, 100].
 \end{itemize}
-Dla każdego modelu przeprowadzono 50 prób optymalizacji (ang. trials), a najlepsze zestawy hiperparametrów zostały następnie w ostatecznym treningu modeli.
+Dla każdego modelu przeprowadzono 50 prób optymalizacji (ang. \textit{trials}), a najlepsze zestawy hiperparametrów zostały następnie wykorzystane w treningu modeli.
 
 \subsubsection{Przebieg procesu uczenia}
-Finalny trening modeli przeprowadzono na zbiorze treningowym, wykorzystując zoptymalizowane zestawy hiperparametrów. 
+Proces uczenia modeli przeprowadzono na zbiorze treningowym, stanowiącym 72\% wszystkich danych, wykorzystując zoptymalizowane hiperparametry. 
 Jako funkcję kosztu, której wartość była minimalizowana w trakcie uczenia, wybrano błąd średniokwadratowy (MSE). 
 Do aktualizacji wag modelu posłużył optymalizator Adam, będący standardem w zadaniach uczenia głębokiego ze względu na jego efektywność i adaptacyjny dobór współczynnika uczenia \cite{TODO_adam_optimizer}.
 
@@ -821,9 +821,11 @@ Do oceny wydajności modeli w trakcie procesu uczenia zastosowano trzy metryki:
 \end{itemize}
 
 Cały proces uczenia został zaimplementowany jako pipeline w ramach projektu Kedro, co pozwoliło na ustrukturyzowanie i zautomatyzowanie wszystkich opisanych kroków. 
-Parametry procesu, takie jak przeszukiwane zakresy hiperparametrów czy liczba prób optymalizacji, zostały odseparowane od logiki kodu i umieszczone w plikach konfiguracyjnych. 
+Parametry procesu, takie jak przeszukiwane zakresy hiperparametrów czy liczba prób optymalizacji, zostały umieszczone w plikach konfiguracyjnych. 
 Takie podejście zapewniło nie tylko przejrzystość i łatwość zarządzania eksperymentami, ale przede wszystkim gwarantowało powtarzalność (ang. \textit{reproducibility}) procesu uczenia dla każdego z trzech modeli \cite{TODO_kedro_reproducibility}.
 Po zakończeniu treningu, wytrenowane modele zostały poddane ewaluacji na zbiorze testowym.
+
+\subsection{Proces ewaluacji}
 
 % %~ Results
 % \section{Wyniki i dyskusja}

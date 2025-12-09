@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1765208695.76242 "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" "main.pdf" "main" 1765208699.88269 0
+["pdflatex"] 1765271275.0381 "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" "main.pdf" "main" 1765271277.94231 0
   "/etc/texmf/web2c/texmf.cnf" 1759393268.57976 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" 1765208695.21829 61440 9345b97963bfe64637d807ebaa02048d ""
+  "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" 1765271273.5789 61496 ed1c7e2e07f20c1e65cc4535a7a3b5d4 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm" 1136768653 4524 6bce29db5bc272ba5f332261583fee9c ""
@@ -124,10 +124,10 @@
   "assets/sigmoid_w_max_figure.png" 1764156088.53684 14343 85a977bb67ebede219272544aa797325 ""
   "assets/sigmoid_w_min_figure.png" 1764156088.53684 17778 05ce7490df5af9eb8fcf1733e3c72da8 ""
   "assets/step_figure.png" 1764156088.53784 12443 b74fda3afebbeb3a800c355a2fd8d45a ""
-  "main.aux" 1765208699.73638 12838 f5712946a97c7df1faacfa1dae2fcdb1 "pdflatex"
-  "main.out" 1765208699.73838 5429 2f391a54eae9298fe93c3819bcc51073 "pdflatex"
-  "main.tex" 1765208695.21829 61440 9345b97963bfe64637d807ebaa02048d ""
-  "main.toc" 1765208699.73938 2691 50208bfc71f6e94fdf2bd3ba562b860c "pdflatex"
+  "main.aux" 1765271277.83292 12962 dc77a4b12e8b075d1fc1a3e84471cbb1 "pdflatex"
+  "main.out" 1765271277.83492 5570 2ff60ad23f57752ad1cb8ddebd9982a5 "pdflatex"
+  "main.tex" 1765271273.5789 61496 ed1c7e2e07f20c1e65cc4535a7a3b5d4 ""
+  "main.toc" 1765271277.83492 2774 ff426a44e2c11d4f81c5992cd176724d "pdflatex"
   (generated)
   "main.aux"
   "main.log"
