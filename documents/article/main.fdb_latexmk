@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1765803567.50794 "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" "main.pdf" "main" 1765803574.47113 0
+["pdflatex"] 1765832128.80292 "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" "main.pdf" "main" 1765832137.43762 0
   "/etc/texmf/web2c/texmf.cnf" 1759393268.57976 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" 1765803567.21478 71727 f53c835a9814178fcbe18693f462a2e5 ""
+  "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" 1765832119.66384 75030 8b8911d966fd127a8c33579dc8a32a9c ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm" 1136768653 4524 6bce29db5bc272ba5f332261583fee9c ""
@@ -120,8 +120,11 @@
   "assets/enhanced_error_distribution.png" 1765796888.39516 149088 ad6424c06fd485a39d46761123dc16ef ""
   "assets/enhanced_learning_curves.png" 1765796888.42562 319415 cf36b67e7f22c733104fe83f782dbffc ""
   "assets/kalman_actual_vs_predicted_filtered.png" 1765803195.92922 200045 e9377dd7c99bfcad085b6f531b3dd341 ""
+  "assets/kalman_actual_vs_predicted_original.png" 1765803195.95711 262770 40f4b8135efeb735b572bbd60ae74fe9 ""
   "assets/kalman_error_distribution_filtered.png" 1765803195.96631 144309 b39c7bc0616c1cf334da92dc20a1bae3 ""
+  "assets/kalman_error_distribution_original.png" 1765803195.97759 150819 743b3da1df93689daabb15564d52969c ""
   "assets/kalman_filter_cycle.png" 1764156088.52971 48327 ab91b406808687bd018692a4cb79f799 ""
+  "assets/kalman_learning_curves.png" 1765803195.98746 307398 d519ad55064033781c93bff98ddc2c48 ""
   "assets/lstm_cell.png" 1764156088.53126 145721 f211a12304e018ac206f33429d4d567c ""
   "assets/neuron.png" 1764156088.53237 90408 520a59ca7316b3f991dd1f385c26e0ed ""
   "assets/nn.png" 1764156088.53513 281773 e21ee3a5786cb2c0dcc477177451fb33 ""
@@ -132,10 +135,10 @@
   "assets/sigmoid_w_max_figure.png" 1764156088.53684 14343 85a977bb67ebede219272544aa797325 ""
   "assets/sigmoid_w_min_figure.png" 1764156088.53684 17778 05ce7490df5af9eb8fcf1733e3c72da8 ""
   "assets/step_figure.png" 1764156088.53784 12443 b74fda3afebbeb3a800c355a2fd8d45a ""
-  "main.aux" 1765803574.31104 17209 590a2c709a819219c514fd236632ab14 "pdflatex"
-  "main.out" 1765803574.31454 6263 012ef4361f50aea54684e3e5ab30a061 "pdflatex"
-  "main.tex" 1765803567.21478 71727 f53c835a9814178fcbe18693f462a2e5 ""
-  "main.toc" 1765803574.31621 3114 ee582293b0b9613bbeb60191418e4e04 "pdflatex"
+  "main.aux" 1765832137.30895 18411 db6bc7f40701b5614d2848238b7b4c1d "pdflatex"
+  "main.out" 1765832137.31095 6263 012ef4361f50aea54684e3e5ab30a061 "pdflatex"
+  "main.tex" 1765832119.66384 75030 8b8911d966fd127a8c33579dc8a32a9c ""
+  "main.toc" 1765832137.31095 3114 ee582293b0b9613bbeb60191418e4e04 "pdflatex"
   (generated)
   "main.aux"
   "main.log"

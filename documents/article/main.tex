@@ -842,11 +842,14 @@ W następnym rozdziale zaprezentowane zostaną wyniki przeprowadzonych eksperyme
 
 \clearpage
 \section{Wyniki badań}
-Ninejszy rozdział przedstawia wyniki przeprowadzonych eksperymentów wedle opisanej metodyki.
+W niniejszym rozdziale przygotowano zestawienie wyników przeprowadzonych eksperymentów wedle opisanej wcześniej metodyki.
 W rozdziale przedstawiono wyniki poszczególnych modeli, ich porównanie oraz analizę uzyskanych rezultatów.
 
 \subsection{Wyniki modelu bazowego}
-Model bazowy, wykorzystujący jedynie historyczne ceny zamknięcia, osiągnął następujące wyniki na zbiorze testowym:
+% Model bazowy, wykorzystujący jedynie historyczne ceny zamknięcia, osiągnął następujące wyniki na zbiorze testowym:
+Model bazowy, wykorzystujący jedynie historyczne ceny zamknięcia, niesie fundamentalną wartość porównawczą dla całości badania.
+Jego celem było ustalenie punktu odniesienia, jakie wyniki jest w stanie osiągnąć stosunkowo prosta architektura LSTM w kontekście predykcji cen giełdowych.
+Tabela \ref{tab:base_model_metrics} przedstawia osiągnięte przez model bazowy metryki: %! CHECK IT
 
 \begin{table}[H]
     \centering
@@ -893,7 +896,12 @@ Krzywe uczenia przedstawione na rysunku \ref{fig:base_model_learning_curve} poka
 Wyniki modelu bazowego stanowią punkt odniesienia do oceny skuteczności pozostałych dwóch modeli oraz pozwalają na wstępną ocenę, jak dobrze prosta architektura LSTM radzi sobie z zadaniem prognozowania cen akcji na podstawie ich historycznych wartości.
 
 \subsection{Wyniki modelu wzbogaconego}
-Model wzbogacony, który wykorzystywał dodatkowe wskaźniki analizy technicznej jako cechy wejściowe, osiągnął następujące wyniki na zbiorze testowym:
+Model wzbogacony wykorzystywał dodatkowe wskaźniki analizy technicznej (RSI, BBW, \%B) jako cechy wejściowe.
+Celem utworzenia modelu wzbogaconego było zbadanie hipotezy pobocznej -- Czy dodanie dodatkowego kontekstu rynkowego do oryignalnego zbioru danych poprawi jakość predykcyjną.
+Do całości badania, utworzenie tego modelu, wnosi kolejną wartość porównawczą. %! CHECK IT
+Osiągnięte wartości metryk przez model wzbogacony przedstawia tabela \ref{tab:enhanced_model_metrics}
+
+% Model wzbogacony, który wykorzystywał dodatkowe wskaźniki analizy technicznej jako cechy wejściowe, osiągnął następujące wyniki na zbiorze testowym:
 
 \begin{table}[H]
     \centering
@@ -965,12 +973,11 @@ Wyniki obu testów przedstawiono w tabeli \ref{tab:kalman_model_metrics}.
     \end{tabular}
 \end{table}
 
-W teście na danych filtrowanych model osiągnął rewelacyjną skuteczność: błąd RMSE na poziomie zaledwie 1.9891 oraz współczynnik determinacji \(R^2\) wynoszący 0.9756. 
+W teście na danych filtrowanych model osiągnął rewelacyjną skuteczność -- błąd RMSE wyniósł 1.9891 oraz współczynnik \(R^2\) wynoszący 0.9756. 
 Oznacza to, że model był w stanie wyjaśnić niemal 98\% wariancji w odszumionych danych. 
 Potwierdza to, że usunięcie szumu za pomocą filtru Kalmana pozwoliło sieci LSTM na nauczenie się bazowego trendu z bardzo wysoką precyzją.
 
-Wizualna ocena wyników na danych filtrowanych (rys. \ref{fig:kalman_filtered_predictions} i \ref{fig:kalman_filtered_error_distribution}) pokazuje bardzo bliskie dopasowanie przewidywanych cen do rzeczywistych wartości.
-Histogram błędów ma wąski rozkład, co świadczy o niskiej wariancji błędów predykcji.
+Wizualna ocena wyników na danych filtrowanych (rys. \ref{fig:kalman_filtered_predictions} i \ref{fig:kalman_filtered_error_distribution}) pokazuje bardzo bliskie dopasowanie przewidywanych cen do rzeczywistych wartości, a histogram błędów ma wąski rozkład, co świadczy o niskiej wariancji błędów predykcji i dobrej generalizacji modelu.
 
 \begin{figure}[H]
     \centering
@@ -981,9 +988,40 @@ Histogram błędów ma wąski rozkład, co świadczy o niskiej wariancji błęd�
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{assets/kalman_error_distribution_filtered.png}
-    \caption{Porównanie cen filtrowanych i przewidywanych przez model z filtrem Kalmana.}
+    \caption{Rozkład błędów predykcji dla modelu z filtrem Kalmana na danych filtrowanych.}
     \label{fig:kalman_filtered_error_distribution}
 \end{figure}
+
+Z kolei w teście na danych oryginalnych, ten sam model wykazał znaczny spadek wydajności -- błąd RMSE wzrósł do 4.6423, a \(R^2\) spadł do 0.8685.
+Względem modelu bazowego, wyniki te są bardzo zbliżone, co sugeruje, że model wytrenowany na odszumionych danych, gdy staje przed zadaniem predykcji zaszumionych danych, zachowuje się podobnie do modelu, który od początku uczył się na tych zaszumionych danych.
+Rysunki \ref{fig:kalman_original_predictions} oraz \ref{fig:kalman_original_error_distribution} ilustrują porównanie przewidywanych cen z rzeczywistymi wartościami oraz rozkład błędów predykcji na oryginalnych danych.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{assets/kalman_actual_vs_predicted_original.png}
+    \caption{Porównanie cen rzeczywistych i przewidywanych przez model z filtrem Kalmana na oryginalnych danych.}
+    \label{fig:kalman_original_predictions}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{assets/kalman_error_distribution_original.png}
+    \caption{Rozkład błędów predykcji dla modelu z filtrem Kalmana na oryginalnych danych.}
+    \label{fig:kalman_original_error_distribution}
+\end{figure}
+
+Krzywe uczenia dla modelu z filtrem Kalmana (rys. \ref{fig:kalman_model_learning_curve}) pokazują, że model dobrze uczył się na danych filtrowanych, jednak jego zdolność do generalizacji na oryginalnych danych była ograniczona.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{assets/kalman_learning_curves.png}
+    \caption{Krzywe uczenia modelu z filtrem Kalmana: wartość funkcji straty (MSE) oraz funkcji zysku (\(R^2\)) na zbiorach treningowym i walidacyjnym.}
+    \label{fig:kalman_model_learning_curve}
+\end{figure}
+
+Wyniki te potwierdzają hipotezę, że filtracja danych za pomocą filtru Kalmana znacząco poprawia jakość prognozy, gdy model jest testowany na odszumionych danych.
+Jednakże, w rzeczywistości rynkowej, gdzie dane są obarczone szumem, model ten nie wykazuje przewagi nad modelem bazowym.
+Sugeruje to, że choć filtracja może nie być korzystna w przypadku predykcji dokładnych cen akcji, to jednak w przypadku przewidywaniu następnych ruchów cenowych lub trendów, gdzie szum może mieć mniejsze znaczenie, takie podejście mogłoby przynieść korzyści.
+
+
+
 
 
 
