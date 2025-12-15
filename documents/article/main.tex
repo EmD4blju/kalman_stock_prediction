@@ -869,17 +869,17 @@ Wskaźnik \(R^2\) na poziomie 0.8730 wskazuje, że model wyjaśnia około 87.3\%
 
 Rysunki \ref{fig:base_model_predictions} oraz \ref{fig:base_model_error_distribution} ilustrują porównanie przewidywanych cen z rzeczywistymi wartościami oraz rozkład błędów predykcji.
 Na wykresie porównawczym widać, że model bazowy dobrze odwzorowuje ogólny trend cen, choć występują pewne odchylenia w szczegółach.
-Histogram błędów pokazuje, że większość predykcji mieści się w niewielkim zakresie od rzeczywistych wartości, co jest zgodne z uzyskanymi metrykami wydajności.
+Histogram błędów pokazuje, że większość predykcji mieści się w niewielkim zakresie od rzeczywistych wartości.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{assets/base_actual_vs_predicted.png}
+    \includegraphics[width=0.7\textwidth]{assets/base_actual_vs_predicted.png}
     \caption{Porównanie cen rzeczywistych i przewidywanych przez model bazowy.}
     \label{fig:base_model_predictions}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{assets/base_error_distribution.png}
-    \caption{Rozkład błędów predykcji (reszt) dla modelu bazowego.}
+    \includegraphics[width=0.7\textwidth]{assets/base_error_distribution.png}
+    \caption{Rozkład błędów predykcji dla modelu bazowego.}
     \label{fig:base_model_error_distribution}
 \end{figure}
 
@@ -893,9 +893,58 @@ Krzywe uczenia przedstawione na rysunku \ref{fig:base_model_learning_curve} poka
 
 Wyniki modelu bazowego stanowią punkt odniesienia do oceny skuteczności pozostałych dwóch modeli oraz pozwalają na wstępną ocenę, jak dobrze prosta architektura LSTM radzi sobie z zadaniem prognozowania cen akcji na podstawie ich historycznych wartości.
 
+\subsection{Wyniki modelu wzbogaconego}
+Model wzbogacony, który wykorzystywał dodatkowe wskaźniki analizy technicznej jako cechy wejściowe, osiągnął następujące wyniki na zbiorze testowym:
+
+\begin{table}[H]
+    \centering
+    \caption{Metryki wydajności modelu wzbogaconego na zbiorze testowym.}
+    \label{tab:enhanced_model_metrics}
+    \begin{tabular}{lc}
+        \hline
+        \textbf{Metryka} & \textbf{Wartość} \\
+        \hline
+        MSE & 30.0347 \\
+        RMSE & 5.4803 \\
+        \(R^2\) & 0.7961 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+W porównaniu do modelu bazowego, model wzbogacony uzyskał gorsze wyniki we wszystkich analizowanych metrykach.
+Błąd RMSE na poziomie 5.4803 sugeruje, że średnie odchylenie prognoz od rzeczywistych cen zamknięcia wynosi około 5.48 jednostek (dolarów).
+Wskaźnik \(R^2\) na poziomie 0.7961 oznacza, że model wyjaśnia około 79.6\% wariancji w danych testowych, co oznacza spadek zdolności do generalizacji w porównaniu do modelu bazowego.
+
+Wizualna ocena modelu (rys. \ref{fig:enhanced_model_predictions} i \ref{fig:enhanced_model_error_distribution}) potwierdza wyniki metryk. 
+Chociaż model nadal podąża za ogólnym trendem, jego prognozy wykazują większe odchylenia od wartości rzeczywistych. 
+Histogram błędów jest szerszy i bardziej spłaszczony niż w przypadku modelu bazowego, co świadczy o większej wariancji błędów predykcji.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{assets/enhanced_actual_vs_predicted.png}
+    \caption{Porównanie cen rzeczywistych i przewidywanych przez model wzbogacony.}
+    \label{fig:enhanced_model_predictions}  
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{assets/enhanced_error_distribution.png}
+    \caption{Rozkład błędów predykcji dla modelu wzbogaconego.}
+    \label{fig:enhanced_model_error_distribution}
+\end{figure}
+
+Krzywe uczenia (rys. \ref{fig:enhanced_model_learning_curve}) również wskazują na trudniejszy proces treningu. Mimo że model nie wykazuje jednoznacznych oznak przeuczenia, finalny błąd na zbiorze walidacyjnym jest wyższy niż w modelu bazowym.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{assets/enhanced_learning_curves.png}
+    \caption{Krzywe uczenia modelu wzbogaconego: wartość funkcji straty (MSE) oraz funkcji zysku (\(R^2\)) na zbiorach treningowym i walidacyjnym.}
+    \label{fig:enhanced_model_learning_curve}
+\end{figure}
+
+Uzyskane wyniki sugerują, że wbrew intuicji, dostarczenie modelowi dodatkowych informacji w postaci wskaźników analizy technicznej nie poprawiło, a wręcz pogorszyło jakość predykcji. 
+Prawdopodobną przyczyną jest wprowadzenie dodatkowego szumu informacyjnego przez wskaźniki techniczne. 
+Wskaźniki te, choć niosą pewien sygnał, same w sobie również podlegają fluktuacjom, co mogło utrudnić sieci neuronowej wyodrębnienie kluczowych wzorców. 
 
 
-% %~ Summary
+%~ Summary
 % \section{Podsumowanie i wnioski}
 
 % %~ Bibliography
