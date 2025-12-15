@@ -710,8 +710,8 @@ Po zdefiniowaniu cech dla każdego z trzech wariantów, wszystkie zbiory został
 
 \subsubsection{Skalowanie danych}
 Skalowanie cech wejściowych jest kluczowym krokiem w przygotowaniu danych do trenowania sieci neuronowych -- przyspiesza oraz stabilizuje proces uczenia sieci neuronowej \cite{TODO_data_scaling_importance}.
-W ramach ninejszej pracy wykrzystano skalowanie Z-score (standaryzacja), które przekształca dane tak, aby miały średnią 0 oraz odchylenie standardowe równe 1 \cite{TODO_z_score_scaling}.
-Proces skalowania został przeprowadzony przy użyciu klasy `StandardScaler` z biblioteki Scikit-learn.
+W ramach ninejszej pracy wykrzystano skalowanie min-max, które przekształca wartości cech do zdefiniowanego zakresu, zazwyczaj od 0 do 1 \cite{TODO_min_max_scaling}.
+Proces skalowania został przeprowadzony przy użyciu klasy `MinMaxScaler` z biblioteki Scikit-learn.
 Ważnym aspektem metodologicznym było dopasowanie skalera wyłącznie na danych treningowych. 
 Następnie ten sam, dopasowany skaler został użyty do transformacji zarówno zbioru walidacyjnego, jak i testowego. 
 Takie podejście zapobiega "przeciekowi danych" (ang. data leakage) z przyszłości do modelu, co jest niezbędne dla uzyskania wiarygodnych i rzetelnych wyników \cite{TODO_data_leakage_prevention}.
