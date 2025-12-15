@@ -306,6 +306,16 @@ INPUT ./assets/enhanced_learning_curves.png
 INPUT ./assets/enhanced_learning_curves.png
 INPUT ./assets/enhanced_learning_curves.png
 INPUT ./assets/enhanced_learning_curves.png
+INPUT ./assets/kalman_actual_vs_predicted_filtered.png
+INPUT ./assets/kalman_actual_vs_predicted_filtered.png
+INPUT ./assets/kalman_actual_vs_predicted_filtered.png
+INPUT ./assets/kalman_actual_vs_predicted_filtered.png
+INPUT ./assets/kalman_actual_vs_predicted_filtered.png
+INPUT ./assets/kalman_error_distribution_filtered.png
+INPUT ./assets/kalman_error_distribution_filtered.png
+INPUT ./assets/kalman_error_distribution_filtered.png
+INPUT ./assets/kalman_error_distribution_filtered.png
+INPUT ./assets/kalman_error_distribution_filtered.png
 INPUT main.aux
 INPUT ./main.out
 INPUT ./main.out

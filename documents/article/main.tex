@@ -712,6 +712,7 @@ Po zdefiniowaniu cech dla każdego z trzech wariantów, wszystkie zbiory został
 Skalowanie cech wejściowych jest kluczowym krokiem w przygotowaniu danych do trenowania sieci neuronowych -- przyspiesza oraz stabilizuje proces uczenia sieci neuronowej \cite{TODO_data_scaling_importance}.
 W ramach ninejszej pracy wykrzystano skalowanie min-max, które przekształca wartości cech do zdefiniowanego zakresu, zazwyczaj od 0 do 1 \cite{TODO_min_max_scaling}.
 Proces skalowania został przeprowadzony przy użyciu klasy `MinMaxScaler` z biblioteki Scikit-learn.
+
 Ważnym aspektem metodologicznym było dopasowanie skalera wyłącznie na danych treningowych. 
 Następnie ten sam, dopasowany skaler został użyty do transformacji zarówno zbioru walidacyjnego, jak i testowego. 
 Takie podejście zapobiega "przeciekowi danych" (ang. data leakage) z przyszłości do modelu, co jest niezbędne dla uzyskania wiarygodnych i rzetelnych wyników \cite{TODO_data_leakage_prevention}.
@@ -829,6 +830,7 @@ Produktami końcowymi ewaluacji były:
     \item Zestawienie wyników metryk wydajności dla każdego z modeli.
     \item Wykresy porównujące przewidywane ceny akcji z rzeczywistymi wartościami na zbiorze testowym.
     \item Analiza błędów predykcji w postaci histogramów ich rozkładu.
+    \item Krzywe uczenia ilustrujące przebieg procesu treningu dla każdego z modeli.
 \end{itemize}
 Cały proces, od generowania metryk po wizualizacje, został zaimplementowany jako zautomatyzowany pipeline w ramach projektu Kedro, co zapewniło spójność i powtarzalność całego eksperymentu \cite{TODO_kedro_evaluation}. 
 Tak przygotowane i zestawione wyniki posłużyły jako podstawa do przeprowadzenia szczegółowej analizy porównawczej, interpretacji rezultatów oraz sformułowania wniosków dotyczących skuteczności poszczególnych podejść.
@@ -936,7 +938,7 @@ Krzywe uczenia (rys. \ref{fig:enhanced_model_learning_curve}) również wskazuj�
     \label{fig:enhanced_model_learning_curve}
 \end{figure}
 
-Uzyskane wyniki sugerują, że wbrew intuicji, dostarczenie modelowi dodatkowych informacji w postaci wskaźników analizy technicznej nie poprawiło, a wręcz pogorszyło jakość predykcji. 
+Uzyskane wyniki sugerują, że dostarczenie modelowi dodatkowych informacji w postaci wskaźników analizy technicznej nie poprawiło, a wręcz pogorszyło jakość predykcji. 
 Prawdopodobną przyczyną jest wprowadzenie dodatkowego szumu informacyjnego przez wskaźniki techniczne. 
 Wskaźniki te, choć niosą pewien sygnał, same w sobie również podlegają fluktuacjom, co mogło utrudnić sieci neuronowej wyodrębnienie kluczowych wzorców. 
 
@@ -947,6 +949,7 @@ Aby w pełni ocenić skuteczność tego podejścia, przeprowadzono dwuetapową e
 Najpierw oceniono, jak dobrze model radzi sobie z przewidywaniem danych o tej samej, odszumionej charakterystyce (test na danych filtrowanych). 
 Następnie sprawdzono jego wydajność w bardziej realistycznym scenariuszu, czyli podczas predykcji na oryginalnych, zaszumionych danych testowych. 
 Wyniki obu testów przedstawiono w tabeli \ref{tab:kalman_model_metrics}.
+
 
 \begin{table}[H]
     \centering
@@ -966,10 +969,31 @@ W teście na danych filtrowanych model osiągnął rewelacyjną skuteczność: b
 Oznacza to, że model był w stanie wyjaśnić niemal 98\% wariancji w odszumionych danych. 
 Potwierdza to, że usunięcie szumu za pomocą filtru Kalmana pozwoliło sieci LSTM na nauczenie się bazowego trendu z bardzo wysoką precyzją.
 
-Zgodnie z oczekiwaniami, wydajność modelu spada, gdy jest on testowany na oryginalnych, zaszumionych danych. 
-Błąd RMSE wzrasta do 4.6423, a \(R^2\) spada do 0.8685. 
-Co istotne, te wartości są bardzo zbliżone do wyników uzyskanych przez model bazowy (RMSE 4.5626, \(R^2\) 0.8730). 
-Sugeruje to, że model wytrenowany na "czystym" sygnale, postawiony przed zadaniem predykcji zaszumionych danych, zachowuje się podobnie do modelu, który od początku uczył się na tych zaszumionych danych.
+Wizualna ocena wyników na danych filtrowanych (rys. \ref{fig:kalman_filtered_predictions} i \ref{fig:kalman_filtered_error_distribution}) pokazuje bardzo bliskie dopasowanie przewidywanych cen do rzeczywistych wartości.
+Histogram błędów ma wąski rozkład, co świadczy o niskiej wariancji błędów predykcji.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{assets/kalman_actual_vs_predicted_filtered.png}
+    \caption{Porównanie cen filtrowanych i przewidywanych przez model z filtrem Kalmana.}
+    \label{fig:kalman_filtered_predictions}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{assets/kalman_error_distribution_filtered.png}
+    \caption{Porównanie cen filtrowanych i przewidywanych przez model z filtrem Kalmana.}
+    \label{fig:kalman_filtered_error_distribution}
+\end{figure}
+
+
+
+
+% Zgodnie z oczekiwaniami, wydajność modelu spada, gdy jest on testowany na oryginalnych, zaszumionych danych. 
+% Błąd RMSE wzrasta do 4.6423, a \(R^2\) spada do 0.8685. 
+% Co istotne, te wartości są bardzo zbliżone do wyników uzyskanych przez model bazowy (RMSE 4.5626, \(R^2\) 0.8730). 
+% Sugeruje to, że model wytrenowany na filtrowanym sygnale, postawiony przed zadaniem predykcji zaszumionych danych, zachowuje się podobnie do modelu, który od początku uczył się na tych zaszumionych danych.
+
+
 
 %~ Summary
 % \section{Podsumowanie i wnioski}
