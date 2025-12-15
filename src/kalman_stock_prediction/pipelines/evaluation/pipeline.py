@@ -5,7 +5,10 @@ from .nodes import (
     evaluate_base_model,
     evaluate_enriched_model,
     evaluate_kalman_model_filtered,
-    evaluate_kalman_model_original
+    evaluate_kalman_model_original,
+    plot_base_model_learning_curves,
+    plot_enriched_model_learning_curves,
+    plot_kalman_model_learning_curves
 )
 
 
@@ -38,6 +41,15 @@ def create_evaluation_pipeline(**kwargs) -> Pipeline:
                 tags=["evaluation", "base_model"]
             ),
             
+            # Base model learning curves
+            node(
+                func=plot_base_model_learning_curves,
+                inputs="base_model_metrics",
+                outputs="base_model_learning_curves_plot",
+                name="plot_base_model_learning_curves_node",
+                tags=["visualization", "base_model", "learning_curves"]
+            ),
+            
             # Enriched model evaluation
             node(
                 func=evaluate_enriched_model,
@@ -54,6 +66,15 @@ def create_evaluation_pipeline(**kwargs) -> Pipeline:
                 ],
                 name="evaluate_enriched_model_node",
                 tags=["evaluation", "enriched_model"]
+            ),
+            
+            # Enriched model learning curves
+            node(
+                func=plot_enriched_model_learning_curves,
+                inputs="enriched_model_metrics",
+                outputs="enriched_model_learning_curves_plot",
+                name="plot_enriched_model_learning_curves_node",
+                tags=["visualization", "enriched_model", "learning_curves"]
             ),
             
             # Kalman model evaluation on filtered data
@@ -90,6 +111,15 @@ def create_evaluation_pipeline(**kwargs) -> Pipeline:
                 ],
                 name="evaluate_kalman_model_original_node",
                 tags=["evaluation", "kalman_model", "original"]
+            ),
+            
+            # Kalman model learning curves
+            node(
+                func=plot_kalman_model_learning_curves,
+                inputs="kalman_model_metrics",
+                outputs="kalman_model_learning_curves_plot",
+                name="plot_kalman_model_learning_curves_node",
+                tags=["visualization", "kalman_model", "learning_curves"]
             ),
         ]
     )

@@ -177,3 +177,16 @@ kalman_model_original_actual_vs_predicted_plot:
 kalman_model_original_error_distribution_plot:
   type: kalman_stock_prediction.models.matplotlib_dataset.MatplotlibDataset
   filepath: models/kalman_model/error_distribution_original.png
+
+# Learning curves plots
+base_model_learning_curves_plot:
+  type: kalman_stock_prediction.models.matplotlib_dataset.MatplotlibDataset
+  filepath: models/base_model/learning_curves.png
+
+enriched_model_learning_curves_plot:
+  type: kalman_stock_prediction.models.matplotlib_dataset.MatplotlibDataset
+  filepath: models/enhanced_model/learning_curves.png
+
+kalman_model_learning_curves_plot:
+  type: kalman_stock_prediction.models.matplotlib_dataset.MatplotlibDataset
+  filepath: models/kalman_model/learning_curves.png
