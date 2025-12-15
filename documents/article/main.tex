@@ -710,11 +710,8 @@ Po zdefiniowaniu cech dla każdego z trzech wariantów, wszystkie zbiory został
 
 \subsubsection{Skalowanie danych}
 Skalowanie cech wejściowych jest kluczowym krokiem w przygotowaniu danych do trenowania sieci neuronowych -- przyspiesza oraz stabilizuje proces uczenia sieci neuronowej \cite{TODO_data_scaling_importance}.
-W ramach ninejszej pracy zbadano i porównano dwie strategie skalowania danych:
-\begin{itemize}
-    \item \textbf{Normalizacja (Min-Max Scaling):} Przekształca wartości cech do z góry określonego zakresu, w tym przypadku [0, 1].
-    \item \textbf{Standaryzacja (Z-score Standardization):} Przekształca dane tak, aby miały średnią równą 0 i odchylenie standardowe równe 1.
-\end{itemize}
+W ramach ninejszej pracy wykrzystano skalowanie Z-score (standaryzacja), które przekształca dane tak, aby miały średnią 0 oraz odchylenie standardowe równe 1 \cite{TODO_z_score_scaling}.
+Proces skalowania został przeprowadzony przy użyciu klasy `StandardScaler` z biblioteki Scikit-learn.
 Ważnym aspektem metodologicznym było dopasowanie skalera wyłącznie na danych treningowych. 
 Następnie ten sam, dopasowany skaler został użyty do transformacji zarówno zbioru walidacyjnego, jak i testowego. 
 Takie podejście zapobiega "przeciekowi danych" (ang. data leakage) z przyszłości do modelu, co jest niezbędne dla uzyskania wiarygodnych i rzetelnych wyników \cite{TODO_data_leakage_prevention}.
@@ -943,6 +940,36 @@ Uzyskane wyniki sugerują, że wbrew intuicji, dostarczenie modelowi dodatkowych
 Prawdopodobną przyczyną jest wprowadzenie dodatkowego szumu informacyjnego przez wskaźniki techniczne. 
 Wskaźniki te, choć niosą pewien sygnał, same w sobie również podlegają fluktuacjom, co mogło utrudnić sieci neuronowej wyodrębnienie kluczowych wzorców. 
 
+\subsection{Wyniki modelu z filtrem Kalmana}
+Trzeci model, stanowiący sedno niniejszej pracy, został wytrenowany na danych wejściowych poddanych wstępnej filtracji za pomocą filtru Kalmana. 
+Jego celem była weryfikacja głównej hipotezy badawczej, mówiącej o pozytywnym wpływie odszumiania danych na jakość predykcji.
+Aby w pełni ocenić skuteczność tego podejścia, przeprowadzono dwuetapową ewaluację. 
+Najpierw oceniono, jak dobrze model radzi sobie z przewidywaniem danych o tej samej, odszumionej charakterystyce (test na danych filtrowanych). 
+Następnie sprawdzono jego wydajność w bardziej realistycznym scenariuszu, czyli podczas predykcji na oryginalnych, zaszumionych danych testowych. 
+Wyniki obu testów przedstawiono w tabeli \ref{tab:kalman_model_metrics}.
+
+\begin{table}[H]
+    \centering
+    \caption{Metryki wydajności modelu z filtrem Kalmana w zależności od rodzaju zbioru testowego.}
+    \label{tab:kalman_model_metrics}
+    \begin{tabular}{lccc}
+        \hline
+        \textbf{Rodzaj testu} & \textbf{MSE} & \textbf{RMSE} & \textbf{\(R^2\)} \\
+        \hline
+        Test na danych filtrowanych & 3.9563 & 1.9891 & 0.9756 \\
+        Test na danych oryginalnych & 21.5511 & 4.6423 & 0.8685 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+W teście na danych filtrowanych model osiągnął rewelacyjną skuteczność: błąd RMSE na poziomie zaledwie 1.9891 oraz współczynnik determinacji \(R^2\) wynoszący 0.9756. 
+Oznacza to, że model był w stanie wyjaśnić niemal 98\% wariancji w odszumionych danych. 
+Potwierdza to, że usunięcie szumu za pomocą filtru Kalmana pozwoliło sieci LSTM na nauczenie się bazowego trendu z bardzo wysoką precyzją.
+
+Zgodnie z oczekiwaniami, wydajność modelu spada, gdy jest on testowany na oryginalnych, zaszumionych danych. 
+Błąd RMSE wzrasta do 4.6423, a \(R^2\) spada do 0.8685. 
+Co istotne, te wartości są bardzo zbliżone do wyników uzyskanych przez model bazowy (RMSE 4.5626, \(R^2\) 0.8730). 
+Sugeruje to, że model wytrenowany na "czystym" sygnale, postawiony przed zadaniem predykcji zaszumionych danych, zachowuje się podobnie do modelu, który od początku uczył się na tych zaszumionych danych.
 
 %~ Summary
 % \section{Podsumowanie i wnioski}

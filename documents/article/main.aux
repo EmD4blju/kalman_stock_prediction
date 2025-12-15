@@ -146,18 +146,49 @@
 \newlabel{tab:raw_data_sample}{{1}{19}{Przykładowe rekordy z surowego zbioru danych dla spółki AMZN. Źródło: \cite {TODO_yfinance}}{table.1}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Przetwarzanie wstępne i inżynieria cech}{19}{subsubsection.3.2.2}\protected@file@percent }
 \citation{TODO_data_scaling_importance}
+\citation{TODO_z_score_scaling}
 \citation{TODO_data_leakage_prevention}
 \@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Przykładowa struktura danych po przekształceniu do formatu nadzorowanego.}}{20}{table.2}\protected@file@percent }
 \newlabel{tab:formatted_data_sample}{{2}{20}{Przykładowa struktura danych po przekształceniu do formatu nadzorowanego}{table.2}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Skalowanie danych}{20}{subsubsection.3.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}Podział danych}{20}{subsubsection.3.2.4}\protected@file@percent }
 \citation{TODO_time_series_data_splitting}
 \citation{TODO_pytorch_usage}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}Podział danych}{21}{subsubsection.3.2.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Architektura modeli}{21}{subsection.3.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Model bazowy (Base Model)}{21}{subsubsection.3.3.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Model wzbogacony (Enriched Model)}{21}{subsubsection.3.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Model z filtrem Kalmana (Kalman Model)}{21}{subsubsection.3.3.3}\protected@file@percent }
+\citation{TODO_hyperparameter_optimization}
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Zestawienie kluczowych hiperparametrów architektury modeli.}}{22}{table.3}\protected@file@percent }
 \newlabel{tab:model_architecture_params}{{3}{22}{Zestawienie kluczowych hiperparametrów architektury modeli}{table.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Metryki oceny}{22}{subsection.3.4}\protected@file@percent }
-\citat
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Proces uczenia}{22}{subsection.3.5}\protected@file@percent }
+\citation{TODO_adam_optimizer}
+\citation{TODO_kedro_reproducibility}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.1}Strojenie hiperparametrów}{23}{subsubsection.3.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.2}Przebieg procesu uczenia}{23}{subsubsection.3.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Proces ewaluacji}{23}{subsection.3.6}\protected@file@percent }
+\citation{TODO_kedro_evaluation}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Wyniki badań}{25}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Wyniki modelu bazowego}{25}{subsection.4.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Metryki wydajności modelu bazowego na zbiorze testowym.}}{25}{table.4}\protected@file@percent }
+\newlabel{tab:base_model_metrics}{{4}{25}{Metryki wydajności modelu bazowego na zbiorze testowym}{table.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Porównanie cen rzeczywistych i przewidywanych przez model bazowy.}}{25}{figure.10}\protected@file@percent }
+\newlabel{fig:base_model_predictions}{{10}{25}{Porównanie cen rzeczywistych i przewidywanych przez model bazowy}{figure.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Rozkład błędów predykcji dla modelu bazowego.}}{26}{figure.11}\protected@file@percent }
+\newlabel{fig:base_model_error_distribution}{{11}{26}{Rozkład błędów predykcji dla modelu bazowego}{figure.11}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Krzywe uczenia modelu bazowego: wartość funkcji straty (MSE) oraz funkcji zysku (\(R^2\)) na zbiorach treningowym i walidacyjnym.}}{26}{figure.12}\protected@file@percent }
+\newlabel{fig:base_model_learning_curve}{{12}{26}{Krzywe uczenia modelu bazowego: wartość funkcji straty (MSE) oraz funkcji zysku (\(R^2\)) na zbiorach treningowym i walidacyjnym}{figure.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Wyniki modelu wzbogaconego}{27}{subsection.4.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Metryki wydajności modelu wzbogaconego na zbiorze testowym.}}{27}{table.5}\protected@file@percent }
+\newlabel{tab:enhanced_model_metrics}{{5}{27}{Metryki wydajności modelu wzbogaconego na zbiorze testowym}{table.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Porównanie cen rzeczywistych i przewidywanych przez model wzbogacony.}}{27}{figure.13}\protected@file@percent }
+\newlabel{fig:enhanced_model_predictions}{{13}{27}{Porównanie cen rzeczywistych i przewidywanych przez model wzbogacony}{figure.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Rozkład błędów predykcji dla modelu wzbogaconego.}}{28}{figure.14}\protected@file@percent }
+\newlabel{fig:enhanced_model_error_distribution}{{14}{28}{Rozkład błędów predykcji dla modelu wzbogaconego}{figure.14}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Krzywe uczenia modelu wzbogaconego: wartość funkcji straty (MSE) oraz funkcji zysku (\(R^2\)) na zbiorach treningowym i walidacyjnym.}}{28}{figure.15}\protected@file@percent }
+\newlabel{fig:enhanced_model_learning_curve}{{15}{28}{Krzywe uczenia modelu wzbogaconego: wartość funkcji straty (MSE) oraz funkcji zysku (\(R^2\)) na zbiorach treningowym i walidacyjnym}{figure.15}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Wyniki modelu z filtrem Kalmana}{29}{subsection.4.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Metryki wydajności modelu z filtrem Kalmana w zależności od rodzaju zbioru testowego.}}{29}{table.6}\protected@file@percent }
+\newlabel{tab:kalman_model_metrics}{{6}{29}{Metryki wydajności modelu z filtrem Kalmana w zależności od rodzaju zbioru testowego}{table.6}{}}
+\gdef \@abspage@last{30}
