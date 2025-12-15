@@ -27,3 +27,5 @@
 \contentsline {subsubsection}{\numberline {3.5.1}Strojenie hiperparametrów}{23}{subsubsection.3.5.1}%
 \contentsline {subsubsection}{\numberline {3.5.2}Przebieg procesu uczenia}{23}{subsubsection.3.5.2}%
 \contentsline {subsection}{\numberline {3.6}Proces ewaluacji}{24}{subsection.3.6}%
+\contentsline {section}{\numberline {4}Wyniki badań}{25}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Wyniki modelu bazowego}{25}{subsection.4.1}%

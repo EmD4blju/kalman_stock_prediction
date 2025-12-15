@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1765275547.63378 "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" "main.pdf" "main" 1765275550.52136 0
+["pdflatex"] 1765796651.59996 "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" "main.pdf" "main" 1765796655.84906 0
   "/etc/texmf/web2c/texmf.cnf" 1759393268.57976 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" 1765275547.08925 62959 645f6194b67751e5ee2e63ce1c21a9cb ""
+  "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" 1765796646.26014 65780 5e449db3b0f0c45bdec245f7b912f75f ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm" 1136768653 4524 6bce29db5bc272ba5f332261583fee9c ""
@@ -113,6 +113,9 @@
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1759393334 8214420 bf064290a4e4da7150c8722f4369abaf ""
   "assets/PJATK_PL_sygnet.png" 1764154986.70843 51607 12c06ca3a8383ace1cd7a334583c1f34 ""
   "assets/amzn_stock.png" 1764156088.52884 62919 53f54f66426e9718aa4904f571d22b89 ""
+  "assets/base_actual_vs_predicted.png" 1765793789.11012 257213 5902746066d5feaa31f9089484bc0b4d ""
+  "assets/base_error_distribution.png" 1765793789.15114 144215 e2c55694bd8a4452d6f8ff1ab731d9ab ""
+  "assets/base_learning_curves.png" 1765795944.46926 303510 49d91625c7f766b2759f61150f66c24f ""
   "assets/kalman_filter_cycle.png" 1764156088.52971 48327 ab91b406808687bd018692a4cb79f799 ""
   "assets/lstm_cell.png" 1764156088.53126 145721 f211a12304e018ac206f33429d4d567c ""
   "assets/neuron.png" 1764156088.53237 90408 520a59ca7316b3f991dd1f385c26e0ed ""
@@ -124,10 +127,10 @@
   "assets/sigmoid_w_max_figure.png" 1764156088.53684 14343 85a977bb67ebede219272544aa797325 ""
   "assets/sigmoid_w_min_figure.png" 1764156088.53684 17778 05ce7490df5af9eb8fcf1733e3c72da8 ""
   "assets/step_figure.png" 1764156088.53784 12443 b74fda3afebbeb3a800c355a2fd8d45a ""
-  "main.aux" 1765275550.39211 12985 f0e32b01f7f457cd2ab1dfd71e6cdf54 "pdflatex"
-  "main.out" 1765275550.39411 5560 dec97ef1aaa6518cc66aa755750e000f "pdflatex"
-  "main.tex" 1765275547.08925 62959 645f6194b67751e5ee2e63ce1c21a9cb ""
-  "main.toc" 1765275550.39511 2764 2f69bb8d8b6a918b8eeaa0e7fcd68912 "pdflatex"
+  "main.aux" 1765796655.7342 14549 6082f6c5021690212c2aa2f79f6d9c50 "pdflatex"
+  "main.out" 1765796655.7352 5844 10fd3285af869f97912ff1230ddbcd99 "pdflatex"
+  "main.tex" 1765796646.26014 65780 5e449db3b0f0c45bdec245f7b912f75f ""
+  "main.toc" 1765796655.7362 2923 8b1b933206403e1b149af6f4981f50cc "pdflatex"
   (generated)
   "main.aux"
   "main.log"

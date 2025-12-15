@@ -824,7 +824,7 @@ Takie podejście zapewniło nie tylko przejrzystość i łatwość zarządzania 
 Po zakończeniu treningu, wytrenowane modele zostały poddane ewaluacji na zbiorze testowym.
 
 \subsection{Proces ewaluacji}
-Po zakończeniu procesu uczenia, każdy z trzech modeli został poddany ocenie na zbiorze testowym, który stanowił 10\% wszystkich danych i nie był wykorzystywany podczas treningu ani walidacji.
+Finalna ocena modeli została przeprowadzona na zbiorze testowym, który stanowił 10\% wszystkich danych i nie był wykorzystywany podczas treningu ani walidacji.
 Celem ewaluacji było uzyskanie porównywalnych wyników wydajności modeli, które odzwierciedlałyby ich zdolność do generalizacji na nieznanych danych.
 Do oceny wydajności modeli na zbiorze testowym zastosowano zdefiniowane wcześniej metryki (MSE, RMSE oraz \(R^2\)).
 Produktami końcowymi ewaluacji były:
@@ -837,11 +837,63 @@ Cały proces, od generowania metryk po wizualizacje, został zaimplementowany ja
 Tak przygotowane i zestawione wyniki posłużyły jako podstawa do przeprowadzenia szczegółowej analizy porównawczej, interpretacji rezultatów oraz sformułowania wniosków dotyczących skuteczności poszczególnych podejść.
 
 \vspace{0.5cm}
-Niniejszy rozdział przedstawił kompleksową metodykę badań, obejmującą proces przygotowania danych, implementację i trenowanie trzech odrębnych modeli LSTM oraz procedurę ich ewaluacji.
+W tym rozdziale przedstawiono kompleksową metodykę badań, obejmującą proces przygotowania danych, implementację i trenowanie trzech odrębnych modeli LSTM oraz procedurę ich ewaluacji.
 Taka struktura przeprowadzenia badania miała na celu zapewnienie rzetelności, powtarzalności i porównywalności wyników.
 W następnym rozdziale zaprezentowane zostaną wyniki przeprowadzonych eksperymentów oraz ich szczegółowa analiza.
 
-% \section{Wyniki i dyskusja}
+\clearpage
+\section{Wyniki badań}
+Ninejszy rozdział przedstawia wyniki przeprowadzonych eksperymentów wedle opisanej metodyki.
+W rozdziale przedstawiono wyniki poszczególnych modeli, ich porównanie oraz analizę uzyskanych rezultatów.
+
+\subsection{Wyniki modelu bazowego}
+Model bazowy, wykorzystujący jedynie historyczne ceny zamknięcia, osiągnął następujące wyniki na zbiorze testowym:
+
+\begin{table}[H]
+    \centering
+    \caption{Metryki wydajności modelu bazowego na zbiorze testowym.}
+    \label{tab:base_model_metrics}
+    \begin{tabular}{lc}
+        \hline
+        \textbf{Metryka} & \textbf{Wartość} \\
+        \hline
+        MSE & 20.8176 \\
+        RMSE & 4.5626 \\
+        \(R^2\) & 0.8730 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Uzyskany błąd RMSE na poziomie 4.5626 oznacza, że średnie odchylenie prognoz od rzeczywistych cen zamknięcia wynosi około 4.56 jednostek (dolarów).
+Wskaźnik \(R^2\) na poziomie 0.8730 wskazuje, że model wyjaśnia około 87.3\% wariancji w danych testowych, co sugeruje dobrą zdolność do generalizacji.
+
+Rysunki \ref{fig:base_model_predictions} oraz \ref{fig:base_model_error_distribution} ilustrują porównanie przewidywanych cen z rzeczywistymi wartościami oraz rozkład błędów predykcji.
+Na wykresie porównawczym widać, że model bazowy dobrze odwzorowuje ogólny trend cen, choć występują pewne odchylenia w szczegółach.
+Histogram błędów pokazuje, że większość predykcji mieści się w niewielkim zakresie od rzeczywistych wartości, co jest zgodne z uzyskanymi metrykami wydajności.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{assets/base_actual_vs_predicted.png}
+    \caption{Porównanie cen rzeczywistych i przewidywanych przez model bazowy.}
+    \label{fig:base_model_predictions}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{assets/base_error_distribution.png}
+    \caption{Rozkład błędów predykcji (reszt) dla modelu bazowego.}
+    \label{fig:base_model_error_distribution}
+\end{figure}
+
+Krzywe uczenia przedstawione na rysunku \ref{fig:base_model_learning_curve} pokazują spadek wartości funkcji straty (MSE) oraz wzrost funkcji zysku (\(R^2\)) zarówno na zbiorze treningowym, jak i walidacyjnym w miarę postępu treningu.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{assets/base_learning_curves.png}
+    \caption{Krzywe uczenia modelu bazowego: wartość funkcji straty (MSE) oraz funkcji zysku (\(R^2\)) na zbiorach treningowym i walidacyjnym.}
+    \label{fig:base_model_learning_curve}
+\end{figure}
+
+Wyniki modelu bazowego stanowią punkt odniesienia do oceny skuteczności pozostałych dwóch modeli oraz pozwalają na wstępną ocenę, jak dobrze prosta architektura LSTM radzi sobie z zadaniem prognozowania cen akcji na podstawie ich historycznych wartości.
+
+
 
 % %~ Summary
 % \section{Podsumowanie i wnioski}
