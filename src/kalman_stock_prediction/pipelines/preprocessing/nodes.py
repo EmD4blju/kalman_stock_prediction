@@ -26,7 +26,7 @@ def enrich_dataset(dataframe: pd.DataFrame, target_column: str, rsi_window: int 
     
     return enriched_dataframe
 
-def apply_kalman_filter(dataframe: pd.DataFrame, target_column: str, kalman_F: list, kalman_H: list, kalman_P: float, kalman_R: float, kalman_Q: list) -> pd.DataFrame:
+def apply_kalman_filter(dataframe: pd.DataFrame, target_column: str, kalman_F: list, kalman_H: list, kalman_P: list, kalman_R: float, kalman_Q: list) -> pd.DataFrame:
     """
     Applies Kalman filter to the target column of the passed DataFrame.
     
@@ -35,7 +35,7 @@ def apply_kalman_filter(dataframe: pd.DataFrame, target_column: str, kalman_F: l
         target_column: The target column to apply Kalman filter to.
         kalman_F: State transition matrix (2x2).
         kalman_H: Measurement function (1x2).
-        kalman_P: Covariance matrix initial value.
+        kalman_P: Covariance matrix initial value (2x2).
         kalman_R: State uncertainty.
         kalman_Q: Process uncertainty (2x2).
     
@@ -52,7 +52,7 @@ def apply_kalman_filter(dataframe: pd.DataFrame, target_column: str, kalman_F: l
     kf.x = np.array([[data_array[0]], [0.]])       # initial state (price and velocity)
     kf.F = np.array(kalman_F)                      # state transition matrix
     kf.H = np.array(kalman_H)                      # measurement function
-    kf.P = kalman_P                                # covariance matrix
+    kf.P = np.array(kalman_P)               # covariance matrix
     kf.R = kalman_R                                # state uncertainty
     kf.Q = np.array(kalman_Q)                      # process uncertainty
     

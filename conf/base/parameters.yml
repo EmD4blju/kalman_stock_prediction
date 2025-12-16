@@ -8,7 +8,7 @@ bb_window: 20
 bb_window_dev: 2
 kalman_F: [[1, 1], [0, 1]]
 kalman_H: [[1, 0]]
-kalman_P: 1.0
+kalman_P: [[1.0, 0.0], [0.0, 1000.0]]
 kalman_R: 1.0
 kalman_Q: [[0.001, 0], [0, 0.001]]
 
