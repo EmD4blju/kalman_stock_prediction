@@ -190,3 +190,8 @@ enriched_model_learning_curves_plot:
 kalman_model_learning_curves_plot:
   type: kalman_stock_prediction.models.matplotlib_dataset.MatplotlibDataset
   filepath: models/kalman_model/learning_curves.png
+
+# Combined predictions plot for all three models
+combined_predictions_plot:
+  type: kalman_stock_prediction.models.matplotlib_dataset.MatplotlibDataset
+  filepath: models/combined_predictions.png

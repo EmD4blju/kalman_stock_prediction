@@ -8,7 +8,8 @@ from .nodes import (
     evaluate_kalman_model_original,
     plot_base_model_learning_curves,
     plot_enriched_model_learning_curves,
-    plot_kalman_model_learning_curves
+    plot_kalman_model_learning_curves,
+    plot_combined_predictions
 )
 
 
@@ -120,6 +121,26 @@ def create_evaluation_pipeline(**kwargs) -> Pipeline:
                 outputs="kalman_model_learning_curves_plot",
                 name="plot_kalman_model_learning_curves_node",
                 tags=["visualization", "kalman_model", "learning_curves"]
+            ),
+            
+            # Combined predictions plot for all three models
+            node(
+                func=plot_combined_predictions,
+                inputs=[
+                    "test_dataset",
+                    "enriched_test_dataset",
+                    "test_dataset",
+                    "base_model",
+                    "enriched_model",
+                    "kalman_model",
+                    "scaler_y",
+                    "enriched_scaler_y",
+                    "kalman_scaler_y",
+                    "params:evaluation"
+                ],
+                outputs="combined_predictions_plot",
+                name="plot_combined_predictions_node",
+                tags=["visualization", "comparison"]
             ),
         ]
     )
