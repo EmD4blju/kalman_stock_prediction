@@ -16,17 +16,17 @@
 \contentsline {subsection}{\numberline {3.2}Przygotowanie danych}{19}{subsection.3.2}%
 \contentsline {subsubsection}{\numberline {3.2.1}Pobranie danych}{19}{subsubsection.3.2.1}%
 \contentsline {subsubsection}{\numberline {3.2.2}Przetwarzanie wstępne i inżynieria cech}{19}{subsubsection.3.2.2}%
-\contentsline {subsubsection}{\numberline {3.2.3}Skalowanie danych}{20}{subsubsection.3.2.3}%
-\contentsline {subsubsection}{\numberline {3.2.4}Podział danych}{20}{subsubsection.3.2.4}%
+\contentsline {subsubsection}{\numberline {3.2.3}Skalowanie danych}{21}{subsubsection.3.2.3}%
+\contentsline {subsubsection}{\numberline {3.2.4}Podział danych}{21}{subsubsection.3.2.4}%
 \contentsline {subsection}{\numberline {3.3}Architektura modeli}{21}{subsection.3.3}%
-\contentsline {subsubsection}{\numberline {3.3.1}Model bazowy (Base Model)}{21}{subsubsection.3.3.1}%
-\contentsline {subsubsection}{\numberline {3.3.2}Model wzbogacony (Enriched Model)}{21}{subsubsection.3.3.2}%
-\contentsline {subsubsection}{\numberline {3.3.3}Model z filtrem Kalmana (Kalman Model)}{21}{subsubsection.3.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}Model bazowy (Base Model)}{22}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}Model wzbogacony (Enriched Model)}{22}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.3}Model z filtrem Kalmana (Kalman Model)}{22}{subsubsection.3.3.3}%
 \contentsline {subsection}{\numberline {3.4}Metryki oceny}{22}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}Proces uczenia}{22}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.5}Proces uczenia}{23}{subsection.3.5}%
 \contentsline {subsubsection}{\numberline {3.5.1}Strojenie hiperparametrów}{23}{subsubsection.3.5.1}%
-\contentsline {subsubsection}{\numberline {3.5.2}Przebieg procesu uczenia}{23}{subsubsection.3.5.2}%
-\contentsline {subsection}{\numberline {3.6}Proces ewaluacji}{23}{subsection.3.6}%
+\contentsline {subsubsection}{\numberline {3.5.2}Przebieg procesu uczenia}{24}{subsubsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.6}Proces ewaluacji}{24}{subsection.3.6}%
 \contentsline {section}{\numberline {4}Wyniki badań}{25}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Wyniki modelu bazowego}{25}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}Wyniki modelu wzbogaconego}{26}{subsection.4.2}%

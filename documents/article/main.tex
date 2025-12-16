@@ -703,7 +703,26 @@ Powodem tego była potrzeba przygotowania trzech odrębnych wariantów zbioru da
 
     \item \textbf{Zbiór dla modelu wzbogaconego (Enriched Model):} Ten zbiór został rozszerzony o dodatkowe cechy uzyskane w procesie inżynierii cech. Do ceny zamknięcia dołączono trzy wskaźniki analizy technicznej: wskaźnik siły względnej (RSI), szerokość wstęg Bollingera (BBW) oraz procentowe położenie ceny względem wstęg (\%B).
 
-    \item \textbf{Zbiór dla modelu z filtrem Kalmana (Kalman Model):} W tym podejściu cena zamknięcia została poddana procesowi filtracji przy użyciu filtru Kalmana.
+    \item \textbf{Zbiór dla modelu z filtrem Kalmana (Kalman Model):} W tym podejściu cena zamknięcia została poddana procesowi filtracji przy użyciu filtru Kalmana. 
+    W ramach implementacji zdefiniowano dwuwymiarowy wektor stanu \(x\), który śledzi zarówno cenę, jak i jej chwilową prędkość (trend):
+    \[ x = \begin{bmatrix} \text{cena} \\ \text{prędkość} \end{bmatrix} \]
+    Pozostałe parametry filtru, dobrane empirycznie w celu optymalnego wygładzenia sygnału, przedstawiono poniżej:
+    \begin{itemize}
+        \item \textbf{Macierz przejścia stanu (F):} Zakładający stałą prędkość zmiany ceny.
+        \[ F = \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix} \]
+
+        \item \textbf{Macierz pomiaru (H):} Mapująca rzeczywisty stan do przestrzeni pomiarowej.
+        \[ H = \begin{bmatrix} 1 & 0 \end{bmatrix} \]
+
+        \item \textbf{Kowariancja błędu estymacji (P):} Ustawiona na wysoką wartość początkową dla prędkości, aby odzwierciedlić niepewność co do trendu cenowego.
+        \[ P = \begin{bmatrix} 1 & 0 \\ 0 & 1000 \end{bmatrix} \]
+
+        \item \textbf{Kowariancja szumu pomiarowego (R):} Zdefiniowana jako stała wartość, reprezentująca niepewność pomiaru ceny.
+        \[ R = 1.0 \]
+
+        \item \textbf{Kowariancja szumu procesu (Q): } Ustawiona empirycznie na niską wartość.
+        \[ Q = \begin{bmatrix} 0.001 & 0 \\ 0 & 0.001 \end{bmatrix} \]
+    \end{itemize}
 \end{enumerate}
 
 Po zdefiniowaniu cech dla każdego z trzech wariantów, wszystkie zbiory zostały poddane tym samym, końcowym etapom przetwarzania, aby zapewnić spójność i rzetelność porównania.
