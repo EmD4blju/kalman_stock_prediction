@@ -29,5 +29,5 @@
 \contentsline {subsection}{\numberline {3.6}Proces ewaluacji}{23}{subsection.3.6}%
 \contentsline {section}{\numberline {4}Wyniki badań}{25}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Wyniki modelu bazowego}{25}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Wyniki modelu wzbogaconego}{27}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Wyniki modelu z filtrem Kalmana}{29}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.2}Wyniki modelu wzbogaconego}{26}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Wyniki modelu z filtrem Kalmana}{28}{subsection.4.3}%

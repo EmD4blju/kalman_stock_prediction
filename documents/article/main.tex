@@ -842,14 +842,16 @@ W następnym rozdziale zaprezentowane zostaną wyniki przeprowadzonych eksperyme
 
 \clearpage
 \section{Wyniki badań}
-W niniejszym rozdziale przygotowano zestawienie wyników przeprowadzonych eksperymentów wedle opisanej wcześniej metodyki.
-W rozdziale przedstawiono wyniki poszczególnych modeli, ich porównanie oraz analizę uzyskanych rezultatów.
+Ninejszy rozdział zawiera zestawienie oraz analizę wyników uzyskanych w ramach przeprowadzanego badania.
+Rezultaty zostały podzielone na trzy sekcje, z których każda odpowiada jednemu z porównywanych modeli: model bazowy, model wzbogacony oraz model z filtrem Kalmana.
+Dla każdego modelu przedstawiono kluczowe metryki wydajności na zbiorze testowym, wizualizacje porównujące przewidywane ceny z rzeczywistymi wartościami, analizę błędów predykcji oraz krzywe uczenia.
+Całość zamyka podrozdział zawierający zbiorcze porównanie i dyskusję nad uzyskanymi rezultatami.
 
 \subsection{Wyniki modelu bazowego}
 % Model bazowy, wykorzystujący jedynie historyczne ceny zamknięcia, osiągnął następujące wyniki na zbiorze testowym:
 Model bazowy, wykorzystujący jedynie historyczne ceny zamknięcia, niesie fundamentalną wartość porównawczą dla całości badania.
-Jego celem było ustalenie punktu odniesienia, jakie wyniki jest w stanie osiągnąć stosunkowo prosta architektura LSTM w kontekście predykcji cen giełdowych.
-Tabela \ref{tab:base_model_metrics} przedstawia osiągnięte przez model bazowy metryki: %! CHECK IT
+Jego celem było ustalenie punktu odniesienia, jakie wyniki jest w stanie osiągnąć stosunkowo prosta architektura LSTM w kontekście przewidywania cen giełdowych.
+Tabela \ref{tab:base_model_metrics} przedstawia osiągnięte przez model bazowy metryki.
 
 \begin{table}[H]
     \centering
@@ -869,23 +871,24 @@ Tabela \ref{tab:base_model_metrics} przedstawia osiągnięte przez model bazowy 
 Uzyskany błąd RMSE na poziomie 4.5626 oznacza, że średnie odchylenie prognoz od rzeczywistych cen zamknięcia wynosi około 4.56 jednostek (dolarów).
 Wskaźnik \(R^2\) na poziomie 0.8730 wskazuje, że model wyjaśnia około 87.3\% wariancji w danych testowych, co sugeruje dobrą zdolność do generalizacji.
 
-Rysunki \ref{fig:base_model_predictions} oraz \ref{fig:base_model_error_distribution} ilustrują porównanie przewidywanych cen z rzeczywistymi wartościami oraz rozkład błędów predykcji.
+Ilustracja (rys.\ref{fig:base_model_visuals}) zestawia porównanie przewidywanych cen z rzeczywistymi wartościami oraz rozkład błędów predykcji.
 Na wykresie porównawczym widać, że model bazowy dobrze odwzorowuje ogólny trend cen, choć występują pewne odchylenia w szczegółach.
 Histogram błędów pokazuje, że większość predykcji mieści się w niewielkim zakresie od rzeczywistych wartości.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{assets/base_actual_vs_predicted.png}
-    \caption{Porównanie cen rzeczywistych i przewidywanych przez model bazowy.}
-    \label{fig:base_model_predictions}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\textwidth]{assets/base_error_distribution.png}
-    \caption{Rozkład błędów predykcji dla modelu bazowego.}
-    \label{fig:base_model_error_distribution}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{assets/base_actual_vs_predicted.png}
+    \end{minipage}\hfill
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{assets/base_error_distribution.png}
+    \end{minipage}
+    \caption{Wizualizacja wyników modelu bazowego: porównanie cen (lewo) i rozkład błędów (prawo).}
+    \label{fig:base_model_visuals}
 \end{figure}
 
-Krzywe uczenia przedstawione na rysunku \ref{fig:base_model_learning_curve} pokazują spadek wartości funkcji straty (MSE) oraz wzrost funkcji zysku (\(R^2\)) zarówno na zbiorze treningowym, jak i walidacyjnym w miarę postępu treningu.
+Krzywe uczenia (rys.\ref{fig:base_model_learning_curve}) pokazują spadek wartości funkcji straty (MSE) oraz wzrost funkcji zysku (\(R^2\)) zarówno na zbiorze treningowym, jak i walidacyjnym w miarę postępu treningu.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{assets/base_learning_curves.png}
@@ -897,8 +900,7 @@ Wyniki modelu bazowego stanowią punkt odniesienia do oceny skuteczności pozost
 
 \subsection{Wyniki modelu wzbogaconego}
 Model wzbogacony wykorzystywał dodatkowe wskaźniki analizy technicznej (RSI, BBW, \%B) jako cechy wejściowe.
-Celem utworzenia modelu wzbogaconego było zbadanie hipotezy pobocznej -- Czy dodanie dodatkowego kontekstu rynkowego do oryignalnego zbioru danych poprawi jakość predykcyjną.
-Do całości badania, utworzenie tego modelu, wnosi kolejną wartość porównawczą. %! CHECK IT
+Stanowi on również istotny punkt odniesienia, pozwalający ocenić wpływ dodatkowych cech na zachowanie modelu.
 Osiągnięte wartości metryk przez model wzbogacony przedstawia tabela \ref{tab:enhanced_model_metrics}
 
 % Model wzbogacony, który wykorzystywał dodatkowe wskaźniki analizy technicznej jako cechy wejściowe, osiągnął następujące wyniki na zbiorze testowym:
@@ -922,23 +924,24 @@ W porównaniu do modelu bazowego, model wzbogacony uzyskał gorsze wyniki we wsz
 Błąd RMSE na poziomie 5.4803 sugeruje, że średnie odchylenie prognoz od rzeczywistych cen zamknięcia wynosi około 5.48 jednostek (dolarów).
 Wskaźnik \(R^2\) na poziomie 0.7961 oznacza, że model wyjaśnia około 79.6\% wariancji w danych testowych, co oznacza spadek zdolności do generalizacji w porównaniu do modelu bazowego.
 
-Wizualna ocena modelu (rys. \ref{fig:enhanced_model_predictions} i \ref{fig:enhanced_model_error_distribution}) potwierdza wyniki metryk. 
+Wizualna ocena modelu (rys.\ref{fig:enhanced_model_visuals}) potwierdza wyniki metryk. 
 Chociaż model nadal podąża za ogólnym trendem, jego prognozy wykazują większe odchylenia od wartości rzeczywistych. 
-Histogram błędów jest szerszy i bardziej spłaszczony niż w przypadku modelu bazowego, co świadczy o większej wariancji błędów predykcji.
+Histogram błędów pokazuje szerszy rozkład, co wskazuje na większą wariancję błędów predykcji.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{assets/enhanced_actual_vs_predicted.png}
-    \caption{Porównanie cen rzeczywistych i przewidywanych przez model wzbogacony.}
-    \label{fig:enhanced_model_predictions}  
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\textwidth]{assets/enhanced_error_distribution.png}
-    \caption{Rozkład błędów predykcji dla modelu wzbogaconego.}
-    \label{fig:enhanced_model_error_distribution}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{assets/enhanced_actual_vs_predicted.png}
+    \end{minipage}\hfill
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{assets/enhanced_error_distribution.png}
+    \end{minipage}
+    \caption{Wizualizacja wyników modelu wzbogaconego: porównanie cen (lewo) i rozkład błędów (prawo).}
+    \label{fig:enhanced_model_visuals}
 \end{figure}
 
-Krzywe uczenia (rys. \ref{fig:enhanced_model_learning_curve}) również wskazują na trudniejszy proces treningu. Mimo że model nie wykazuje jednoznacznych oznak przeuczenia, finalny błąd na zbiorze walidacyjnym jest wyższy niż w modelu bazowym.
+Krzywe uczenia (rys.\ref{fig:enhanced_model_learning_curve}) również wskazują na trudniejszy proces treningu. Mimo że model nie wykazuje jednoznacznych oznak przeuczenia, finalny błąd na zbiorze walidacyjnym jest wyższy niż w modelu bazowym.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{assets/enhanced_learning_curves.png}
@@ -977,35 +980,37 @@ W teście na danych filtrowanych model osiągnął rewelacyjną skuteczność --
 Oznacza to, że model był w stanie wyjaśnić niemal 98\% wariancji w odszumionych danych. 
 Potwierdza to, że usunięcie szumu za pomocą filtru Kalmana pozwoliło sieci LSTM na nauczenie się bazowego trendu z bardzo wysoką precyzją.
 
-Wizualna ocena wyników na danych filtrowanych (rys. \ref{fig:kalman_filtered_predictions} i \ref{fig:kalman_filtered_error_distribution}) pokazuje bardzo bliskie dopasowanie przewidywanych cen do rzeczywistych wartości, a histogram błędów ma wąski rozkład, co świadczy o niskiej wariancji błędów predykcji i dobrej generalizacji modelu.
+Wizualna ocena wyników na danych filtrowanych (rys.\ref{fig:kalman_filtered_visuals}) pokazuje bardzo bliskie dopasowanie przewidywanych cen do rzeczywistych wartości, a histogram błędów ma wąski rozkład, co świadczy o niskiej wariancji błędów predykcji i dobrej generalizacji modelu.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{assets/kalman_actual_vs_predicted_filtered.png}
-    \caption{Porównanie cen filtrowanych i przewidywanych przez model z filtrem Kalmana.}
-    \label{fig:kalman_filtered_predictions}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\textwidth]{assets/kalman_error_distribution_filtered.png}
-    \caption{Rozkład błędów predykcji dla modelu z filtrem Kalmana na danych filtrowanych.}
-    \label{fig:kalman_filtered_error_distribution}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{assets/kalman_actual_vs_predicted_filtered.png}
+    \end{minipage}\hfill
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{assets/kalman_error_distribution_filtered.png}
+    \end{minipage}
+    \caption{Wizualizacja wyników modelu z filtrem Kalmana na danych filtrowanych: porównanie cen (lewo) i rozkład błędów (prawo).}
+    \label{fig:kalman_filtered_visuals}
 \end{figure}
 
 Z kolei w teście na danych oryginalnych, ten sam model wykazał znaczny spadek wydajności -- błąd RMSE wzrósł do 4.6423, a \(R^2\) spadł do 0.8685.
 Względem modelu bazowego, wyniki te są bardzo zbliżone, co sugeruje, że model wytrenowany na odszumionych danych, gdy staje przed zadaniem predykcji zaszumionych danych, zachowuje się podobnie do modelu, który od początku uczył się na tych zaszumionych danych.
-Rysunki \ref{fig:kalman_original_predictions} oraz \ref{fig:kalman_original_error_distribution} ilustrują porównanie przewidywanych cen z rzeczywistymi wartościami oraz rozkład błędów predykcji na oryginalnych danych.
+Ilustracja (rys.\ref{fig:kalman_original_visuals}) zestawia porównanie przewidywanych cen z rzeczywistymi wartościami oraz rozkład błędów predykcji na oryginalnych danych.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{assets/kalman_actual_vs_predicted_original.png}
-    \caption{Porównanie cen rzeczywistych i przewidywanych przez model z filtrem Kalmana na oryginalnych danych.}
-    \label{fig:kalman_original_predictions}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\textwidth]{assets/kalman_error_distribution_original.png}
-    \caption{Rozkład błędów predykcji dla modelu z filtrem Kalmana na oryginalnych danych.}
-    \label{fig:kalman_original_error_distribution}
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{assets/kalman_actual_vs_predicted_original.png}
+    \end{minipage}\hfill
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{assets/kalman_error_distribution_original.png}
+    \end{minipage}
+    \caption{Wizualizacja wyników modelu z filtrem Kalmana na danych oryginalnych: porównanie cen (lewo) i rozkład błędów (prawo).}
+    \label{fig:kalman_original_visuals}
 \end{figure}
 
 Krzywe uczenia dla modelu z filtrem Kalmana (rys. \ref{fig:kalman_model_learning_curve}) pokazują, że model dobrze uczył się na danych filtrowanych, jednak jego zdolność do generalizacji na oryginalnych danych była ograniczona.
@@ -1018,7 +1023,7 @@ Krzywe uczenia dla modelu z filtrem Kalmana (rys. \ref{fig:kalman_model_learning
 
 Wyniki te potwierdzają hipotezę, że filtracja danych za pomocą filtru Kalmana znacząco poprawia jakość prognozy, gdy model jest testowany na odszumionych danych.
 Jednakże, w rzeczywistości rynkowej, gdzie dane są obarczone szumem, model ten nie wykazuje przewagi nad modelem bazowym.
-Sugeruje to, że choć filtracja może nie być korzystna w przypadku predykcji dokładnych cen akcji, to jednak w przypadku przewidywaniu następnych ruchów cenowych lub trendów, gdzie szum może mieć mniejsze znaczenie, takie podejście mogłoby przynieść korzyści.
+Sugeruje to, że choć filtracja może nie być korzystna w przypadku predykcji dokładnych cen akcji, to jednak w przypadku przewidywania następnych ruchów cenowych lub trendów, gdzie szum może mieć mniejsze znaczenie, takie podejście mogłoby przynieść korzyści.
 
 
 
