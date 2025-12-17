@@ -77,8 +77,16 @@
 
 %~ Abstract
 \begin{abstract}
-    
-    
+    Prognozowanie cen akcji przy użyciu sieci neuronowych, takich jak LSTM, nie jest łatwym zadaniem ze względu na wysoką niestabliność rynkową.
+    Modele te często uczą się losowych fluktuacji zamiast bazowych trendów, co wpływa negatywnie na ich zdolność do precyzyjnych prognoz.
+
+    W pracy zbadano skuteczność filtru Kalmana jako techniki wstępnego odszumiania danych celem poprawy jakości predykcji sieci LSTM.
+    Przeprowadzono eksperyment na danych historycznych cen akcji Amazon.com Inc (AMZN), porównując trzy modele: bazowy LSTM, model z dodatkowymi wskaźnikami analizy technicznej oraz model uczony na danych przefiltrowanych.
+
+    Wyniki pokazały, że w realistycznym scenariuszu testowym najskuteczniejszy był najprostszy model bazowy.
+    Model uczony na danych filtrowanych, pomimo braku przewagi względem modelu bazowego w realistycznym teście, osiągnął wysoką skuteczność (\(R^2=0.9756\)) w teście na danych odszumionych, co świadczy o zdolności do niemal perfekcyjnej ekstrakcji trendu.
+
+    Główny wniosek płynący z pracy jest taki, że filtracja Kalmana, choć nie gwarantuje lepszych prognoz konkretnych wartości cen akcji, to znacznie poprawia zdolność modelu do nauki trendu, co znacznie lepiej mogłoby się sprawdzić w zadanich natury klasyfikacyjnej, np. prognozowania kierunku zmian cen.
 \end{abstract}
 \clearpage
 
