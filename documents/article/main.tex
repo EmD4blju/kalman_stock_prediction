@@ -78,6 +78,7 @@
 %~ Abstract
 \begin{abstract}
     
+    
 \end{abstract}
 \clearpage
 
@@ -106,7 +107,7 @@ który może pełnić rolę modułu wygładzania i korekty obserwacji, podnoszą
 Trenowanie sieci neuronowej na przefiltrowanych danych przy użyciu filtra Kalmana może zredukować wpływ szumu, 
 pozwalając na lepsze uchwycenie istotnych wzorców i trendów w danych \cite{TODO_KalmanFilter_paper, TODO_FilteringInfluenceOnLearning}.
 
-W ramach niniejszej pracy dyplomowej, podjęto się zbadania skuteczności zastosowania filtru Kalmana jako etapu przetwarzania danych dla modeli LSTM w kontekście prognozowania cen akcji spółki Amazon.com Inc (AMZN) .
+W ramach niniejszej pracy dyplomowej, podjęto się zbadania skuteczności zastosowania filtru Kalmana jako etapu przetwarzania danych dla modeli LSTM w kontekście prognozowania cen akcji spółki Amazon.com Inc (AMZN).
 Wybór tematu pracy wyniknął z chęci zdobycia wiedzy na temat działania architektury LSTM oraz zbadania wpływu filtracji danych na jakość prognoz.
 Dodatkową motywacją była możliwość wszechstronnego rozwoju ze względu na złożony charakter problemu, łączącego zagadnienia z dziedziny uczenia maszynowego, analizy szeregów czasowych oraz teorii filtrów.
 
@@ -1049,8 +1050,34 @@ Tym samym główna hipoteza pracy została potwierdzona częściowo -- filtracja
 
 
 %~ Summary
-% \clearpage
-% \section{Podsumowanie}
+\clearpage
+\section{Podsumowanie}
+
+Celem ninejszej pracy dyplomowej było zbadanie wpływu zastosowania filtracji Kalmana na skuteczność sieci LSTM w zadaniu prognozowania cen akcji.
+W ramach przeprowadzonych eksperymentów porównano trzy modele o różnej architekturze i charakterystyce danych wejściowych, aby zweryfikować postawione hipotezy badawcze.
+Pierwszym z nich był model bazowy, operujący wyłącznie na historycznych cenach zamknięcia (Close).
+Drugim modelem był model wzbogacony, który rozszerzał architekturę o dodatkowe cechy, będące popularnymi wskaźnikami analizy technicznej (RSI, BBW, \%B).
+Ostatnim modelem był model z filtrem Kalmana, który uczył się na takich samych danych jak model bazowy, z tą różnicą, że dane te były wcześniej poddane procesowi filtracji w celu usunięcia szumu.
+
+Analiza wyników dostarczyła kluczowych informacji na temat skuteczności poszczególnych podejść i pozwoliła na wyciągnięcie istotnych wniosków w kontekście postawionej hipotezy badawczej.
+W realistycznym scenariuszu testowym, model bazowy okazał się najskuteczniejszy, osiągając najlepsze wyniki we wszystkich analizowanych metrykach (MSE, RMSE, \(R^2\)).
+Model wzbogacony, pomimo dostępu do dodatkowych informacji o dynamice rynku, wykazał się najgorszą wydajnością, co sugeruje, że wprowadzenie wskaźników technicznych mogło wprowadzić więcej szumu niż użytecznej informacji.
+Najważniejszych wyników dostarczył model z filtrem Kalmana.
+W teście na danych filtrowanych osiągnął on rewelacyjną skuteczność, niemal perfekcyjnie odwzorowując bazowy trend cen akcji.
+Jednakże, w teście na oryginalnych, zaszumionych danych, jego wydajność była zbliżona do modelu bazowego, co wskazywało na ograniczoną zdolność do generalizacji na zaszumione dane.
+Fakt, że model ten nie przełożył tej wiedzy na lepsze prognozy cen akcji, stanowi sedno odkryć tej pracy i jednocześnie otwiera pole do dalszych badań.
+
+Należy zaznaczyć, że przeprowadzone badania ograniczały się do analizy danych jednej spółki (Amazon.com Inc) w konkretnym okresie.
+Otrzymanych wyników nie można w pełni generalizować na inne instrumenty finansowe czy odmienne warunki rynkowe.
+
+Mimo to, ciekawe rezultaty modelu z zastosowaniem filtracji Kalmana wskazują na obiecujące kierunki dla przyszłych badań.
+Zamiast prognozować dokładną wartość ceny, model wytrenowany na odszumionym sygnale mógłby okazać się znacznie skuteczniejszy w zadaniach klasyfikacyjnych, takich jak przewidywanie rynkowego kierunku zmiany ceny lub identyfikacja punktów zwrotnych.
+W takich zastosowaniach zdolność do ignorowania krótkoterminowego szumu i koncentracji na głównym trendzie mogłaby okazać się decydującą przewagą.
+
+Ostatecznie, praca ta częściowo potwierdza postawioną hipotezę badawczą.
+Zastosowanie filtracji Kalmana na etapie przetwarzania danych wejściowych znacząco poprawia zdolność modelu do nauki bazowego trendu cen akcji,
+jednak w bezpośredniej predykcji zaszumionych cen nie gwarantuje przewagi nad prostszym wariantem modelu.
+Jednocześnie udowadnia, że zaawansowane techniki filtracji, choć nie zawsze gwarantują lepszą predykcję wartości, otwierają nowe, wartościowe możliwości analityczne, które zasługują na dalszą eksplorację.
 
 % %~ Bibliography
 % \section{Bibliografia}
