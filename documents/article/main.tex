@@ -568,41 +568,37 @@ Obydwie z ww. informacji są obarczone niepewnością -- model predykcyjny może
 Z tego powodu filtr Kalmana wykorzystuje podejście probabilistyczne, aby w sposób optymalny łączyć te dwie informacje i uzyskać jak najlepszą estymację stanu systemu \cite{TODO_kalman_filter_probabilistic_approach}.
 Proces działania filtru Kalmana można podzielić na trzy główne kroki \cite{TODO_kalman_filter_steps}:
 \begin{enumerate}
-    \item \textbf{Inicjalizacja stanu:} Na początku definiuje się początkowy stan systemu \(\mathbf{x}\) oraz macierz kowariancji błędu estymacji \(\mathbf{P}\) \cite{TODO_kalman_filter_initialization}.
-    Na początku można założyć, że stan jest nieznany, więc macierz \(\mathbf{P}\) jest ustawiona na dużą wartość, co odzwierciedla wysoką niepewność.
+    \item \textbf{Inicjalizacja stanu:} Na początku (\(k=0\)) definiuje się początkową estymatę stanu systemu \(\mathbf{x}_0\) oraz macierz kowariancji błędu tej estymacji \(\mathbf{P}_0\) \cite{TODO_kalman_filter_initialization}. Jeśli stan początkowy jest nieznany, macierz \(\mathbf{P}_0\) ustawia się na dużą wartość, co odzwierciedla wysoką niepewność.
     
     Kluczowe jest również zdefiniowanie macierzy opisujących model systemu:
     \begin{itemize}
-        \item \( \mathbf{F} \) -- \textbf{macierz przejścia stanu}, która opisuje, zmianę stanu systemu w czasie.
-        \item \( \mathbf{H} \) -- \textbf{macierz obserwacji}, która mapuje prawdziwy stan systemu \( \mathbf{x} \) na przestrzeń pomiarową \( \mathbf{z} \).
-        \item \( \mathbf{Q} \) -- \textbf{macierz kowariancji szumu procesu}, która reprezentuje niepewność związaną z modelem predykcyjnym (np. czynniki nieujęte w modelu).
-        \item \( \mathbf{R} \) -- \textbf{macierz kowariancji szumu pomiarowego}, która reprezentuje niepewność związaną z samymi pomiarami (np. niedokładność czujnika).
-        \item \( \mathbf{B} \) -- \textbf{macierz sterowania} (opcjonalna), która opisuje wpływ zewnętrznego sterowania \( \mathbf{u} \) na stan systemu.
+        \item \( \mathbf{F} \) -- \textbf{macierz przejścia stanu}, która opisuje, jak stan systemu zmienia się między krokiem \(k-1\) a \(k\).
+        \item \( \mathbf{H} \) -- \textbf{macierz obserwacji}, która mapuje prawdziwy stan systemu \( \mathbf{x}_k \) na przestrzeń pomiarową \( \mathbf{z}_k \).
+        \item \( \mathbf{Q} \) -- \textbf{macierz kowariancji szumu procesu}, która reprezentuje niepewność związaną z modelem predykcyjnym.
+        \item \( \mathbf{R} \) -- \textbf{macierz kowariancji szumu pomiarowego}, która reprezentuje niepewność związaną z samymi pomiarami.
+        \item \( \mathbf{B} \) -- \textbf{macierz sterowania} (opcjonalna), która opisuje wpływ zewnętrznego sterowania \( \mathbf{u}_{k-1} \) na stan systemu.
     \end{itemize}
 
-    \item \textbf{Predykcja:} Wyznacza się przewidywany stan systemu \(\mathbf{\hat{x}}\) oraz przewidywaną macierz kowariancji błędu estymacji \(\mathbf{\hat{P}}\) \cite{TODO_kalman_filter_prediction}:
+    \item \textbf{Predykcja:} Na podstawie stanu z poprzedniego kroku \(\mathbf{x}_{k-1}\), wyznacza się przewidywany (a priori) stan systemu \(\mathbf{\hat{x}}_{k}^{-}\) oraz przewidywaną kowariancję błędu \(\mathbf{\hat{P}}_{k}^{-}\) na bieżący krok \(k\) \cite{TODO_kalman_filter_prediction}:
     \begin{equation}
-        \mathbf{\hat{x}} = \mathbf{F} \mathbf{x} + \mathbf{B} \mathbf{u}
+        \mathbf{\hat{x}}_{k}^{-} = \mathbf{F} \mathbf{x}_{k-1} + \mathbf{B} \mathbf{u}_{k-1}
     \end{equation}
     \begin{equation}
-        \mathbf{\hat{P}} = \mathbf{F} \mathbf{P} \mathbf{F}^T + \mathbf{Q}
+        \mathbf{\hat{P}}_{k}^{-} = \mathbf{F} \mathbf{P}_{k-1} \mathbf{F}^T + \mathbf{Q}
     \end{equation}
 
-    \item \textbf{Aktualizacja:} Gdy dostępny jest nowy pomiar \(\mathbf{z}\), wyznacza się resztę pomiarową (ang. residual) \(\mathbf{y}\), oraz zysk Kalmana \(\mathbf{K}\) (ang. Kalman gain) \cite{TODO_kalman_filter_update}:
+    \item \textbf{Aktualizacja:} Gdy dostępny jest nowy pomiar \(\mathbf{z}_k\), następuje korekta predykcji. Najpierw oblicza się zysk Kalmana \(\mathbf{K}_k\) \cite{TODO_kalman_filter_update}:
     \begin{equation}
-        \mathbf{y} = \mathbf{z} - \mathbf{H} \mathbf{\hat{x}}
+        \mathbf{K}_k = \mathbf{\hat{P}}_{k}^{-} \mathbf{H}^T (\mathbf{H} \mathbf{\hat{P}}_{k}^{-} \mathbf{H}^T + \mathbf{R})^{-1}
+    \end{equation}
+    Następnie, na podstawie zysku Kalmana i różnicy między pomiarem a predykcją, aktualizuje się estymowany (a posteriori) stan \(\mathbf{x}_k\) oraz kowariancję błędu \(\mathbf{P}_k\):
+    \begin{equation}
+        \mathbf{x}_k = \mathbf{\hat{x}}_{k}^{-} + \mathbf{K}_k (\mathbf{z}_k - \mathbf{H} \mathbf{\hat{x}}_{k}^{-})
     \end{equation}
     \begin{equation}
-        \mathbf{K} = \mathbf{\hat{P}} \mathbf{H}^T (\mathbf{H} \mathbf{\hat{P}} \mathbf{H}^T + \mathbf{R})^{-1}
+        \mathbf{P}_k = (\mathbf{I} - \mathbf{K}_k \mathbf{H}) \mathbf{\hat{P}}_{k}^{-}
     \end{equation}
-    Następnie, aktualizuje się estymowany stan \(\mathbf{x}\) oraz macierz kowariancji błędu estymacji \(\mathbf{P}\):
-    \begin{equation}
-        \mathbf{x} = \mathbf{\hat{x}} + \mathbf{K} \mathbf{y}
-    \end{equation}
-    \begin{equation}
-        \mathbf{P} = (\mathbf{I} - \mathbf{K} \mathbf{H}) \mathbf{\hat{P}}
-    \end{equation}
-    Zaktualizowane wartości stanu \(\mathbf{x}\) oraz macierzy \(\mathbf{P}\) są następnie wykorzystywane w kolejnym kroku predykcji.
+    Zaktualizowane wartości \(\mathbf{x}_k\) oraz \(\mathbf{P}_k\) stają się wartościami wejściowymi (\(\mathbf{x}_{k-1}\), \(\mathbf{P}_{k-1}\)) dla następnego cyklu w kroku \(k+1\).
 \end{enumerate}
 
 Rysunek \ref{fig:kalman_filter_cycle} przedstawia schematyczny cykl działania filtru Kalmana, ilustrując kroki predykcji i aktualizacji.
@@ -706,7 +702,7 @@ Powodem tego była potrzeba przygotowania trzech odrębnych wariantów zbioru da
     \item \textbf{Zbiór dla modelu z filtrem Kalmana (Kalman Model):} W tym podejściu cena zamknięcia została poddana procesowi filtracji przy użyciu filtru Kalmana. 
     W ramach implementacji zdefiniowano dwuwymiarowy wektor stanu \(x\), który śledzi zarówno cenę, jak i jej chwilową prędkość (trend):
     \[ x = \begin{bmatrix} \text{cena} \\ \text{prędkość} \end{bmatrix} \]
-    Pozostałe parametry filtru, dobrane empirycznie w celu optymalnego wygładzenia sygnału, przedstawiono poniżej:
+    Pozostałe parametry filtru przedstawiono poniżej:
     \begin{itemize}
         \item \textbf{Macierz przejścia stanu (F):} Zakładający stałą prędkość zmiany ceny.
         \[ F = \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix} \]
@@ -862,8 +858,9 @@ W następnym rozdziale zaprezentowane zostaną wyniki przeprowadzonych eksperyme
 \clearpage
 \section{Wyniki badań}
 Ninejszy rozdział zawiera zestawienie oraz analizę wyników uzyskanych w ramach przeprowadzanego badania.
-Rezultaty zostały podzielone na trzy sekcje, z których każda odpowiada jednemu z porównywanych modeli: model bazowy, model wzbogacony oraz model z filtrem Kalmana.
-Całość zamyka podsekcja zestawiająca wyniki wszystkich modeli wraz z wizualizacją wykresów porównujących przewidywane ceny z rzeczywistymi wartościami oraz rozkładów błędów predykcji.
+Analizę rozpoczyna podsekcja zestawiająca wyniki modelu bazowego stanowiącego punkt odniesienia dla całego eksperymentu.
+Następnie, w kontraście do modelu bazowego przedstawione są wyniki modelu wzbogaconego oraz modelu z filtrem Kalmana, które są kluczowe dla weryfikacji postawionych hipotez badawczych.
+Całość zamyka podsekcja zestawiająca wyniki wszystkich modeli wraz z wizualizacją wykresów porównujących przewidywane ceny z rzeczywistymi oraz rozkładów błędów predykcji.
 Analiza wyników obejmuje również interpretację uzyskanych rezultatów w kontekście postawionych hipotez badawczych.
 
 \subsection{Wyniki modelu bazowego}
@@ -887,7 +884,7 @@ Tabela \ref{tab:base_model_metrics} przedstawia osiągnięte przez model bazowy 
     \end{tabular}
 \end{table}
 
-Wyniki modelu bazowego stanowią punkt odniesienia do oceny skuteczności pozostałych dwóch modeli oraz pozwalają na wstępną ocenę, jak dobrze prosta architektura LSTM radzi sobie z zadaniem prognozowania cen akcji na podstawie ich historycznych wartości.
+Wyniki modelu bazowego pozwalają na wstępne określenie, że stosunkowo prosta architektura LSTM jest w stanie dobrze poradzić sobie z zadaniem prognozowania cen akcji.
 
 \subsection{Wyniki modelu wzbogaconego}
 Model wzbogacony wykorzystywał dodatkowe wskaźniki analizy technicznej (RSI, BBW, \%B) jako cechy wejściowe.
@@ -911,9 +908,9 @@ Osiągnięte wartości metryk przez model wzbogacony przedstawia tabela \ref{tab
 
 W porównaniu do modelu bazowego, model wzbogacony uzyskał gorsze wyniki we wszystkich analizowanych metrykach.
 Błąd RMSE na poziomie 5.4803 sugeruje, że średnie odchylenie prognoz od rzeczywistych cen zamknięcia wynosi około 5.48 jednostek (dolarów).
-Wskaźnik \(R^2\) na poziomie 0.7961 oznacza, że model wyjaśnia około 79.6\% wariancji w danych testowych, co oznacza spadek zdolności do generalizacji w porównaniu do modelu bazowego.
+Wskaźnik \(R^2\) na poziomie 0.7961 oznacza, że model wyjaśnia około 79.6\% wariancji w danych testowych. 
 
-Uzyskane wyniki sugerują, że dostarczenie modelowi dodatkowych informacji w postaci wskaźników analizy technicznej nie poprawiło, a wręcz pogorszyło jakość predykcji. 
+Uzyskane wyniki sugerują, że dostarczenie modelowi dodatkowych informacji w postaci wskaźników analizy technicznej nie poprawiło, a wręcz pogorszyło jakość predykcji i zdolność generalizacji.
 Prawdopodobną przyczyną jest wprowadzenie dodatkowego szumu informacyjnego przez wskaźniki techniczne. 
 Wskaźniki te, choć niosą pewien sygnał, same w sobie również podlegają fluktuacjom, co mogło utrudnić sieci neuronowej wyodrębnienie kluczowych wzorców. 
 
@@ -946,8 +943,8 @@ Potwierdza to, że usunięcie szumu za pomocą filtru Kalmana pozwoliło sieci L
 Z kolei w teście na danych oryginalnych, ten sam model wykazał znaczny spadek wydajności -- błąd RMSE wzrósł do 4.6423, a \(R^2\) spadł do 0.8685.
 Względem modelu bazowego, wyniki te są bardzo zbliżone, co sugeruje, że model wytrenowany na odszumionych danych, gdy staje przed zadaniem predykcji zaszumionych danych, zachowuje się podobnie do modelu, który od początku uczył się na tych zaszumionych danych.
 
-Wyniki te potwierdzają hipotezę, że filtracja danych za pomocą filtru Kalmana znacząco poprawia jakość prognozy, gdy model jest testowany na odszumionych danych.
-Jednakże, w rzeczywistości rynkowej, gdzie dane są obarczone szumem, model ten nie wykazuje przewagi nad modelem bazowym.
+Wyniki te potwierdzają hipotezę, że wstępna filtracja danych za pomocą filtru Kalmana znacząco poprawia jakość prognozy, gdy model jest testowany na odszumionych danych.
+Jednakże, w rzeczywistości rynkowej, model ten nie wykazuje przewagi nad modelem bazowym.
 Sugeruje to, że choć filtracja może nie być korzystna w przypadku predykcji dokładnych cen akcji, to jednak w przypadku przewidywania następnych ruchów cenowych lub trendów, gdzie szum może mieć mniejsze znaczenie, takie podejście mogłoby przynieść korzyści.
 
 
@@ -970,8 +967,9 @@ W przypadku modelu z filtrem Kalmana, przedstawiono wyniki zarówno dla testu na
         \hline
         Model bazowy & 20.8176 & 4.5626 & 0.8730 \\
         Model wzbogacony & 30.0347 & 5.4803 & 0.7961 \\
-        Model z filtrem Kalmana (dane filtrowane) & 3.9563 & 1.9891 & 0.9756 \\
         Model z filtrem Kalmana (dane oryginalne) & 21.5511 & 4.6423 & 0.8685 \\
+        \hline
+        Model z filtrem Kalmana (dane filtrowane) & 3.9563 & 1.9891 & 0.9756 \\
         \hline
     \end{tabular}
 \end{table}
@@ -1008,7 +1006,7 @@ Aby w pełni zrozumieć potencjał filtracji, na rysunku \ref{fig:kalman_filtere
 \end{figure}
 
 Wykres ten doskonale ilustruje, dlaczego model osiągnął tak wysoki współczynnik \(R^2\) (0.9756) w tym scenariuszu. 
-Linia predykcji niemal idealnie pokrywa się z odszumionym sygnałem, co dowodzi, że sieć LSTM była w stanie perfekcyjnie nauczyć się bazowego trendu po usunięciu z danych rynkowego szumu. 
+Linia predykcji niemal idealnie pokrywa się z odszumionym sygnałem, co dowodzi, że w określonych warunkach, sieć LSTM była w stanie niemal perfekcyjnie nauczyć się bazowego trendu.
 Kontrast między rysunkiem \ref{fig:all_models_comparison} a \ref{fig:kalman_filtered_actual_vs_predicted} stanowi wizualny dowód na skuteczność samej filtracji, nawet jeśli nie przełożyło się to na ostateczną przewagę w predykcji na danych zaszumionych.
 
 Dodatkowo, analiza rozkładów błędów (rys. \ref{fig:all_errors_distribution}) dostarcza dalszych informacji.
@@ -1034,12 +1032,12 @@ Dodatkowo, analiza rozkładów błędów (rys. \ref{fig:all_errors_distribution}
     \label{fig:all_errors_distribution}
 \end{figure}
 Histogramy potwierdzają, że model wzbogacony ma najszerszy rozkład błędów, co świadczy o największej niepewności. 
-Z kolei najwęższy, niemal idealny rozkład błędów dla modelu Kalmana na danych filtrowanych (dół-lewo) zgadza z jego doskonałymi wynikami metrycznymi w tym teście.
+Z kolei najwęższy rozkład błędów prezentuje model Kalmana na danych filtrowanych (dół-lewo), co zgadza z jego doskonałymi wynikami metrycznymi w tym teście.
 Kluczowe jest jednak porównanie histogramów modelu bazowego (góra-lewo) i modelu Kalmana na danych oryginalnych (dół-prawo). Ich niemal identyczny kształt i szerokość dowodzą, że w praktycznym zastosowaniu oba modele popełniają błędy o podobnej naturze i skali, co ostatecznie potwierdza brak przewagi metody opartej na filtracji w tym scenariuszu.
 
 \subsubsection{Dyskusja i wnioski końcowe}
 Analiza porównawcza jednoznacznie wskazuje, że w przeprowadzonym badaniu najskuteczniejszym podejściem okazał się model bazowy. 
-Jego prosta architektura, operująca wyłącznie na historycznych cenach zamknięcia, była w stanie najwierniej odwzorować dynamikę cen akcji spółki AMZN.
+Jego prosta architektura, operująca wyłącznie na historycznych cenach zamknięcia, była w stanie najwierniej odwzorować dynamikę cen akcji spółki Amazon.com Inc w badanym okresie.
 
 Wynik modelu wzbogaconego sugeruje, że wskaźniki analizy technicznej, mimo iż niosą informację o rynku, w tej formie działają jak szum informacyjny. 
 Sieć neuronowa, zamiast skupić się na głównym sygnale cenowym, modelowała również wahania wskaźników, co doprowadziło do pogorszenia wyników.
@@ -1047,11 +1045,12 @@ Sieć neuronowa, zamiast skupić się na głównym sygnale cenowym, modelowała 
 Najciekawsze wnioski płyną z analizy modelu z filtrem Kalmana. Mimo że nie pokonał on modelu bazowego w realistycznym teście, jego rewelacyjne wyniki na danych filtrowanych (RMSE 1.9891, \(R^2\) 0.9756) dowodzą, że filtracja skutecznie usuwa szum i pozwala sieci LSTM na niemal perfekcyjne nauczenie się bazowego trendu. 
 Fakt, że model ten nie przełożył tej wiedzy na lepsze prognozy zaszumionych danych, otwiera pole do dalszych badań -- być może zamiast prognozować dokładną cenę, model wytrenowany na odszumionym sygnale mógłby być znacznie skuteczniejszy w zadaniach takich jak prognozowanie kierunku zmiany ceny lub identyfikacja punktów zwrotnych na rynku.
 
-Tym samym główna hipoteza pracy została potwierdzona częściowo -- filtracja Kalmana drastycznie poprawia zdolność modelu do nauki trendu, jednak w bezpośredniej predykcji zaszumionych cen nie gwarantuje przewagi nad prostszym modelem.
+Tym samym główna hipoteza pracy została potwierdzona częściowo -- filtracja Kalmana drastycznie poprawia zdolność modelu do nauki trendu, jednak w bezpośredniej predykcji zaszumionych cen nie gwarantuje przewagi nad prostszym wariantem modelu.
 
 
 %~ Summary
-% \section{Podsumowanie i wnioski}
+% \clearpage
+% \section{Podsumowanie}
 
 % %~ Bibliography
 % \section{Bibliografia}
