@@ -95,25 +95,25 @@
 
 Prognozowanie cen akcji odgrywa kluczową rolę w finansach, wspierając inwestorów w podejmowaniu świadomych decyzji zarządzania swoim portfolio.
 Chaotyczny charakter rynków sprawia jednak, że trafne przewidywanie notowań pozostaje trudnym zadaniem.
-Tradycyjna analiza techniczna bywa niewystarczająca - jest wrażliwa na szum, a wnioski często zawierają element subiektywności \cite{TODO_general_finanse_predicting}.
+Tradycyjna analiza techniczna bywa niewystarczająca - jest wrażliwa na szum, a wnioski często zawierają element subiektywności \cite{xie2023stock}.
 
 W ostatnich latach dynamiczny rozwój uczenia maszynowego, zwłaszcza sieci neuronowych, 
 znacząco zmienił podejście do modelowania danych czasowych (w tym giełdowych).
 Architektury takie jak LSTM (Long Short-Term Memory) potrafią uchwycić złożone zależności i długookresowe relacje w danych, 
-co czyni je obiecującymi narzędziami do prognozowania cen \cite{TODO_LSTM_paper}.
+co czyni je obiecującymi narzędziami do prognozowania cen \cite{sen2021stock}.
 Niemniej jednak ich skuteczność nadal zależy od jakości danych wejściowych.
 Głównym problemem, jest wysoka wrażliwość na losowe wahania, które są nieodłącznym elementem danych finansowych. 
 Te zniekształcenia wynikają z nieprzewidywalnych zdarzeń rynkowych.
 Model, zamiast uczyć się rzeczywistych trendów, modeluje wspomniane zakłócenia, 
 obniżając swoją zdolność do generalizacji na nowych danych. 
 W rezultacie, predykcje mogą być obarczone znacznym błędem, 
-co podważa ich użyteczność w podejmowaniu decyzji inwestycyjnych \cite{TODO_LSTM_problem}.
+co podważa ich użyteczność w podejmowaniu decyzji inwestycyjnych \cite{brogaard2022what}.
 
 Można temu zapobiegać stosując techniki filtracji na danych wejściowych.
 Jednym z klasycznych narzędzi tego typu jest filtr Kalmana,
 który może pełnić rolę modułu wygładzania i korekty obserwacji, podnosząc stabilność i dokładność predykcji.
 Trenowanie sieci neuronowej na przefiltrowanych danych przy użyciu filtra Kalmana może zredukować wpływ szumu, 
-pozwalając na lepsze uchwycenie istotnych wzorców i trendów w danych \cite{TODO_KalmanFilter_paper, TODO_FilteringInfluenceOnLearning}.
+pozwalając na lepsze uchwycenie istotnych wzorców i trendów w danych \cite{cheeneebash2007improving}.
 
 W ramach niniejszej pracy dyplomowej, podjęto się zbadania skuteczności zastosowania filtru Kalmana jako etapu przetwarzania danych dla modeli LSTM w kontekście prognozowania cen akcji spółki Amazon.com Inc (AMZN).
 Wybór tematu pracy wyniknął z chęci zdobycia wiedzy na temat działania architektury LSTM oraz zbadania wpływu filtracji danych na jakość prognoz.
@@ -1088,7 +1088,9 @@ jednak w bezpośredniej predykcji zaszumionych cen nie gwarantuje przewagi nad p
 Jednocześnie udowadnia, że zaawansowane techniki filtracji, choć nie zawsze gwarantują lepszą predykcję wartości, otwierają nowe, wartościowe możliwości analityczne, które zasługują na dalszą eksplorację.
 
 % %~ Bibliography
-% \section{Bibliografia}
+\clearpage
+\bibliographystyle{unsrt}
+\bibliography{references}
 
 % %~ List of figures and tables
 % \section{Spis rysunków i tabel}

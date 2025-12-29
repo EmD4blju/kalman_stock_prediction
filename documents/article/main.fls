@@ -312,6 +312,9 @@ INPUT ./assets/kalman_error_distribution_original.png
 INPUT ./assets/kalman_error_distribution_original.png
 INPUT ./assets/kalman_error_distribution_original.png
 INPUT ./assets/kalman_error_distribution_original.png
+INPUT ./main.bbl
+INPUT ./main.bbl
+INPUT main.bbl
 INPUT main.aux
 INPUT ./main.out
 INPUT ./main.out

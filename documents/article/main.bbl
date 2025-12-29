@@ -1,0 +1,23 @@
+\begin{thebibliography}{1}
+
+\bibitem{xie2023stock}
+Yihui Xie.
+\newblock Stock price forecasting: Traditional statistical methods and deep learning methods.
+\newblock In {\em Highlights in Business, Economics and Management}, volume~21, pages 740--745, 12 2023.
+
+\bibitem{sen2021stock}
+Jaydip Sen, Sidra Mehtab, and Abhishek Dutta.
+\newblock Stock price prediction using machine learning and lstm-based deep learning models.
+\newblock {\em TechRxiv}, 08 2021.
+
+\bibitem{brogaard2022what}
+Jonathan Brogaard, Thanh Nguyen, Talis Putnins, and Eliza Wu.
+\newblock What moves stock prices? the roles of news, noise, and information.
+\newblock {\em The Review of Financial Studies}, 35, 01 2022.
+
+\bibitem{cheeneebash2007improving}
+Jayrani Cheeneebash, George Galanis, Ashvin Gopaul, and Muddun Bhuruth.
+\newblock Improving artificial neural network forecasts with kalman filtering.
+\newblock {\em Special Issue- UOM Research Journal}, 01 2007.
+
+\end{thebibliography}

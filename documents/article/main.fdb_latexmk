@@ -1,7 +1,15 @@
 # Fdb version 4
-["pdflatex"] 1765976423.12408 "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" "main.pdf" "main" 1765976429.1742 0
+["bibtex main"] 1767018354.6111 "main.aux" "main.bbl" "main" 1767018363.21499 0
+  "./references.bib" 1767018331.34348 1295 420510cea2b9d03f18dfb64c7a549c38 ""
+  "/usr/share/texlive/texmf-dist/bibtex/bst/base/unsrt.bst" 1292289607 18030 1376b4b231b50c66211e47e42eda2875 ""
+  "main.aux" 1767018362.61537 16938 06aae7a36e808201b0a03e9f92b1dade "pdflatex"
+  (generated)
+  "main.bbl"
+  "main.blg"
+  (rewritten before read)
+["pdflatex"] 1767018354.84082 "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" "main.pdf" "main" 1767018363.21543 0
   "/etc/texmf/web2c/texmf.cnf" 1759393268.57976 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" 1765976422.82054 82877 7c5268ccdd1487c3ca3ebb3e49c10a93 ""
+  "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" 1767018337.00501 82858 c52747363b0eafef6b71f2f7dcdf51ed ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm" 1136768653 4524 6bce29db5bc272ba5f332261583fee9c ""
@@ -134,10 +142,11 @@
   "assets/sigmoid_w_max_figure.png" 1764156088.53684 14343 85a977bb67ebede219272544aa797325 ""
   "assets/sigmoid_w_min_figure.png" 1764156088.53684 17778 05ce7490df5af9eb8fcf1733e3c72da8 ""
   "assets/step_figure.png" 1764156088.53784 12443 b74fda3afebbeb3a800c355a2fd8d45a ""
-  "main.aux" 1765976429.03209 16847 47f43c2876d52d28f49afffca809e4f7 "pdflatex"
-  "main.out" 1765976429.03509 7234 efe95eb6446cb4975006740f816269cf "pdflatex"
-  "main.tex" 1765976422.82054 82877 7c5268ccdd1487c3ca3ebb3e49c10a93 ""
-  "main.toc" 1765976429.03509 3598 d09825e360bfb479c41a0d93aab1ac5a "pdflatex"
+  "main.aux" 1767018362.61537 16938 06aae7a36e808201b0a03e9f92b1dade "pdflatex"
+  "main.bbl" 1767018354.83209 961 9f74f56b9b592a19736d9305953ee560 "bibtex main"
+  "main.out" 1767018362.61837 7234 efe95eb6446cb4975006740f816269cf "pdflatex"
+  "main.tex" 1767018337.00501 82858 c52747363b0eafef6b71f2f7dcdf51ed ""
+  "main.toc" 1767018362.61837 3598 d09825e360bfb479c41a0d93aab1ac5a "pdflatex"
   (generated)
   "main.aux"
   "main.log"
