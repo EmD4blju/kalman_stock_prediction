@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{xie2023stock}
 Yihui Xie.
@@ -19,5 +19,61 @@ Jonathan Brogaard, Thanh Nguyen, Talis Putnins, and Eliza Wu.
 Jayrani Cheeneebash, George Galanis, Ashvin Gopaul, and Muddun Bhuruth.
 \newblock Improving artificial neural network forecasts with kalman filtering.
 \newblock {\em Special Issue- UOM Research Journal}, 01 2007.
+
+\bibitem{shah2024timeseries}
+Dhawani Shah and Manishkumar Thaker.
+\newblock A review of time series forecasting methods.
+\newblock {\em INTERNATIONAL JOURNAL OF RESEARCH AND ANALYTICAL REVIEWS}, 11:749, 04 2024.
+
+\bibitem{tepelyan2025enhancingohlcdatatiming}
+Ruslan Tepelyan.
+\newblock Enhancing ohlc data with timing features: A machine learning evaluation, 2025.
+
+\bibitem{yfinance_data}
+{Yahoo Inc.}
+\newblock {Yahoo Finance}.
+\newblock \url{https://finance.yahoo.com/quote/AMZN/}, 2025.
+\newblock Dane historyczne spółki Amazon.com Inc (AMZN) pobrane za pośrednictwem biblioteki `yfinance`. Dostęp: 2025-12-30.
+
+\bibitem{MOSTAFAVI2025100631}
+Seyed~Mostafa Mostafavi and Ali~Reza Hooman.
+\newblock Key technical indicators for stock market prediction.
+\newblock {\em Machine Learning with Applications}, 20:100631, 2025.
+
+\bibitem{agudelo2025artificial}
+Alberto Agudelo-Aguirre, Néstor Duque-Méndez, and Alejandro Galvis-Flórez.
+\newblock Artificial intelligence in stock market investment through the rsi indicator.
+\newblock {\em Computers}, 14:487, 11 2025.
+
+\bibitem{vaidya2021nepse}
+Rashesh Vaidya~Phd.
+\newblock Nepse in bollinger bands.
+\newblock {\em National Accounting Review}, 3:439--451, 01 2021.
+
+\bibitem{piccinini2004first}
+Gualtiero Piccinini.
+\newblock The first computational theory of mind and brain: A close look at mcculloch and pitts's “logical calculus of ideas immanent in nervous activity”.
+\newblock {\em Synthese}, 141, 08 2004.
+
+\bibitem{grossi2008introduction}
+Enzo Grossi and Massimo Buscema.
+\newblock Introduction to artificial neural networks.
+\newblock {\em European journal of gastroenterology \& hepatology}, 19:1046--54, 01 2008.
+
+\bibitem{szandala2020review}
+Tomasz Szandała.
+\newblock Review and comparison of commonly used activation functions for deep neural networks.
+\newblock {\em arXiv preprint}, 10 2020.
+
+\bibitem{wikimedia_neuron_mcculloch_pitts}
+{Andrut, Krzysztof Zajączkowski}.
+\newblock Neuron mccullocha-pittsa.
+\newblock Wikimedia Commons, 2007.
+\newblock Dostęp: \url{https://commons.wikimedia.org/wiki/File:Neuron_McCullocha-Pittsa.svg}. Licencja: CC BY-SA 2.5. Dostęp pobrano: 2025-12-30.
+
+\bibitem{mishra2022single}
+Ashutosh Mishra, Jaekwang Cha, and Shiho Kim.
+\newblock Single neuron for solving xor like nonlinear problems.
+\newblock {\em Computational Intelligence and Neuroscience}, 2022, 04 2022.
 
 \end{thebibliography}

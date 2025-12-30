@@ -3,32 +3,11 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 The style file: unsrt.bst
 Database file #1: references.bib
-Warning--I didn't find a database entry for "TODO_time_series_definition"
-Warning--I didn't find a database entry for "TODO_OHLC_definition"
-Warning--I didn't find a database entry for "TODO_Close_price_usage"
-Warning--I didn't find a database entry for "TODO_LSTM_problem"
-Warning--I didn't find a database entry for "TODO_YahooFinance"
-Warning--I didn't find a database entry for "TODO_technical_indicators_paper"
-Warning--I didn't find a database entry for "TODO_RSI_paper"
-Warning--I didn't find a database entry for "TODO_bollinger_bands_paper"
-Warning--I didn't find a database entry for "TODO_dataset_enrichment_indicators"
-Warning--I didn't find a database entry for "TODO_better_methods_on_market_predictions"
-Warning--I didn't find a database entry for "TODO_RNN_paper"
-Warning--I didn't find a database entry for "TODO_LSTM_paper"
-Warning--I didn't find a database entry for "TODO_neuron_McCulloch_Pitts"
-Warning--I didn't find a database entry for "TODO_how_neurons_process_signals"
-Warning--I didn't find a database entry for "TODO_activation_function_overview"
-Warning--I didn't find a database entry for "TODO_step_function_overview"
-Warning--I didn't find a database entry for "TODO_sigmoid_function_overview"
-Warning--I didn't find a database entry for "TODO_weights"
-Warning--I didn't find a database entry for "TODO_bias"
-Warning--I didn't find a database entry for "TODO_weights_bias_importance"
-Warning--I didn't find a database entry for "wikimedia_neuron_mcculloch_pitts"
-Warning--I didn't find a database entry for "TODO_single_neuron_limitations"
 Warning--I didn't find a database entry for "TODO_nn"
 Warning--I didn't find a database entry for "TODO_alternative_ways_connecting_layers"
 Warning--I didn't find a database entry for "TODO_dense_layer"
 Warning--I didn't find a database entry for "TODO_forward_propagation"
+Warning--I didn't find a database entry for "TODO_weights_bias_importance"
 Warning--I didn't find a database entry for "TODO_nn_modelling"
 Warning--I didn't find a database entry for "TODO_dataset_split"
 Warning--I didn't find a database entry for "TODO_train_dataset"
@@ -87,45 +66,45 @@ Warning--I didn't find a database entry for "TODO_hyperparameter_optimization"
 Warning--I didn't find a database entry for "TODO_adam_optimizer"
 Warning--I didn't find a database entry for "TODO_kedro_reproducibility"
 Warning--I didn't find a database entry for "TODO_kedro_evaluation"
-You've used 4 entries,
+You've used 15 entries,
             1791 wiz_defined-function locations,
-            635 strings with 8036 characters,
-and the built_in function-call counts, 879 in all, are:
-= -- 70
-> -- 43
+            657 strings with 8898 characters,
+and the built_in function-call counts, 2745 in all, are:
+= -- 232
+> -- 113
 < -- 2
-+ -- 16
-- -- 12
-* -- 56
-:= -- 146
-add.period$ -- 12
-call.type$ -- 4
-change.case$ -- 4
++ -- 45
+- -- 30
+* -- 156
+:= -- 460
+add.period$ -- 46
+call.type$ -- 15
+change.case$ -- 15
 chr.to.int$ -- 0
-cite$ -- 4
-duplicate$ -- 45
-empty$ -- 81
-format.name$ -- 12
-if$ -- 196
+cite$ -- 15
+duplicate$ -- 129
+empty$ -- 283
+format.name$ -- 30
+if$ -- 611
 int.to.chr$ -- 0
-int.to.str$ -- 4
-missing$ -- 4
-newline$ -- 23
-num.names$ -- 4
-pop$ -- 12
+int.to.str$ -- 15
+missing$ -- 12
+newline$ -- 79
+num.names$ -- 15
+pop$ -- 41
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 27
+skip$ -- 63
 stack$ -- 0
-substring$ -- 28
-swap$ -- 15
+substring$ -- 106
+swap$ -- 26
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 6
-width$ -- 5
-write$ -- 45
-(There were 84 warnings)
+while$ -- 22
+width$ -- 17
+write$ -- 164
+(There were 63 warnings)

@@ -130,7 +130,7 @@ Na zakończenie, w sekcji \textit{"Podsumowanie i wnioski"}, podsumowano przepro
 \subsection{Przewidywanie szeregów czasowych na rynkach finansowych}
 Dane finansowe, takie jak np. ceny akcji, zawierają obserwacje tworzące szeregi czasowe.
 Innymi słowy, są to dane, które reprezentują zmiany wartości w określonych odstępach czasu.
-Formalnie szeregiem czasowym określa się zbiór uporządkowanych obserwacji w czasie, gdzie każda obserwacja jest powiązana z określoną chwilą czasową \cite{TODO_time_series_definition}:
+Formalnie szeregiem czasowym określa się zbiór uporządkowanych obserwacji w czasie, gdzie każda obserwacja jest powiązana z określoną chwilą czasową \cite{shah2024timeseries}:
 \begin{equation}
     X = \{x_1, x_2, x_3, \ldots, x_n\}
 \end{equation}
@@ -144,36 +144,36 @@ Abstrahując od rynków finansowych, przedstawiono kilka przykładów szeregów 
 \end{itemize}
 
 Najczęściej spotykanym formatem danych finansowych są tzw. dane OHLC.
-Przedstawione w takiej postaci informacje tworzą szereg czasowy, w którym każda obserwacja składa się z czterech części \cite{TODO_OHLC_definition}:
+Przedstawione w takiej postaci informacje tworzą szereg czasowy, w którym każda obserwacja składa się z czterech części \cite{tepelyan2025enhancingohlcdatatiming}:
 \begin{itemize}
     \item \textbf{Open (O):} Cena otwarcia - cena, po której dany instrument finansowy rozpoczął notowania w danym okresie.
     \item \textbf{High (H):} Cena najwyższa - najwyższa cena osiągnięta przez instrument finansowy w danym okresie.
     \item \textbf{Low (L):} Cena najniższa - najniższa cena osiągnięta przez instrument finansowy w danym okresie.
     \item \textbf{Close (C):} Cena zamknięcia - cena, po której instrument finansowy zakończył notowania w danym okresie.
 \end{itemize}
-Na potrzeby tej pracy, wykorzystano składnik \textit{Close}, ze względu na jego powszechne wykorzystanie w analizie i prognozie cen akcji \cite{TODO_Close_price_usage}.
+Na potrzeby tej pracy, wykorzystano składnik \textit{Close}, ze względu na jego powszechne wykorzystanie w analizie i prognozie cen akcji.
 
 Rysunek \ref{fig:amzn_stock_prices} przedstawia przykładowy wykres cenowy względem składnika \textit{Close} spółki Amazon.com Inc (AMZN) na przestrzeni kilku lat w odstępach dziennych. 
 Dane przedstawione na wykresie są nieregularne i zawierają liczne fluktuacje, co jest charakterystyczne dla danych finansowych.
-Ta wysoka zmienność stanowi główne wyzwanie dla modeli predykcyjnych, co motywuje do poszukiwania skutecznych metod filtrujących \cite{TODO_LSTM_problem}.
+Ta wysoka zmienność stanowi główne wyzwanie dla modeli predykcyjnych, co motywuje do poszukiwania skutecznych metod filtrujących \cite{cheeneebash2007improving}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{assets/amzn_stock.png}
-    \caption{Wykres cenowy względem składnika \textit{Close} Amazon.com Inc (AMZN) w latach 2022-2025. Źródło danych: Yahoo Finance \cite{TODO_YahooFinance}.}
+    \caption{Wykres cenowy względem składnika \textit{Close} Amazon.com Inc (AMZN) w latach 2022-2025. Źródło danych: Yahoo Finance \cite{yfinance_data}.}
     \label{fig:amzn_stock_prices}
 \end{figure}
 
 Tradycyjnie analiza danych rynkowych opierała się o wskaźniki techniczne. 
-Można je określić mianem narzędzi statystycznych reprezentujących różne aspekty zachowań cen \cite{TODO_technical_indicators_paper}.
+Można je określić mianem narzędzi statystycznych reprezentujących różne aspekty zachowań cen \cite{MOSTAFAVI2025100631}.
 W niniejszej pracy wykorzystano trzy wskaźniki techniczne, które opisano w następnych podsekcjach.
 
 \subsubsection{Wskaźnik siły względnej (Relative Strength Index, RSI)}
-Wskaźnik siły względnej (RSI) to popularny wskaźnik techniczny używany do oceny siły i prędkości zmian cen aktywów finansowych \cite{TODO_RSI_paper}.
+Wskaźnik siły względnej (RSI) to popularny wskaźnik techniczny używany do oceny siły i prędkości zmian cen aktywów finansowych \cite{MOSTAFAVI2025100631}.
 Wyraża się go wzorem:
 \begin{equation}
     RSI = 100 - \frac{100}{1 + RS}
 \end{equation}
-gdzie \( RS \) (Relative Strength) to stosunek średnich wzrostów do średnich spadków cen w określonym czasie. Według badań, optymalny okres do obliczania RSI wynosi 14 dni \cite{TODO_RSI_paper}.
+gdzie \( RS \) (Relative Strength) to stosunek średnich wzrostów do średnich spadków cen w określonym czasie. Według badań, optymalny okres do obliczania RSI wynosi 14 dni \cite{agudelo2025artificial}.
 
 Produktem końcowym RSI jest liczba z zakresu od 0 do 100, która interpretowana jest następująco:
 \begin{itemize}
@@ -183,7 +183,7 @@ Produktem końcowym RSI jest liczba z zakresu od 0 do 100, która interpretowana
 \end{itemize}
 
 \subsubsection{Wstęgi Bollingera (Bollinger Bands)}
-Wstęgi Bollingera to narzędzie analizy technicznej, dostarczające informacji o zmienności rynku \cite{TODO_bollinger_bands_paper}. 
+Wstęgi Bollingera to narzędzie analizy technicznej, dostarczające informacji o zmienności rynku \cite{MOSTAFAVI2025100631}. 
 Składaja się z trzech linii na wykresie cenowym:
 \begin{itemize}
     \item \textbf{Środkowa linia:} Prosta średnia krocząca (SMA) obliczona na podstawie cen zamknięcia w określonym czasie. Najczęsciej używanym okresem jest 20 dni.
@@ -192,11 +192,11 @@ Składaja się z trzech linii na wykresie cenowym:
 \end{itemize}
 Na podstawie ww. składowych można zinterpretować dwie nowe miary, które zostały wykorzystane w niniejszej pracy:
 \begin{itemize}
-    \item \textbf{Bollinger Bandwidth (BBW):} Miara szerokości wstęg Bollingera, obliczana jako stosunek różnicy między górną a dolną wstęgą do środkowej linii \cite{TODO_bollinger_bands_paper}:
+    \item \textbf{Bollinger Bandwidth (BBW):} Miara szerokości wstęg Bollingera, obliczana jako stosunek różnicy między górną a dolną wstęgą do środkowej linii \cite{vaidya2021nepse}:
     \begin{equation}
         BBW = \frac{Upper Band - Lower Band}{Middle Line}
     \end{equation}
-    \item \textbf{Bollinger \%B (BB\%):} Miara położenia ceny względem wstęg Bollingera, obliczana jako stosunek różnicy między ceną zamknięcia a dolną wstęgą do różnicy między górną a dolną wstęgą \cite{TODO_bollinger_bands_paper}:
+    \item \textbf{Bollinger \%B (BB\%):} Miara położenia ceny względem wstęg Bollingera, obliczana jako stosunek różnicy między ceną zamknięcia a dolną wstęgą do różnicy między górną a dolną wstęgą \cite{vaidya2021nepse}:
     \begin{equation}
         BB\% = \frac{Close - Lower Band}{Upper Band - Lower Band}
     \end{equation}
@@ -205,34 +205,34 @@ Na podstawie ww. składowych można zinterpretować dwie nowe miary, które zost
 Opisane powyżej wskaźniki techniczne - RSI, BBW oraz BB\% - dostarczają cennych informacji o dynamice rynku. 
 W tradycyjnej analizie mogą posłużyć do subiektywnej interpretacji przez analityków.
 W nowoczesnych podejściach, opartych na modelach uczenia maszynowego, 
-można je wykorzystać do wzbogacenia danych o dodatkowe cechy, co potencjalnie może poprawić jakość prognoz \cite{TODO_dataset_enrichment_indicators}.
+można je wykorzystać do wzbogacenia danych o dodatkowe cechy, co potencjalnie może poprawić jakość prognoz \cite{MOSTAFAVI2025100631}.
 
 \subsection{Sieci neuronowe w prognozowaniu rynków finansowych}
 
-Wraz z rozwojem mocy obliczeniowej i technik uczenia maszynowego, pojawiły się bardziej zaawansowane metody analizy i prognozowania w dziedzinie finansów \cite{TODO_better_methods_on_market_predictions}.
+Wraz z rozwojem mocy obliczeniowej i technik uczenia maszynowego, pojawiły się bardziej zaawansowane metody analizy i prognozowania w dziedzinie finansów.
 Do najpopularniejszych podejść należą sieci rekurencyjne (RNN), w tym ich zaawansowane warianty, takie jak \textit{LSTM} (Long Short-Term Memory).
-Sieci te są zdolne do uchwycenia złożonych wzorców i zależności w szeregach czasowych \cite{TODO_RNN_paper, TODO_LSTM_paper}.
+Sieci te są zdolne do uchwycenia złożonych wzorców i zależności w szeregach czasowych \cite{sen2021stock}.
 
 W niniejszej sekcji zostały omówione podstawy działania sieci neuronowych. 
 Przedstawiona została budowa pojedynczego neuronu wchodzącego w skład sieci, kluczowe algorytmy uczenia oraz architektura LSTM.
 
 \subsubsection{Podstawy działania sztucznego neuronu}
-Ważnym kamieniem milowym w dziedzinie uczenia maszynowego było wprowadzenie matematycznego modelu neuronu przez McCullocha i Pitts'a w 1943 roku \cite{TODO_neuron_McCulloch_Pitts}.
+Ważnym kamieniem milowym w dziedzinie uczenia maszynowego było wprowadzenie matematycznego modelu neuronu przez McCullocha i Pitts'a w 1943 roku \cite{piccinini2004first}.
 Współcześnie można mówić o różnych architekturach takiego neuronu, jednak ich podstawowa zasada działania pozostaje podobna.
 
 Neuron otrzymuje na wejściu sygnały \( x_1, x_2, \ldots, x_n \), które są ważone przez odpowiednie wagi \( w_1, w_2, \ldots, w_n \).
-Następnie, sumuje te ważone sygnały i dodaje do nich wartość obciążenia (bias) \( b \) \cite{TODO_how_neurons_process_signals}:
+Następnie, sumuje te ważone sygnały i dodaje do nich wartość obciążenia (bias) \( b \) \cite{grossi2008introduction}:
 \begin{equation}
     z = \sum_{i=1}^{n} w_i x_i + b
 \end{equation}
 
-Otrzymana wartość \( z \), zwana logitem (surowym wyjściem) neuronu, jest następnie przekształcana przez funkcję aktywacji \( f(z) \) \cite{TODO_how_neurons_process_signals}:
+Otrzymana wartość \( z \), zwana logitem (surowym wyjściem) neuronu, jest następnie przekształcana przez funkcję aktywacji \( f(z) \) \cite{grossi2008introduction}:
 \begin{equation}
     \hat{y} = f(z) = f(\sum_{i=1}^{n} w_i x_i + b)
 \end{equation}
 
 Funkcja aktywacji modyfikuje logit \( z \), produkując finalne wyjście neuronu \( \hat{y} \) -- stopień aktywacji.
-W zależności od zastosowanej funkcji aktywacji, wyjście może przyjmować różne formy \cite{TODO_activation_function_overview}.
+W zależności od zastosowanej funkcji aktywacji, wyjście może przyjmować różne formy \cite{szandala2020review}.
 Tą różnicę najprościej zilustrować na przykładzie dwóch popularnych funkcji aktywacji:
 \begin{itemize}
     \item \textbf{Funkcja skokowa:}
@@ -244,13 +244,13 @@ Tą różnicę najprościej zilustrować na przykładzie dwóch popularnych funk
         \end{cases}
     \end{equation}
     W tym przypadku, wyjście neuronu jest binarne. 
-    Innymi słowy, neuron zostanie albo aktywowany (1), albo nieaktywowany (0), w zależności od tego, czy logit \( z \) przekracza pewien próg (w tym przypadku 0) \cite{TODO_step_function_overview}.
+    Innymi słowy, neuron zostanie albo aktywowany (1), albo nieaktywowany (0), w zależności od tego, czy logit \( z \) przekracza pewien próg (w tym przypadku 0) \cite{szandala2020review}.
     \item \textbf{Funkcja sigmoidalna:}
     \begin{equation}
         f(z) = \frac{1}{1 + e^{-z}}
     \end{equation}
     W tym przypadku, wyjście neuronu jest ciągłe i mieści się w zakresie od 0 do 1.
-    Oznacza to, że neuron może przyjmować różne poziomy aktywacji, co pozwala na wyrażenie stopnia pewności co do wyniku \cite{TODO_sigmoid_function_overview}.
+    Oznacza to, że neuron może przyjmować różne poziomy aktywacji, co pozwala na wyrażenie stopnia pewności co do wyniku \cite{szandala2020review}.
 \end{itemize}
 Rysunek \ref{fig:step_sigmoid_comparison} przedstawia porównanie ww. funkcji aktywacji.
 Po lewej stronie znajduje się wykres funkcji skokowej, gdzie wyjście nagle zmienia się z 0 na 1 w punkcie \( z=0 \).
@@ -265,18 +265,18 @@ Po prawej stronie znajduje się wykres funkcji sigmoidalnej, gdzie wyjście zmie
         \centering
         \includegraphics[width=\linewidth]{assets/sigmoid_figure.png}
     \end{minipage}
-    \caption{Porównanie funkcji aktywacji: (po lewej) funkcja skokowa, (po prawej) funkcja sigmoidalna. Opracownanie własne przy użyciu Matplotlib.}
+    \caption{Porównanie funkcji aktywacji: (po lewej) funkcja skokowa, (po prawej) funkcja sigmoidalna.}
     \label{fig:step_sigmoid_comparison}
 \end{figure}
-Istnieje wiele innych funkcji aktywacji (np. ReLU, tanh, softmax), a każda z nich ma swoje unikalne właściwości i zastosowania \cite{TODO_activation_function_overview}.
+Istnieje wiele innych funkcji aktywacji (np. ReLU, tanh, softmax), a każda z nich ma swoje unikalne właściwości i zastosowania.
 W przypadku funkcji skokowej, neuron podejmuje twardą decyzję, aktywując się w pełni lub wcale.
-Przez brak elastyczności, funkcja ta nie pozwala na wyrażenie przekonania co do wyniku \cite{TODO_step_function_overview}.
-W przeciwieństwie do niej, funkcja sigmoidalna umożliwia płynną aktywację, pozwalając uwzględnić stopień pewności \cite{TODO_sigmoid_function_overview}.
+Przez brak elastyczności, funkcja ta nie pozwala na wyrażenie przekonania co do wyniku.
+W przeciwieństwie do niej, funkcja sigmoidalna umożliwia płynną aktywację, pozwalając uwzględnić stopień pewności \cite{szandala2020review}.
 
 Znając rolę funkcji aktywacji, można lepiej wyjaśnić działanie parametrów uczonych neuronu, czyli wag \( w_i \) oraz obciążenia \( b \).
 
 Wagi określają, jak duży wpływ ma każdy sygnał wejściowy \( x_i \) na logit \( z \).
-Poprzez modelowanie wag, w trakcie procesu uczenia, neuron może nauczyć się, które cechy wejściowe są bardziej istotne dla danego zadania \cite{TODO_weights}.
+Poprzez modelowanie wag, w trakcie procesu uczenia, neuron może nauczyć się, które cechy wejściowe są bardziej istotne dla danego zadania \cite{grossi2008introduction}.
 
 Rysunek \ref{fig:sigmoid_weights_combined} przedstawia wpływ różnych wartości wagi \( w \) na funkcję sigmoidalną w neuronie z jednym wejściem i bez obciążenia.
 Po lewej stronie znajduje się wykres dla małej wagi \( w=0.1 \), gdzie funkcja zmienia się powoli i ma łagodne nachylenie.
@@ -294,12 +294,12 @@ Oznacza to, że neuron staje się pewniejszy swoich decyzji, aktywując się nie
         \centering
         \includegraphics[width=\linewidth]{assets/sigmoid_w_max_figure.png}
     \end{minipage}
-    \caption{Wpływ wartości wagi (w) na kształt funkcji sigmoidalnej: (po lewej) \(w=0.1\), (po prawej) \(w=2.0\). Opracowanie własne przy użyciu Matplotlib.}
+    \caption{Wpływ wartości wagi (w) na kształt funkcji sigmoidalnej: (po lewej) \(w=0.1\), (po prawej) \(w=2.0\).}
     \label{fig:sigmoid_weights_combined}
 \end{figure}
 
 Drugim kluczowym parametrem jest obciążenie, czyli bias \( b \), który przesuwa próg funkcji aktywacji wzdłuż osi poziomej.
-W istocie umożliwia to opóźnienie lub przyspieszenie momentu, w którym neuron zostaje aktywowany \cite{TODO_bias}.
+W istocie umożliwia to opóźnienie lub przyspieszenie momentu, w którym neuron zostaje aktywowany \cite{grossi2008introduction}.
 
 Rysunek \ref{fig:sigmoid_bias_combined} przedstawia wpływ różnych wartości biasu \( b \) na kształt funkcji sigmoidalnej w neuronie z jednym wejściem i wagą \( w=0.1 \).
 \begin{figure}[H]
@@ -316,20 +316,19 @@ Rysunek \ref{fig:sigmoid_bias_combined} przedstawia wpływ różnych wartości b
     \label{fig:sigmoid_bias_combined}
 \end{figure}
 
-Opisane powyżej parametry -- wagi \( w_i \), obciążenie \( b \) oraz funkcja aktywacji \( f(z) \) - stanowią podstawę działania sztucznego neuronu \cite{TODO_weights_bias_importance}.
+Opisane powyżej parametry -- wagi \( w_i \), obciążenie \( b \) oraz funkcja aktywacji \( f(z) \) - stanowią podstawę działania sztucznego neuronu \cite{grossi2008introduction}.
 
 Rysunek \ref{fig:neuron_architecture} podsumowuje budowę sztucznego neuronu, ilustrując jak sygnały wejściowe są przetwarzane przez wagę, sumowane z obciążeniem i przekształcane przez funkcję aktywacji.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{assets/neuron.png}
-    % Andrut, Krzysztof Zajączkowski, \href{https://commons.wikimedia.org/wiki/File:Neuron_McCullocha-Pittsa.svg}{Wikimedia Commons}, licencja \href{https://creativecommons.org/licenses/by-sa/2.5/deed.pl}{CC BY-SA 2.5}.
     \caption[Schemat budowy sztucznego neuronu]{Schemat budowy sztucznego neuronu. Źródło: \cite{wikimedia_neuron_mcculloch_pitts}}
     \label{fig:neuron_architecture}
 \end{figure}
 
 Niestety pojedyczny neuron jest ograniczony w swoich możliwościach -- może nauczyć się jedynie prostych zależności liniowo-separowalnych.
 Inaczej mówiąc, jest w stanie rozróżnić tylko te wzorce, które można oddzielić prostą linią w przestrzeni cech.
-Aby radzić sobie z bardziej złożonymi problemami, konieczne jest łączenie wielu neuronów w wielowarstwowe struktury \cite{TODO_single_neuron_limitations}.
+Aby radzić sobie z bardziej złożonymi problemami, konieczne jest łączenie wielu neuronów w wielowarstwowe struktury \cite{mishra2022single}.
 
 \subsubsection{Architektura sieci neuronowej}
 
