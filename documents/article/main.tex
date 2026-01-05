@@ -221,12 +221,12 @@ Ważnym kamieniem milowym w dziedzinie uczenia maszynowego było wprowadzenie ma
 Współcześnie można mówić o różnych architekturach takiego neuronu, jednak ich podstawowa zasada działania pozostaje podobna.
 
 Neuron otrzymuje na wejściu sygnały \( x_1, x_2, \ldots, x_n \), które są ważone przez odpowiednie wagi \( w_1, w_2, \ldots, w_n \).
-Następnie, sumuje te ważone sygnały i dodaje do nich wartość obciążenia (bias) \( b \) \cite{grossi2008introduction}:
+Następnie, sumuje te ważone sygnały i dodaje do nich wartość obciążenia (bias) \( b \) \cite{goodfellow-et-al-2016}:
 \begin{equation}
     z = \sum_{i=1}^{n} w_i x_i + b
 \end{equation}
 
-Otrzymana wartość \( z \), zwana logitem (surowym wyjściem) neuronu, jest następnie przekształcana przez funkcję aktywacji \( f(z) \) \cite{grossi2008introduction}:
+Otrzymana wartość \( z \), zwana logitem (surowym wyjściem) neuronu, jest następnie przekształcana przez funkcję aktywacji \( f(z) \) \cite{goodfellow-et-al-2016}:
 \begin{equation}
     \hat{y} = f(z) = f(\sum_{i=1}^{n} w_i x_i + b)
 \end{equation}
@@ -276,7 +276,7 @@ W przeciwieństwie do niej, funkcja sigmoidalna umożliwia płynną aktywację, 
 Znając rolę funkcji aktywacji, można lepiej wyjaśnić działanie parametrów uczonych neuronu, czyli wag \( w_i \) oraz obciążenia \( b \).
 
 Wagi określają, jak duży wpływ ma każdy sygnał wejściowy \( x_i \) na logit \( z \).
-Poprzez modelowanie wag, w trakcie procesu uczenia, neuron może nauczyć się, które cechy wejściowe są bardziej istotne dla danego zadania \cite{grossi2008introduction}.
+Poprzez modelowanie wag, w trakcie procesu uczenia, neuron może nauczyć się, które cechy wejściowe są bardziej istotne dla danego zadania \cite{goodfellow-et-al-2016}.
 
 Rysunek \ref{fig:sigmoid_weights_combined} przedstawia wpływ różnych wartości wagi \( w \) na funkcję sigmoidalną w neuronie z jednym wejściem i bez obciążenia.
 Po lewej stronie znajduje się wykres dla małej wagi \( w=0.1 \), gdzie funkcja zmienia się powoli i ma łagodne nachylenie.
@@ -299,7 +299,7 @@ Oznacza to, że neuron staje się pewniejszy swoich decyzji, aktywując się nie
 \end{figure}
 
 Drugim kluczowym parametrem jest obciążenie, czyli bias \( b \), który przesuwa próg funkcji aktywacji wzdłuż osi poziomej.
-W istocie umożliwia to opóźnienie lub przyspieszenie momentu, w którym neuron zostaje aktywowany \cite{grossi2008introduction}.
+W istocie umożliwia to opóźnienie lub przyspieszenie momentu, w którym neuron zostaje aktywowany \cite{goodfellow-et-al-2016}.
 
 Rysunek \ref{fig:sigmoid_bias_combined} przedstawia wpływ różnych wartości biasu \( b \) na kształt funkcji sigmoidalnej w neuronie z jednym wejściem i wagą \( w=0.1 \).
 \begin{figure}[H]
@@ -316,7 +316,7 @@ Rysunek \ref{fig:sigmoid_bias_combined} przedstawia wpływ różnych wartości b
     \label{fig:sigmoid_bias_combined}
 \end{figure}
 
-Opisane powyżej parametry -- wagi \( w_i \), obciążenie \( b \) oraz funkcja aktywacji \( f(z) \) - stanowią podstawę działania sztucznego neuronu \cite{grossi2008introduction}.
+Opisane powyżej parametry -- wagi \( w_i \), obciążenie \( b \) oraz funkcja aktywacji \( f(z) \) - stanowią podstawę działania sztucznego neuronu \cite{goodfellow-et-al-2016}.
 
 Rysunek \ref{fig:neuron_architecture} podsumowuje budowę sztucznego neuronu, ilustrując jak sygnały wejściowe są przetwarzane przez wagę, sumowane z obciążeniem i przekształcane przez funkcję aktywacji.
 \begin{figure}[H]
@@ -328,23 +328,23 @@ Rysunek \ref{fig:neuron_architecture} podsumowuje budowę sztucznego neuronu, il
 
 Niestety pojedyczny neuron jest ograniczony w swoich możliwościach -- może nauczyć się jedynie prostych zależności liniowo-separowalnych.
 Inaczej mówiąc, jest w stanie rozróżnić tylko te wzorce, które można oddzielić prostą linią w przestrzeni cech.
-Aby radzić sobie z bardziej złożonymi problemami, konieczne jest łączenie wielu neuronów w wielowarstwowe struktury \cite{mishra2022single}.
+Aby radzić sobie z bardziej złożonymi problemami, konieczne jest łączenie wielu neuronów w wielowarstwowe struktury \cite{goodfellow-et-al-2016}.
 
 \subsubsection{Architektura sieci neuronowej}
 
 W celu modelowania bardziej złożonych zależności, łączy się wiele neuronów w struktury zwane sieciami neuronowymi.
 Składają się one z warstw, gdzie każda warstwa zawiera wiele neuronów.
-Typowa sieć neuronowa składa się z trzech głównych typów warstw \cite{TODO_nn}:
+Typowa sieć neuronowa składa się z trzech głównych typów warstw \cite{goodfellow-et-al-2016}:
 \begin{enumerate}
     \item \textbf{Warstwa wejściowa:} Odpowiada za przyjmowanie danych wejściowych.
     \item \textbf{Warstwy ukryte:} Przetwarzają dane poprzez zestaw neuronów, ucząc się złożonych wzorców.
     \item \textbf{Warstwa wyjściowa:} Generuje ostateczne prognozy lub klasyfikacje na podstawie przetworzonych danych.
 \end{enumerate}
-Warstwy można łączyć na różne sposoby, np. poprzez pełne łączenie, konwolucje czy rekurencje \cite{TODO_alternative_ways_connecting_layers}.
-W przypadku pełnego łączenia tworzy się połączenia każdego neuronu z jednej warstwy do każdego neuronu w następnej warstwie \cite{TODO_dense_layer}.
+Warstwy można łączyć na różne sposoby. Najbardziej podstawowym jest pełne łączenie (ang. \textit{fully-connected} lub \textit{dense}), gdzie każdy neuron z jednej warstwy jest połączony z każdym neuronem w warstwie następnej. 
+Inne, bardziej zaawansowane metody to m.in. konwolucje czy rekurencje \cite{goodfellow-et-al-2016}.
 Przepływ sygnału w takiej sieci odbywa się na zasadzie propagacji w przód (ang. forward propagation) -- od warstwy wejściowej, przez warstwy ukryte, aż do warstwy wyjściowej.
 \clearpage
-Formalnie ten proces można opisać krokami obliczeniowymi dla każdej warstwy \cite{TODO_forward_propagation}:
+Formalnie ten proces można opisać krokami obliczeniowymi dla każdej warstwy \cite{goodfellow-et-al-2016}:
 \begin{enumerate}
     \item \textbf{Warstwa wejściowa:}
     \begin{equation}
@@ -375,35 +375,35 @@ Rysunek \ref{fig:nn_architecture} przedstawia schematyczną budowę prostej siec
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{assets/nn.png}
-    \caption{Budowa prostej sieci neuronowej z jedną warstwą wejściową, dwiema warstwami ukrytymi i jedną warstwą wyjściową. Opracowanie własne na podstawie \href{https://media.geeksforgeeks.org/wp-content/uploads/20250923121847731542/Neural-Networks-Architecture.webp}{GeeksforGeeks}.}
+    \caption{Budowa prostej sieci neuronowej z jedną warstwą wejściową, dwiema warstwami ukrytymi i jedną warstwą wyjściową. Opracowanie własne na podstawie \cite{geeksforgeeks_nn_architecture}.}
     \label{fig:nn_architecture}
 \end{figure}
 
-Przedstawiona architektura oraz proces propagacji w przód definiują przepływ informacji w sieci neuronowej w celu generowania prognoz \cite{TODO_nn, TODO_forward_propagation}.
-Jednakże aby prognoza była trafna, parametry sieci -- wartości wag \( \mathbf{W}^{(l)} \) oraz obciążeń \( \mathbf{b}^{(l)} \) -- muszą zostać odpowiednio dobrane \cite{TODO_weights_bias_importance}.
+Przedstawiona architektura oraz proces propagacji w przód definiują przepływ informacji w sieci neuronowej w celu generowania prognoz \cite{goodfellow-et-al-2016}.
+Jednakże aby prognoza była trafna, parametry sieci -- wartości wag \( \mathbf{W}^{(l)} \) oraz obciążeń \( \mathbf{b}^{(l)} \) -- muszą zostać odpowiednio dobrane \cite{goodfellow-et-al-2016}.
 Ten proces nazywany jest uczeniem sieci i zostanie omówiony w następnej podsekcji.
 
 \subsubsection{Uczenie sieci neuronowej}
 Uczenie sieci neuronowej polega na algorytmicznym dostosowywaniu jej parametrów (wag i obciążeń) w celu minimalizacji błędu prognoz.
 Działa ono w oparciu o zestaw danych zawierających zarówno dane wejściowe \( \mathbf{x} \), jak i odpowiadające im rzeczywiste wartości wyjściowe \( \mathbf{y} \).
-Innymi słowy, sieć uczy się na podstawie przykładów, aby poprawić swoje prognozy \cite{TODO_nn_modelling}.
+Innymi słowy, sieć uczy się na podstawie przykładów, aby poprawić swoje prognozy \cite{goodfellow-et-al-2016}.
 
-Aby proces uczenia zwracał rzetelne wyniki, zestaw danych dzieli się na trzy niezależne podzbiory \cite{TODO_dataset_split}:
+Aby proces uczenia zwracał rzetelne wyniki, zestaw danych dzieli się na trzy niezależne podzbiory \cite{goodfellow-et-al-2016}:
 \begin{itemize}
-    \item \textbf{Zbiór treningowy:} Służy do uczenia sieci poprzez dostosowywanie jej parametrów \cite{TODO_train_dataset}.
-    \item \textbf{Zbiór walidacyjny:} Używany do monitorowania wydajności sieci podczas treningu i dostrajania hiperparametrów \cite{TODO_valid_dataset}.
-    \item \textbf{Zbiór testowy:} Służy do oceny ostatecznej wydajności sieci na niewidzianych wcześniej danych \cite{TODO_test_dataset}.
+    \item \textbf{Zbiór treningowy:} Służy do uczenia sieci poprzez dostosowywanie jej parametrów \cite{goodfellow-et-al-2016}.
+    \item \textbf{Zbiór walidacyjny:} Używany do monitorowania wydajności sieci podczas treningu i dostrajania hiperparametrów \cite{goodfellow-et-al-2016}.
+    \item \textbf{Zbiór testowy:} Służy do oceny ostatecznej wydajności sieci na niewidzianych wcześniej danych \cite{goodfellow-et-al-2016}.
 \end{itemize}
 
-Sam proces dostosowywania parametrów sieci przeprowadzany jest na zbiorze treningowym i można go opisać w kilku kluczowych krokach \cite{TODO_nn_modelling}:
+Sam proces dostosowywania parametrów sieci przeprowadzany jest na zbiorze treningowym i można go opisać w kilku kluczowych krokach \cite{goodfellow-et-al-2016}:
 
 \begin{enumerate}
 
-    \item \textbf{Inicjalizacja:} Na początku, wagi \( \mathbf{W}^{(l)} \) oraz obciążenia \( \mathbf{b}^{(l)} \) są inicjalizowane małymi, losowymi wartościami \cite{TODO_weights_bias_init}.
+    \item \textbf{Inicjalizacja:} Na początku, wagi \( \mathbf{W}^{(l)} \) oraz obciążenia \( \mathbf{b}^{(l)} \) są inicjalizowane małymi, losowymi wartościami.
 
-    \item \textbf{Propagacja w przód:} Dane wejściowe \( \mathbf{x} \) są przekazywane przez sieć, generując prognozy \( \mathbf{\hat{y}} \) \cite{TODO_forward_propagation}.
+    \item \textbf{Propagacja w przód:} Dane wejściowe \( \mathbf{x} \) są przekazywane przez sieć, generując prognozy \( \mathbf{\hat{y}} \).
 
-    \item \textbf{Obliczanie błędu:} Prognoza modelu \( \mathbf{\hat{y}} \) jest porównywana z rzeczywistą wartością \( \mathbf{y} \) za pomocą funkcji kosztu (np. MSE), co pozwala na zmierzenie błędu prognozy \cite{TODO_measuring_loss}:
+    \item \textbf{Obliczanie błędu:} Prognoza modelu \( \mathbf{\hat{y}} \) jest porównywana z rzeczywistą wartością \( \mathbf{y} \) za pomocą funkcji kosztu (np. MSE), co pozwala na zmierzenie błędu prognozy:
     \begin{equation}
         L = \frac{1}{n} \sum_{i=1}^{n} (\hat{y}_i - y_i)^2
     \end{equation}
@@ -412,12 +412,12 @@ Sam proces dostosowywania parametrów sieci przeprowadzany jest na zbiorze treni
     \item \textbf{Propagacja wsteczna błędu:} Obliczony błąd jest propagowany wstecz sieci, od warstwy wyjściowej do wejściowej. 
     Celem tego kroku jest obliczenie gradientów funkcji kosztu w każdym neuronie sieci.
     Gradienty te wskazują kierunek i wielkość zmian, które należy wprowadzić w parametrach sieci, aby skutecznie minimalizować błąd prognozy.
-    Formalnie gradient jest pochodną funkcji kosztu względem wag lub obciążeń \cite{TODO_backward_propagation}:
+    Formalnie gradient jest pochodną funkcji kosztu względem wag lub obciążeń \cite{rumelhart1986learning}:
     \begin{equation}
         \frac{\partial L}{\partial \mathbf{W}^{(l)}}, \quad \frac{\partial L}{\partial \mathbf{b}^{(l)}}
     \end{equation}
 
-    \item \textbf{Aktualizacja parametrów:} Wagi i obciążenia są aktualizowane za pomocą algorytmu optymalizacji (np. Stochastic Gradient Descent, Adam), wykorzystując obliczone gradienty \cite{TODO_weights_bias_update}:
+    \item \textbf{Aktualizacja parametrów:} Wagi i obciążenia są aktualizowane za pomocą algorytmu optymalizacji (np. Stochastic Gradient Descent, Adam), wykorzystując obliczone gradienty:
     \begin{equation}
         \mathbf{W}^{(l)} \leftarrow \mathbf{W}^{(l)} - \eta \frac{\partial L}{\partial \mathbf{W}^{(l)}}, \quad
         \mathbf{b}^{(l)} \leftarrow \mathbf{b}^{(l)} - \eta \frac{\partial L}{\partial \mathbf{b}^{(l)}}
@@ -427,26 +427,26 @@ Sam proces dostosowywania parametrów sieci przeprowadzany jest na zbiorze treni
 \end{enumerate}
 
 Proces ten jest powtarzany przez wiele iteracji (epok) na całym zbiorze treningowym, aż do osiągnięcia zadowalającej dokładności prognoz lub spełnienia kryteriów zatrzymania (np. minimalny błąd na zbiorze walidacyjnym).
-Wynikowo sieć neuronowa uczy się optymalnych wartości wag i obciążeń, co pozwala jej na generowanie trafnych prognoz na niewidzianych wcześniej danych \cite{TODO_nn_modelling}.
+Wynikowo sieć neuronowa uczy się optymalnych wartości wag i obciążeń, co pozwala jej na generowanie trafnych prognoz na niewidzianych wcześniej danych \cite{goodfellow-et-al-2016}.
 
 \subsubsection{Sieci rekurencyjne}
-Tradycyjna architekura sieci neuronowej, opisana w poprzednich podsekcjach, zakłada, że dane wejściowe są niezależne od siebie \cite{TODO_nn_independent_inputs}.
+Tradycyjna architekura sieci neuronowej, opisana w poprzednich podsekcjach, zakłada, że dane wejściowe są niezależne od siebie.
 W przypadku danych finansowych (szeregi czasowe) takie założenie jest błędne, ponieważ obserwacje są ze sobą powiązane w czasie.
 Można sobie to wyobrazić na przykładzie cen akcji, gdzie ceny z kilku poprzednich dni wpływają na cenę w dniu dzisiejszym.
 Wówczas pojawia się potrzeba "pamiętania" wcześniejszych informacji podczas przetwarzania bieżących danych.
-Sieci rekurencyjne (RNN) zostały zaprojektowane właśnie w tym celu \cite{TODO_time_series_data}.
+Sieci rekurencyjne (RNN) zostały zaprojektowane właśnie w tym celu \cite{goodfellow-et-al-2016}.
 
-Podstawowym budulcem sieci RNN jest komórka rekurencyjna, która posiada zdolność do przechowywania stanu ukrytego \( \mathbf{h}_t \) \cite{TODO_RNN_cells}.
-Stan ukryty \( \mathbf{h}_t \) jest nośnikiem informacji z poprzednich kroków czasowych \cite{TODO_hidden_state}.
-Aby skutecznie taką informację utrwalić, sieci RNN wykorzystują mechanizm rekurencji, gdzie wyjście z poprzedniego kroku czasowego jest wykorzystywane jako dodatkowe wejście do bieżącego kroku \cite{TODO_RNN_recurrence}.
+Podstawowym budulcem sieci RNN jest komórka rekurencyjna, która posiada zdolność do przechowywania stanu ukrytego \( \mathbf{h}_t \).
+Stan ukryty \( \mathbf{h}_t \) jest nośnikiem informacji z poprzednich kroków czasowych.
+Aby skutecznie taką informację utrwalić, sieci RNN wykorzystują mechanizm rekurencji, gdzie wyjście z poprzedniego kroku czasowego jest wykorzystywane jako dodatkowe wejście do bieżącego kroku \cite{goodfellow-et-al-2016}.
 
-Formalnie, stan ukryty \( \mathbf{h}_t \) w czasie \( t \) jest wektorem obliczanym na podstawie bieżącego wejścia \( \mathbf{x}_t \) oraz poprzedniego stanu ukrytego \( \mathbf{h}_{t-1} \) \cite{TODO_RNN_cells}:
+Formalnie, stan ukryty \( \mathbf{h}_t \) w czasie \( t \) jest wektorem obliczanym na podstawie bieżącego wejścia \( \mathbf{x}_t \) oraz poprzedniego stanu ukrytego \( \mathbf{h}_{t-1} \) \cite{goodfellow-et-al-2016}:
 \begin{equation}
     \mathbf{h}_t = f(\mathbf{W}_h \mathbf{h}_{t-1} + \mathbf{W}_x \mathbf{x}_t + \mathbf{b})
 \end{equation}
 gdzie \( \mathbf{W}_h \) to macierz wag dla stanu ukrytego, \( \mathbf{W}_x \) to macierz wag dla wejścia, \( \mathbf{b} \) to wektor obciążeń, a \( f \) to funkcja aktywacji.
 
-Gdy obliczony zostanie ostatni stan ukryty \( \mathbf{h}_t \), sieć może wygenerować prognozę \( \mathbf{\hat{y}}_t \) na podstawie tego stanu \cite{TODO_RNN_output}:
+Gdy obliczony zostanie ostatni stan ukryty \( \mathbf{h}_t \), sieć może wygenerować prognozę \( \mathbf{\hat{y}}_t \) na podstawie tego stanu \cite{goodfellow-et-al-2016}:
 \begin{equation}
     \mathbf{\hat{y}}_t = g(\mathbf{W}_y \mathbf{h}_t + \mathbf{b}_y)
 \end{equation}
@@ -455,48 +455,46 @@ gdzie \( \mathbf{W}_y \) to macierz wag dla wyjścia, \( \mathbf{b}_y \) to wekt
 Rysunek \ref{fig:rnn_cell} przedstawia schematyczną budowę komórki rekurencyjnej w sieci RNN.
 Aby lepiej zobrazować działanie komórki RNN, na rysunku pokazano jej rozwinięcie w czasie.
 Stan ukryty \( \mathbf{h}_t \) jest przekazywany z jednego kroku czasowego do następnego.
-% Wagi \( \mathbf{W}_h \), \( \mathbf{W}_x \), \( \mathbf{W}_y \) oraz obciążenie \( \mathbf{b} \) są współdzielone przez wszystkie kroki czasowe.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{assets/rnn_cell.png}
-    % \href{https://commons.wikimedia.org/wiki/File:Recurrent_neural_network_unfold.svg}{Wikimedia Commons}
     \caption{Budowa komórki rekurencyjnej w sieci RNN. Opracowanie własne na podstawie \cite{wikimedia_rnn_unfold}.}
     \label{fig:rnn_cell}
 \end{figure}
 
-Taka architektura stanowi solidny fundament do modelowania szeregów czasowych \cite{TODO_RNN_for_time_series_modelling}.
-Niemniej jednak, tradycyjne sieci RNN mają pewne ograniczenia.
-Są nimi m.in. problem zanikającego i eksplodującego gradientu podczas procesu uczenia, co utrudnia naukę długoterminowych zależności w danych \cite{TODO_vanishing_gradient, TODO_exploding_gradient}.
-Aby wyjaśnić na czym polegają te problemy, należy wrócić do procesu opartego na wstecznej propagacji błędu.
+Taka architektura stanowi solidny fundament do modelowania szeregów czasowyc, jednak ma ona pewne ograniczenia.
+Są nimi m.in. problem zanikającego i eksplodującego gradientu podczas procesu uczenia, co utrudnia naukę długoterminowych zależności w danych \cite{goodfellow-et-al-2016}.
 
+Aby wyjaśnić na czym polegają te problemy, należy wrócić do procesu opartego na wstecznej propagacji błędu.
 W przypadku sieci RNN, odpowiednikiem algorytmu wstecznej propagacji jest algorytm zwany propagacją wsteczną w czasie (ang. *Backpropagation Through Time, BPTT*).
 Tak jak w przypadku klasycznej propagacji wstecznej, BPTT polega na obliczaniu gradientów funkcji kosztu względem wag i obciążeń sieci.
-Ze względu na współdzielenie wag w czasie, gradienty są sumowane przez wszystkie kroki czasowe, co daje ostateczny gradient dla każdej wagi \cite{TODO_BPTT}:
+Ze względu na współdzielenie wag w czasie, gradienty są sumowane przez wszystkie kroki czasowe, co daje ostateczny gradient dla każdej wagi \cite{goodfellow-et-al-2016}:
 \begin{equation}
     \frac{\partial L}{\partial \mathbf{W}_h} = \sum_{t=1}^{T} \frac{\partial L}{\partial \mathbf{h}_t} \frac{\partial \mathbf{h}_t}{\partial \mathbf{W}_h}
 \end{equation}
-W praktyce, propagacja błędu w czasie wiąże się z wielokrotnym mnożeniem macierzy wag \( \mathbf{W}_h \) odpowiadających za stan ukryty \cite{TODO_repetetive_multiplication_of_weights}:
+W praktyce, propagacja błędu w czasie wiąże się z wielokrotnym mnożeniem macierzy wag \( \mathbf{W}_h \) odpowiadających za stan ukryty \cite{goodfellow-et-al-2016}:
 \begin{equation}
     \frac{\partial L}{\partial \mathbf{h}_t} = \frac{\partial L}{\partial \mathbf{h}_T} \prod_{k=t+1}^{T} \frac{\partial \mathbf{h}_k}{\partial \mathbf{h}_{k-1}}
 \end{equation}
 To właśnie ten mechanizm prowadzi do dwóch problemów:
 \begin{itemize}
     \item \textbf{Problem zanikającego gradientu:} Jeśli wartości w macierzy wag \( \mathbf{W}_h \) są małe (norma macierzy mniejsza od 1), to przy wielokrotnym mnożeniu sygnał błędu (gradient) staje się wykładniczo coraz mniejszy.
-    W konsekwencji sieć nie jest w stanie nauczyć się zależności między danymi, które są od siebie odległe w czasie \cite{TODO_vanishing_gradient}.
+    W konsekwencji sieć nie jest w stanie nauczyć się zależności między danymi, które są od siebie odległe w czasie \cite{goodfellow-et-al-2016}.
 
     \item \textbf{Problem eksplodującego gradientu:} Jest to sytuacja odwrotna. Jeśli wartości w macierzy wag \( \mathbf{W}_h \) są duże (norma macierzy większa od 1), sygnał błędu przy wielokrotnym mnożeniu rośnie wykładniczo, stając się ogromną liczbą.
-    Na skutek tego aktualizacje wag stają się tak duże, że proces uczenia staje się niestabilny \cite{TODO_exploding_gradient}.
+    Na skutek tego aktualizacje wag stają się tak duże, że proces uczenia staje się niestabilny \cite{goodfellow-et-al-2016}.
 \end{itemize}
 
 Aby skutecznie radzić sobie z tymi problemami, opracowano zaawansowane architektury sieci rekurencyjnych.
-Jedną z najpopularniejszych jest Long Short-Term Memory (LSTM), która zostanie omówiona w następnej podsekcji \cite{TODO_LSTM}.
+Jedną z najpopularniejszych jest Long Short-Term Memory (LSTM), która zostanie omówiona w następnej podsekcji.
 
 \subsubsection{Sieci Long Short-Term Memory}
-Sieci Long Short-Term Memory (LSTM) zostały zaprojektowane, aby niwelować problemy zanikającego i eksplodującego gradientu występujące w tradycyjnych sieciach RNN \cite{TODO_LSTM}.
-Cechę tę osiągnięto poprzez wprowadzenie mechanizmów zwanych bramkami (ang. *gates*) oraz dodatkowego stanu komórki \( \mathbf{C}_t \) \cite{TODO_LSTM_cells}.
+Sieci Long Short-Term Memory (LSTM) zostały zaprojektowane, aby niwelować problemy zanikającego i eksplodującego gradientu występujące w tradycyjnych sieciach RNN \cite{hochreiter1997long}.
+Cechę tę osiągnięto poprzez wprowadzenie mechanizmów zwanych bramkami (ang. *gates*) oraz dodatkowego stanu komórki \( \mathbf{C}_t \) \cite{hochreiter1997long}.
+
 Stan komórki \( \mathbf{C}_t \), w odróżnieniu od stanu ukrytego \( \mathbf{h}_t \), jest nośnikiem długoterminowych informacji.
-Dzięki temu LSTM mogą efektywnie przechowywać i wykorzystywać informacje z odległych kroków czasowych \cite{TODO_LSTM_long_term_memory}.
-Komórka LSTM składa sie z trzech głównych bramek \cite{TODO_LSTM_gates}:
+Dzięki temu LSTM mogą efektywnie przechowywać i wykorzystywać informacje z odległych kroków czasowych \cite{goodfellow-et-al-2016}.
+Komórka LSTM składa sie z trzech głównych bramek \cite{goodfellow-et-al-2016}:
 \begin{enumerate}
     \item \textbf{Bramka zapominania (Forget Gate):} Decyduje, które informacje z poprzedniego stanu komórki \( \mathbf{C}_{t-1} \) należy zachować, a które odrzucić.
     \item \textbf{Bramka wejścia (Input Gate):} Określa, które nowe informacje z bieżącego wejścia \( \mathbf{x}_t \) powinny zostać dodane do stanu komórki \( \mathbf{C}_t \).
@@ -511,12 +509,12 @@ Rysunek \ref{fig:lstm_cell} przedstawia schematyczną budowę komórki LSTM wraz
     \label{fig:lstm_cell}
 \end{figure}
 
-Każda z bramek w komórce LSTM działa na podobnej zasadzie jak tradycyjny neuron, wykorzystując funkcję aktywacji sigmoidalnej do generowania wartości między 0 a 1 \cite{TODO_LSTM_gates}.
+Każda z bramek w komórce LSTM działa na podobnej zasadzie jak tradycyjny neuron, wykorzystując funkcję aktywacji sigmoidalnej do generowania wartości między 0 a 1 \cite{goodfellow-et-al-2016}.
 Służy to określeniu stopnia przepuszczania informacji przez daną bramkę.
-Przepływ informacji w komórce LSTM można opisać następującymi krokami \cite{TODO_LSTM_operations}:
+Przepływ informacji w komórce LSTM można opisać następującymi krokami \cite{goodfellow-et-al-2016}:
 \begin{enumerate}
     \item \textbf{Bramka zapominania:} Oblicza się wartość bramki zapominania \( \mathbf{f}_t \) na podstawie bieżącego wejścia \( \mathbf{x}_t \) oraz poprzedniego stanu ukrytego \( \mathbf{h}_{t-1} \). 
-    Otrzymana wartość decyduje, które informacje z poprzedniego stanu komórki \( \mathbf{C}_{t-1} \) należy zachować \cite{TODO_LSTM_forgetting}:
+    Otrzymana wartość decyduje, które informacje z poprzedniego stanu komórki \( \mathbf{C}_{t-1} \) należy zachować:
     \begin{equation}
         \mathbf{f}_t = \sigma(\mathbf{W}_f [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_f)
     \end{equation}
@@ -525,7 +523,7 @@ Przepływ informacji w komórce LSTM można opisać następującymi krokami \cit
     \end{equation}
 
     \item \textbf{Bramka wejścia:} Oblicza się wartość bramki wejścia \( \mathbf{i}_t \) oraz tworzy się kandydat na nowe informacje \( \tilde{\mathbf{C}}_t \) na podstawie bieżącego wejścia \( \mathbf{x}_t \) oraz poprzedniego stanu ukrytego \( \mathbf{h}_{t-1} \).
-    Następnie, przy pomocy nowych informacji aktualizuje się stan komórki \( \mathbf{C}_t \) \cite{TODO_LSTM_input}:
+    Następnie, przy pomocy nowych informacji aktualizuje się stan komórki \( \mathbf{C}_t \):
     \begin{equation}
         \mathbf{i}_t = \sigma(\mathbf{W}_i [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_i)
     \end{equation}
@@ -537,7 +535,7 @@ Przepływ informacji w komórce LSTM można opisać następującymi krokami \cit
     \end{equation}
 
     \item \textbf{Bramka wyjścia:} Oblicza się wartość bramki wyjścia \( \mathbf{o}_t \) na podstawie bieżącego wejścia \( \mathbf{x}_t \) oraz poprzedniego stanu ukrytego \( \mathbf{h}_{t-1} \).
-    Następnie, generuje się bieżący stan ukryty \( \mathbf{h}_t \) na podstawie zaktualizowanego stanu komórki \( \mathbf{C}_t \) \cite{TODO_LSTM_output}:
+    Następnie, generuje się bieżący stan ukryty \( \mathbf{h}_t \) na podstawie zaktualizowanego stanu komórki \( \mathbf{C}_t \):
     \begin{equation}
         \mathbf{o}_t = \sigma(\mathbf{W}_o [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_o)
     \end{equation}
@@ -553,30 +551,30 @@ Przepływ informacji w komórce LSTM można opisać następującymi krokami \cit
     \end{itemize}
 \end{enumerate}
 
-Kluczem do skutecznej minimalizacji problemu zanikającego gradientu w LSTM jest mechanizm bramek, który umożliwia selektywne przepuszczanie informacji przez stan komórki \( \mathbf{C}_t \) \cite{TODO_LSTM_vanishing_gradient_solution}.
+Kluczem do skutecznej minimalizacji problemu zanikającego gradientu w LSTM jest mechanizm bramek, który umożliwia selektywne przepuszczanie informacji przez stan komórki \( \mathbf{C}_t \).
 Zamiast wielokrotnego mnożenia wag, jak ma to miejsce w tradycyjnych RNN, LSTM wykorzystują operacje dodawania do aktualizacji stanu komórki oraz mnożenia do określenia stopnia zachowania informacji.
-Dzięki takiej architekturze, gradienty mogą przepływać przez sieć w sposób bardziej kontrolowany, co znacząco ogranicza ryzyko ich zanikania lub eksplodowania i poprawia stabilność procesu uczenia \cite{TODO_LSTM_gradient_flow}.
+Dzięki takiej architekturze, gradienty mogą przepływać przez sieć w sposób bardziej kontrolowany, co znacząco ogranicza ryzyko ich zanikania lub eksplodowania i poprawia stabilność procesu uczenia \cite{goodfellow-et-al-2016}.
 
 \clearpage
 \subsubsection{Filtr Kalmana}
 Sieci neuronowe (w tym LSTM) są potężnymi narzędziami do modelowania danych.
-Jednakże w praktyce, dane często zawierają szumy i fluktuacje, które wprowadzają niepożądane błędy w prognozach \cite{TODO_data_noise}.
-W przypadku cen akcji, takie zakłócenia mogą wynikać z nagłych wydarzeń rynkowo-politycznych, np.: niespodziewanych decyzji regulacyjnych czy kryzysów gospodarczych \cite{TODO_stock_price_fluctuations}.
-Aby skutecznie minimalizować wpływ takich szumów, stosuje się różne techniki filtracji danych.
+Jednakże w praktyce, dane często zawierają szumy i fluktuacje, które wprowadzają niepożądane błędy w prognozach.
+W przypadku cen akcji, takie zakłócenia mogą wynikać z nagłych wydarzeń rynkowo-politycznych, np.: niespodziewanych decyzji regulacyjnych czy kryzysów gospodarczych \cite{brogaard2022what}.
+Aby skutecznie minimalizować wpływ takich szumów, stosuje się różne techniki filtracji danych \cite{welch1995introduction}.
 
-Ogólne pojęcie filtracji odnosi się do procesu usuwania niepożądanych części sygnału, w celu uzyskania czystszego sygnału \cite{TODO_signal_filtering}.
+Ogólne pojęcie filtracji odnosi się do procesu usuwania niepożądanych części sygnału, w celu uzyskania czystszego sygnału \cite{welch1995introduction}.
 Jedną z zaawansowanych metod filtracji jest filtr Kalmana.
-Filtr Kalmana to algorytm rekurencyjny służący do estymacji stanu dynamicznego systemu (np. poruszającego się pojazdu, cen akcji) \cite{TODO_kalman_filter}.
+Filtr Kalmana to algorytm rekurencyjny służący do estymacji stanu dynamicznego systemu (np. poruszającego się pojazdu, cen akcji) \cite{welch1995introduction}.
 Działa on poprzez łączenie dwóch źródeł informacji:
 \begin{itemize}
     \item \textbf{Modelu predykcyjnego:} Opisuje, jak stan systemu zmienia się w czasie.
     \item \textbf{Pomiarów obserwacyjnych:} Dostarcza informacji o aktualnym stanie systemu.
 \end{itemize}
-Obydwie z ww. informacji są obarczone niepewnością -- model predykcyjny może nie uwzględniać wszystkich czynników wpływających na system, a pomiary mogą być zanieczyszczone szumem \cite{TODO_kalman_filter_uncertainty}.
-Z tego powodu filtr Kalmana wykorzystuje podejście probabilistyczne, aby w sposób optymalny łączyć te dwie informacje i uzyskać jak najlepszą estymację stanu systemu \cite{TODO_kalman_filter_probabilistic_approach}.
-Proces działania filtru Kalmana można podzielić na trzy główne kroki \cite{TODO_kalman_filter_steps}:
+Obydwie z ww. informacji są obarczone niepewnością -- model predykcyjny może nie uwzględniać wszystkich czynników wpływających na system, a pomiary mogą być zanieczyszczone szumem.
+Z tego powodu filtr Kalmana wykorzystuje podejście probabilistyczne, aby w sposób optymalny łączyć te dwie informacje i uzyskać jak najlepszą estymację stanu systemu \cite{welch1995introduction}.
+Proces działania filtru Kalmana można podzielić na trzy główne kroki \cite{welch1995introduction, labbe2015kalman}:
 \begin{enumerate}
-    \item \textbf{Inicjalizacja stanu:} Na początku (\(k=0\)) definiuje się początkową estymatę stanu systemu \(\mathbf{x}_0\) oraz macierz kowariancji błędu tej estymacji \(\mathbf{P}_0\) \cite{TODO_kalman_filter_initialization}. Jeśli stan początkowy jest nieznany, macierz \(\mathbf{P}_0\) ustawia się na dużą wartość, co odzwierciedla wysoką niepewność.
+    \item \textbf{Inicjalizacja stanu:} Na początku (\(k=0\)) definiuje się początkową estymatę stanu systemu \(\mathbf{x}_0\) oraz macierz kowariancji błędu tej estymacji \(\mathbf{P}_0\) \cite{labbe2015kalman}. Jeśli stan początkowy jest nieznany, macierz \(\mathbf{P}_0\) ustawia się na dużą wartość, co odzwierciedla wysoką niepewność.
     
     Kluczowe jest również zdefiniowanie macierzy opisujących model systemu:
     \begin{itemize}
@@ -587,7 +585,7 @@ Proces działania filtru Kalmana można podzielić na trzy główne kroki \cite{
         \item \( \mathbf{B} \) -- \textbf{macierz sterowania} (opcjonalna), która opisuje wpływ zewnętrznego sterowania \( \mathbf{u}_{k-1} \) na stan systemu.
     \end{itemize}
 
-    \item \textbf{Predykcja:} Na podstawie stanu z poprzedniego kroku \(\mathbf{x}_{k-1}\), wyznacza się przewidywany (a priori) stan systemu \(\mathbf{\hat{x}}_{k}^{-}\) oraz przewidywaną kowariancję błędu \(\mathbf{\hat{P}}_{k}^{-}\) na bieżący krok \(k\) \cite{TODO_kalman_filter_prediction}:
+    \item \textbf{Predykcja:} Na podstawie stanu z poprzedniego kroku \(\mathbf{x}_{k-1}\), wyznacza się przewidywany (a priori) stan systemu \(\mathbf{\hat{x}}_{k}^{-}\) oraz przewidywaną kowariancję błędu \(\mathbf{\hat{P}}_{k}^{-}\) na bieżący krok \(k\) \cite{labbe2015kalman}:
     \begin{equation}
         \mathbf{\hat{x}}_{k}^{-} = \mathbf{F} \mathbf{x}_{k-1} + \mathbf{B} \mathbf{u}_{k-1}
     \end{equation}
@@ -595,7 +593,7 @@ Proces działania filtru Kalmana można podzielić na trzy główne kroki \cite{
         \mathbf{\hat{P}}_{k}^{-} = \mathbf{F} \mathbf{P}_{k-1} \mathbf{F}^T + \mathbf{Q}
     \end{equation}
 
-    \item \textbf{Aktualizacja:} Gdy dostępny jest nowy pomiar \(\mathbf{z}_k\), następuje korekta predykcji. Najpierw oblicza się zysk Kalmana \(\mathbf{K}_k\) \cite{TODO_kalman_filter_update}:
+    \item \textbf{Aktualizacja:} Gdy dostępny jest nowy pomiar \(\mathbf{z}_k\), następuje korekta predykcji. Najpierw oblicza się zysk Kalmana \(\mathbf{K}_k\) \cite{labbe2015kalman}:
     \begin{equation}
         \mathbf{K}_k = \mathbf{\hat{P}}_{k}^{-} \mathbf{H}^T (\mathbf{H} \mathbf{\hat{P}}_{k}^{-} \mathbf{H}^T + \mathbf{R})^{-1}
     \end{equation}
@@ -613,13 +611,13 @@ Rysunek \ref{fig:kalman_filter_cycle} przedstawia schematyczny cykl działania f
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{assets/kalman_filter_cycle.png}
-    \caption{Cykl działania filtru Kalmana, ilustrujący kroki predykcji i aktualizacji. Opracowanie własne na podstawie \cite{kalman_filter_cycle_drawing}.}
+    \caption{Cykl działania filtru Kalmana, ilustrując kroki predykcji i aktualizacji. Opracowanie własne na podstawie \cite{kalman_filter_cycle_drawing}.}
     \label{fig:kalman_filter_cycle}
 \end{figure}
 
-W kontekście prognozowania cen akcji, filtr Kalmana może być użyty do odszumienia danych w fazie ich wstępnego przetwarzania \cite{TODO_kalman_filter_stock_prices}.
+W kontekście prognozowania cen akcji, filtr Kalmana może być użyty do odszumienia danych w fazie ich wstępnego przetwarzania.
 Dzięki temu sieć LSTM otrzymuje czystsze dane wejściowe, co może prowadzić do bardziej trafnych prognoz.
-Integracja filtru Kalmana z siecią LSTM pozwala na skuteczne łączenie zalet obu metod: zdolności LSTM do modelowania złożonych zależności czasowych oraz umiejętności filtru Kalmana do redukcji szumów w danych \cite{TODO_kalman_lstm_integration}.
+Integracja filtru Kalmana z siecią LSTM pozwala na skuteczne łączenie zalet obu metod: zdolności LSTM do modelowania złożonych zależności czasowych oraz umiejętności filtru Kalmana do redukcji szumów w danych \cite{cheeneebash2007improving}.
 
 %~ Research approach
 \clearpage
@@ -651,16 +649,16 @@ Całość kodu została zorganizowana w ramach projektu Kedro, co zapewniło mod
 \subsection{Przygotowanie danych}
 Proces przygotowania danych stanowił pierwszy etap badań.
 Jego celem było uzyskanie oczyszczonego i odpowiednio sformatowanego zestawu danych giełdowych spółki Amazon (AMZN), który mógł zostać użyty do trenowania i testowania modeli LSTM.
-Proces ten obejmował następujące kroki: pobrania danych, przetwarzania wstępnego, inżynierii cech oraz podziału na zbiory treningowy, walidacyjny i testowy \cite{TODO_preprocessing_practices}.
+Proces ten obejmował następujące kroki: pobrania danych, przetwarzania wstępnego, inżynierii cech oraz podziału na zbiory treningowy, walidacyjny i testowy \cite{goodfellow-et-al-2016}.
 
 \subsubsection{Pobranie danych}
 Dane historyczne dotyczące cen akcji spółki Amazon zostały pobrane z serwisu Yahoo! Finance przy użyciu biblioteki yfinance.
 Zbiór danych objemował dzienne notowania z okresu od 3 stycznia 2022 roku do 11 września 2025 roku.
-Każdy rekord w surowym zbiorze danych zawierał informacje OHLC (Open, High, Low, Close), wolumen obrotu oraz datę notowania \cite{TODO_yfinance_data_retrieval}.
+Każdy rekord w surowym zbiorze danych zawierał informacje OHLC (Open, High, Low, Close), wolumen obrotu oraz datę notowania \cite{yfinance_data}.
 Tabela \ref{tab:raw_data_sample} przedstawia przykładowe rekordy z pobranego zbioru danych.
 \begin{table}[H]
     \centering
-    \caption{Przykładowe rekordy z surowego zbioru danych dla spółki AMZN. Źródło: \cite{TODO_yfinance}}
+    \caption{Przykładowe rekordy z surowego zbioru danych dla spółki AMZN. Źródło: \cite{yfinance_data}}
     \label{tab:raw_data_sample}
     \begin{tabular}{lrrrrr}
         \hline
@@ -678,7 +676,7 @@ Tabela \ref{tab:raw_data_sample} przedstawia przykładowe rekordy z pobranego zb
 
 \subsubsection{Przetwarzanie wstępne i inżynieria cech}
 Surowe dane w formie szeregu czasowego nie są bezpośrednio kompatybilne z architekturą sieci LSTM, która oczekuje danych w formacie nadzorowanym, tj. par (sekwencja wejściowa, wartość docelowa). 
-W związku z tym, pierwszym krokiem było przekształcenie danych do odpowiedniego formatu, który zawierałby sekwencje historycznych cen jako wejścia oraz odpowiadające im przyszłe ceny jako wartości docelowe \cite{TODO_time_series_formatting}.
+W związku z tym, pierwszym krokiem było przekształcenie danych do odpowiedniego formatu, który zawierałby sekwencje historycznych cen jako wejścia oraz odpowiadające im przyszłe ceny jako wartości docelowe \cite{goodfellow-et-al-2016}.
 Na potrzeby przeprowadzenia eksperymentów podjęto decyzję uwzględnieniu cen zamknięcia (Close) z trzech poprzednich dni jako cech wejściowych do przewidywania ceny zamknięcia w dniu następnym.
 Tabela \ref{tab:formatted_data_sample} przedstawia przykładowe rekordy z przetworzonego zbioru danych.
 \begin{table}[H]
@@ -732,13 +730,13 @@ Powodem tego była potrzeba przygotowania trzech odrębnych wariantów zbioru da
 Po zdefiniowaniu cech dla każdego z trzech wariantów, wszystkie zbiory zostały poddane tym samym, końcowym etapom przetwarzania, aby zapewnić spójność i rzetelność porównania.
 
 \subsubsection{Skalowanie danych}
-Skalowanie cech wejściowych jest kluczowym krokiem w przygotowaniu danych do trenowania sieci neuronowych -- przyspiesza oraz stabilizuje proces uczenia sieci neuronowej \cite{TODO_data_scaling_importance}.
-W ramach ninejszej pracy wykrzystano skalowanie min-max, które przekształca wartości cech do zdefiniowanego zakresu, zazwyczaj od 0 do 1 \cite{TODO_min_max_scaling}.
+Skalowanie cech wejściowych jest kluczowym krokiem w przygotowaniu danych do trenowania sieci neuronowych -- przyspiesza oraz stabilizuje proces uczenia sieci neuronowej \cite{goodfellow-et-al-2016}.
+W ramach ninejszej pracy wykrzystano skalowanie min-max, które przekształca wartości cech do zdefiniowanego zakresu, zazwyczaj od 0 do 1 \cite{goodfellow-et-al-2016}.
 Proces skalowania został przeprowadzony przy użyciu klasy `MinMaxScaler` z biblioteki Scikit-learn.
 
 Ważnym aspektem metodologicznym było dopasowanie skalera wyłącznie na danych treningowych. 
 Następnie ten sam, dopasowany skaler został użyty do transformacji zarówno zbioru walidacyjnego, jak i testowego. 
-Takie podejście zapobiega "przeciekowi danych" (ang. data leakage) z przyszłości do modelu, co jest niezbędne dla uzyskania wiarygodnych i rzetelnych wyników \cite{TODO_data_leakage_prevention}.
+Takie podejście zapobiega "przeciekowi danych" (ang. data leakage) z przyszłości do modelu, co jest niezbędne dla uzyskania wiarygodnych i rzetelnych wyników \cite{goodfellow-et-al-2016}.
 
 \subsubsection{Podział danych}
 Po zakończeniu wszystkich etapów przetwarzania i inżynierii cech, zbiory danych zostały podzielone na trzy odrębne części:
@@ -747,11 +745,11 @@ Po zakończeniu wszystkich etapów przetwarzania i inżynierii cech, zbiory dany
     \item \textbf{Zbiór walidacyjny (Validation Set):} Obejmuje 18\% danych i jest wykorzystywany do monitorowania wydajności modeli podczas treningu oraz do strojenia hiperparametrów.
     \item \textbf{Zbiór testowy (Test Set):} Obejmuje pozostałe 10\% danych i służy do ostatecznej oceny wydajności wytrenowanych modeli.
 \end{itemize}
-Podział danych został przeprowadzony w sposób chronologiczny, aby zachować naturalną kolejność czasową szeregów danych giełdowych i uniknąć potencjalnych problemów związanych z przeciekiem danych \cite{TODO_time_series_data_splitting}.
+Podział danych został przeprowadzony w sposób chronologiczny, aby zachować naturalną kolejność czasową szeregów danych giełdowych i uniknąć potencjalnych problemów związanych z przeciekiem danych \cite{goodfellow-et-al-2016}.
 
 \subsection{Architektura modeli}
 W niniejszej pracy porównano trzy różne modele LSTM, z których każdy charakteryzował się odmiennym podejściem do przetwarzania danych wejściowych.
-Wszystkie modele zostały zaimplementowane przy użyciu biblioteki PyTorch, co zapewniło elastyczność i wydajność niezbędną do przeprowadzenia eksperymentów \cite{TODO_pytorch_usage}.
+Wszystkie modele zostały zaimplementowane przy użyciu biblioteki PyTorch, co zapewniło elastyczność i wydajność niezbędną do przeprowadzenia eksperymentów.
 
 Chociaż ogólny schemat tworzenia modeli był wspólny, to jednak poszczególne modele różniły się kluczowymi hiperparametrami architektury, takimi jak wymiar danych wejściowych, liczba warstw LSTM oraz liczba neuronów w warstwach ukrytych. 
 Różnice te wynikały z różnicy w charakterystyce danych wejściowych, których dany model miał używać do predykcji cen akcji.
@@ -819,7 +817,7 @@ Proces uczenia objemował strojenie hiperparametrów, wybór funkcji straty oraz
 Każdy z trzech modeli był trenowany niezależnie, z zastosowaniem tych samych procedur, aby zapewnić odpowiednią porównywalność wyników.
 
 \subsubsection{Strojenie hiperparametrów}
-W celu znalezienia optymalnych wartości hiperparametrów dla każdego z modeli, zastosowano bibliotekę Optuna do automatyzacji tego procesu \cite{TODO_hyperparameter_optimization}.
+W celu znalezienia optymalnych wartości hiperparametrów dla każdego z modeli, zastosowano bibliotekę Optuna do automatyzacji tego procesu \cite{akiba2019optuna}.
 Przeszukiwana przestrzeń hiperparametrów była wspólna dla wszystkich modeli i obejmowała:
 \begin{itemize}
     \item \textbf{Liczba warstw LSTM:} wartości całkowite z zakresu [1, 3].
@@ -833,7 +831,7 @@ Dla każdego modelu przeprowadzono 50 prób optymalizacji (ang. \textit{trials})
 \subsubsection{Przebieg procesu uczenia}
 Proces uczenia modeli przeprowadzono na zbiorze treningowym, stanowiącym 72\% wszystkich danych, wykorzystując zoptymalizowane hiperparametry. 
 Jako funkcję kosztu, której wartość była minimalizowana w trakcie uczenia, wybrano błąd średniokwadratowy (MSE). 
-Do aktualizacji wag modelu posłużył optymalizator Adam, będący standardem w zadaniach uczenia głębokiego ze względu na jego efektywność i adaptacyjny dobór współczynnika uczenia \cite{TODO_adam_optimizer}.
+Do aktualizacji wag modelu posłużył optymalizator Adam, będący standardem w zadaniach uczenia głębokiego ze względu na jego efektywność i adaptacyjny dobór współczynnika uczenia \cite{kingma2014adam}.
 
 Liczba epok, przez które trenowano każdy model, została również ustalona jako jeden z hiperparametrów w procesie automatycznego strojenia. 
 Wydajność modelu w trakcie uczenia była na bieżąco monitorowana na zbiorze walidacyjnym z wykorzystaniem zdefiniowanych wcześniej metryk (MSE, RMSE, \(R^2\)).
@@ -841,7 +839,7 @@ Pozwoliło to na generowanie krzywych uczenia i weryfikację, czy model nie wyka
 
 Cały proces uczenia został zaimplementowany jako pipeline w ramach projektu Kedro, co pozwoliło na ustrukturyzowanie i zautomatyzowanie wszystkich opisanych kroków. 
 Parametry procesu, takie jak przeszukiwane zakresy hiperparametrów czy liczba prób optymalizacji, zostały umieszczone w plikach konfiguracyjnych. 
-Takie podejście zapewniło nie tylko przejrzystość i łatwość zarządzania eksperymentami, ale przede wszystkim gwarantowało powtarzalność (ang. \textit{reproducibility}) procesu uczenia dla każdego z trzech modeli \cite{TODO_kedro_reproducibility}.
+Takie podejście zapewniło nie tylko przejrzystość i łatwość zarządzania eksperymentami, ale przede wszystkim gwarantowało powtarzalność (ang. \textit{reproducibility}) procesu uczenia dla każdego z trzech modeli.
 Po zakończeniu treningu, wytrenowane modele zostały poddane ewaluacji na zbiorze testowym.
 
 \subsection{Proces ewaluacji}
@@ -855,7 +853,7 @@ Produktami końcowymi ewaluacji były:
     \item Analiza błędów predykcji w postaci histogramów ich rozkładu.
     \item Krzywe uczenia ilustrujące przebieg procesu treningu dla każdego z modeli.
 \end{itemize}
-Cały proces, od generowania metryk po wizualizacje, został zaimplementowany jako zautomatyzowany pipeline w ramach projektu Kedro, co zapewniło spójność i powtarzalność całego eksperymentu \cite{TODO_kedro_evaluation}. 
+Cały proces, od generowania metryk po wizualizacje, został zaimplementowany jako zautomatyzowany pipeline w ramach projektu Kedro, co zapewniło spójność i powtarzalność całego eksperymentu. 
 Tak przygotowane i zestawione wyniki posłużyły jako podstawa do przeprowadzenia szczegółowej analizy porównawczej, interpretacji rezultatów oraz sformułowania wniosków dotyczących skuteczności poszczególnych podejść.
 
 \vspace{0.5cm}

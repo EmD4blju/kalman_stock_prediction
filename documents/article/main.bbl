@@ -55,10 +55,11 @@ Gualtiero Piccinini.
 \newblock The first computational theory of mind and brain: A close look at mcculloch and pitts's “logical calculus of ideas immanent in nervous activity”.
 \newblock {\em Synthese}, 141, 08 2004.
 
-\bibitem{grossi2008introduction}
-Enzo Grossi and Massimo Buscema.
-\newblock Introduction to artificial neural networks.
-\newblock {\em European journal of gastroenterology \& hepatology}, 19:1046--54, 01 2008.
+\bibitem{goodfellow-et-al-2016}
+Ian Goodfellow, Yoshua Bengio, and Aaron Courville.
+\newblock {\em Deep Learning}.
+\newblock MIT Press, 2016.
+\newblock \url{http://www.deeplearningbook.org}.
 
 \bibitem{szandala2020review}
 Tomasz Szandała.
@@ -71,9 +72,60 @@ Tomasz Szandała.
 \newblock Wikimedia Commons, 2007.
 \newblock Dostęp: \url{https://commons.wikimedia.org/wiki/File:Neuron_McCullocha-Pittsa.svg}. Licencja: CC BY-SA 2.5. Dostęp pobrano: 2025-12-30.
 
-\bibitem{mishra2022single}
-Ashutosh Mishra, Jaekwang Cha, and Shiho Kim.
-\newblock Single neuron for solving xor like nonlinear problems.
-\newblock {\em Computational Intelligence and Neuroscience}, 2022, 04 2022.
+\bibitem{geeksforgeeks_nn_architecture}
+{GeeksforGeeks}.
+\newblock Introduction to neural networks.
+\newblock GeeksforGeeks, 2023.
+\newblock Dostęp: \url{https://media.geeksforgeeks.org/wp-content/uploads/20251213151009129404/_neural_network.webp}. Dostęp pobrano: 2026-01-05.
+
+\bibitem{rumelhart1986learning}
+David~E Rumelhart, Geoffrey~E Hinton, and Ronald~J Williams.
+\newblock Learning representations by back-propagating errors.
+\newblock {\em Nature}, 323(6088):533--536, 1986.
+
+\bibitem{wikimedia_rnn_unfold}
+{LeCun, Yann}.
+\newblock Recurrent neural network unfold.
+\newblock Wikimedia Commons, 2015.
+\newblock Dostęp: \url{https://commons.wikimedia.org/wiki/File:Recurrent_neural_network_unfold.svg}. Domena publiczna. Dostęp pobrano: 2026-01-05.
+
+\bibitem{hochreiter1997long}
+Sepp Hochreiter and J{\"u}rgen Schmidhuber.
+\newblock Long short-term memory.
+\newblock {\em Neural computation}, 9(8):1735--1780, 1997.
+
+\bibitem{lstm_cell_drawing}
+Christopher Olah.
+\newblock Understanding lstm networks.
+\newblock colah.github.io, 2015.
+\newblock Dostęp: \url{http://colah.github.io/posts/2015-08-Understanding-LSTMs/}. Dostęp pobrano: 2026-01-05.
+
+\bibitem{welch1995introduction}
+Greg Welch and Gary Bishop.
+\newblock An introduction to the kalman filter.
+\newblock {\em Chapel Hill, NC, USA}, 8, 1995.
+\newblock Technical Report TR 95-041, University of North Carolina.
+
+\bibitem{labbe2015kalman}
+Roger~R. Labbe.
+\newblock {\em Kalman and Bayesian Filters in Python}.
+\newblock GitHub, 2015.
+\newblock Dostęp: \url{https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python}. Dostęp pobrano: 2026-01-05.
+
+\bibitem{kalman_filter_cycle_drawing}
+{kalmanfilter.net}.
+\newblock Kalman filter update cycle.
+\newblock kalmanfilter.net.
+\newblock Dostęp: \url{https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRUbFVsxbx7reT_RDfRuPoag-hyqN5fhDzmA&s}. Dostęp pobrano: 2026-01-05.
+
+\bibitem{akiba2019optuna}
+Takuya Akiba, Shotaro Sano, Toshihiko Yanase, Takeru Ohta, and Masanori Koyama.
+\newblock Optuna: A next-generation hyperparameter optimization framework.
+\newblock {\em Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery \& Data Mining}, pages 2623--2631, 07 2019.
+
+\bibitem{kingma2014adam}
+Diederik Kingma and Jimmy Ba.
+\newblock Adam: A method for stochastic optimization.
+\newblock {\em International Conference on Learning Representations}, 12 2014.
 
 \end{thebibliography}

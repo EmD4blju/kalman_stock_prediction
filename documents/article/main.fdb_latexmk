@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex main"] 1767109207.64528 "main.aux" "main.bbl" "main" 1767109216.49803 0
-  "./references.bib" 1767108983.54492 5156 321e494c0142a4c316aa604933ac8ba3 ""
+["bibtex main"] 1767614340.41288 "main.aux" "main.bbl" "main" 1767614348.73452 0
+  "./references.bib" 1767614340.16003 8111 085e93af52fa31cdd2adbf2a51504893 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/unsrt.bst" 1292289607 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "main.aux" 1767109215.81482 16822 f7cfc8f263deae88d25c72be74b03015 "pdflatex"
+  "main.aux" 1767614348.02405 16238 1f868ef7bb84f059d52ed242617fff58 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1767109207.91814 "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" "main.pdf" "main" 1767109216.49848 0
+["pdflatex"] 1767614340.65586 "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" "main.pdf" "main" 1767614348.73494 0
   "/etc/texmf/web2c/texmf.cnf" 1759393268.57976 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" 1767109198.49755 82263 4409df95fac6de461858f43777ae634b ""
+  "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" 1767614018.84383 81245 44558c24129b91d520a08c737722ea59 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm" 1136768653 1292 bd42be2f344128bff6d35d98474adfe3 ""
@@ -147,11 +147,11 @@
   "assets/sigmoid_w_max_figure.png" 1764156088.53684 14343 85a977bb67ebede219272544aa797325 ""
   "assets/sigmoid_w_min_figure.png" 1764156088.53684 17778 05ce7490df5af9eb8fcf1733e3c72da8 ""
   "assets/step_figure.png" 1764156088.53784 12443 b74fda3afebbeb3a800c355a2fd8d45a ""
-  "main.aux" 1767109215.81482 16822 f7cfc8f263deae88d25c72be74b03015 "pdflatex"
-  "main.bbl" 1767109207.90688 3342 b16a17f6ce7a1e6cdfa827194ad0111f "bibtex main"
-  "main.out" 1767109215.81782 7234 efe95eb6446cb4975006740f816269cf "pdflatex"
-  "main.tex" 1767109198.49755 82263 4409df95fac6de461858f43777ae634b ""
-  "main.toc" 1767109215.81782 3598 d09825e360bfb479c41a0d93aab1ac5a "pdflatex"
+  "main.aux" 1767614348.02405 16238 1f868ef7bb84f059d52ed242617fff58 "pdflatex"
+  "main.bbl" 1767614340.62503 5519 e02ce95c470df08510aada9b6667ec68 "bibtex main"
+  "main.out" 1767614348.02805 7234 efe95eb6446cb4975006740f816269cf "pdflatex"
+  "main.tex" 1767614018.84383 81245 44558c24129b91d520a08c737722ea59 ""
+  "main.toc" 1767614348.02905 3598 d09825e360bfb479c41a0d93aab1ac5a "pdflatex"
   (generated)
   "main.aux"
   "main.log"
