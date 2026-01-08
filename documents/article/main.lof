@@ -1,0 +1,13 @@
+\babel@toc {polish}{}\relax 
+\contentsline {figure}{\numberline {1}{\ignorespaces Wykres cenowy względem składnika \textit {Close} Amazon.com Inc (AMZN) w latach 2022-2025. Źródło danych: Yahoo Finance \cite {yfinance_data}.}}{7}{figure.1}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Porównanie funkcji aktywacji: (po lewej) funkcja skokowa, (po prawej) funkcja sigmoidalna.}}{9}{figure.2}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Wpływ wartości wagi (w) na kształt funkcji sigmoidalnej: (po lewej) \(w=0.1\), (po prawej) \(w=2.0\).}}{10}{figure.3}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Wpływ wartości bias (b) na kształt funkcji sigmoidalnej: (po lewej) \(b=-2.82\), (po prawej) \(b=4.21\).}}{10}{figure.4}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Schemat budowy sztucznego neuronu}}{11}{figure.5}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Budowa prostej sieci neuronowej z jedną warstwą wejściową, dwiema warstwami ukrytymi i jedną warstwą wyjściową. Opracowanie własne na podstawie \cite {geeksforgeeks_nn_architecture}.}}{12}{figure.6}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Budowa komórki rekurencyjnej w sieci RNN. Opracowanie własne na podstawie \cite {wikimedia_rnn_unfold}.}}{15}{figure.7}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Budowa komórki LSTM z trzema bramkami: bramką zapominania, bramką wejścia i bramką wyjścia. Opracowanie własne na podstawie \cite {lstm_cell_drawing}.}}{16}{figure.8}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Cykl działania filtru Kalmana, ilustrując kroki predykcji i aktualizacji. Opracowanie własne na podstawie \cite {kalman_filter_cycle_drawing}.}}{19}{figure.9}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Porównanie predykcji cen rzeczywistych z prognozami modeli: bazowego, wzbogaconego oraz z filtrem Kalmana.}}{31}{figure.10}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Porównanie predykcji cen rzeczywistych z prognozami modelu z filtrem Kalmana na danych filtrowanych.}}{31}{figure.11}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Wizualizacja porównawcza rozkładów błędów predykcji: (góra-lewo) model bazowy, (góra-prawo) model wzbogacony, (dół-lewo) model z filtrem Kalmana na danych filtrowanych, (dół-prawo) model z filtrem Kalmana na danych oryginalnych.}}{32}{figure.12}%

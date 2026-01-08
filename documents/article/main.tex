@@ -34,6 +34,7 @@
 %~ Document
 \begin{document}
 
+
 %~ Main Page
 \begin{titlepage}
     \centering
@@ -71,13 +72,12 @@
     
 \end{titlepage}
 
-%~ Table of Contents
-\tableofcontents
-\clearpage
-
 %~ Abstract
-\begin{abstract}
-    Prognozowanie cen akcji przy użyciu sieci neuronowych, takich jak LSTM, nie jest łatwym zadaniem ze względu na wysoką niestabliność rynkową.
+\begin{quote}
+    \noindent\textbf{Streszczenie}
+    \vspace{0.2cm}
+
+    Prognozowanie cen akcji przy użyciu sieci neuronowych, takich jak LSTM, nie jest łatwym zadaniem ze względu na wysoką niestabilność rynkową.
     Modele te często uczą się losowych fluktuacji zamiast bazowych trendów, co wpływa negatywnie na ich zdolność do precyzyjnych prognoz.
 
     W pracy zbadano skuteczność filtru Kalmana jako techniki wstępnego odszumiania danych celem poprawy jakości predykcji sieci LSTM.
@@ -86,8 +86,35 @@
     Wyniki pokazały, że w realistycznym scenariuszu testowym najskuteczniejszy był najprostszy model bazowy.
     Model uczony na danych filtrowanych, pomimo braku przewagi względem modelu bazowego w realistycznym teście, osiągnął wysoką skuteczność (\(R^2=0.9756\)) w teście na danych odszumionych, co świadczy o zdolności do niemal perfekcyjnej ekstrakcji trendu.
 
-    Główny wniosek płynący z pracy jest taki, że filtracja Kalmana, choć nie gwarantuje lepszych prognoz konkretnych wartości cen akcji, to znacznie poprawia zdolność modelu do nauki trendu, co znacznie lepiej mogłoby się sprawdzić w zadanich natury klasyfikacyjnej, np. prognozowania kierunku zmian cen.
-\end{abstract}
+    Główny wniosek płynący z pracy jest taki, że filtracja Kalmana, choć nie gwarantuje lepszych prognoz konkretnych wartości cen akcji, to znacznie poprawia zdolność modelu do nauki trendu, co mogłoby się znacznie lepiej sprawdzić w zadaniach natury klasyfikacyjnej, np. prognozowania kierunku zmian cen.
+
+    \vspace{1cm}
+    \noindent \textbf{Słowa kluczowe:} prognozowanie cen akcji, sieci LSTM, filtr Kalmana, szeregi czasowe, uczenie maszynowe, analiza finansowa.
+\end{quote}
+\clearpage
+
+\begin{quote}
+    \noindent\textbf{Abstract}
+    \vspace{0.2cm}
+
+    Forecasting stock prices using neural networks, such as LSTM, is a challenging task due to high market volatility. These models often learn random fluctuations instead of underlying trends, which negatively affects their ability to make precise predictions.
+
+    This thesis investigates the effectiveness of the Kalman filter as a data pre-processing technique for denoising input data to improve the prediction quality of an LSTM network. An experiment was conducted on historical stock price data for Amazon.com Inc. (AMZN), comparing three models: a baseline LSTM, a model enriched with additional technical analysis indicators, and a model trained on filtered data.
+
+    The results showed that in a realistic test scenario, the simplest baseline model was the most effective. The model trained on filtered data, despite showing no advantage over the baseline model in the realistic test, achieved high performance (\(R^2=0.9756\)) when tested on denoised data, demonstrating its ability to almost perfectly extract the underlying trend.
+
+    The main conclusion of this work is that while Kalman filtering does not guarantee better predictions of specific stock price values, it significantly enhances the model's ability to learn the trend. This could prove much more effective in classification tasks, such as forecasting the direction of price changes.
+
+    \vspace{1cm}
+    \noindent \textbf{Keywords:} stock price prediction, LSTM networks, Kalman filter, time series, machine learning, financial analysis.
+\end{quote}
+\clearpage
+
+%~ Table of Contents
+\tableofcontents
+\clearpage
+
+\listoffigures
 \clearpage
 
 %~ Introduction
@@ -556,22 +583,27 @@ Zamiast wielokrotnego mnożenia wag, jak ma to miejsce w tradycyjnych RNN, LSTM 
 Dzięki takiej architekturze, gradienty mogą przepływać przez sieć w sposób bardziej kontrolowany, co znacząco ogranicza ryzyko ich zanikania lub eksplodowania i poprawia stabilność procesu uczenia \cite{goodfellow-et-al-2016}.
 
 \clearpage
-\subsubsection{Filtr Kalmana}
+\section{Filtr Kalmana}
 Sieci neuronowe (w tym LSTM) są potężnymi narzędziami do modelowania danych.
 Jednakże w praktyce, dane często zawierają szumy i fluktuacje, które wprowadzają niepożądane błędy w prognozach.
 W przypadku cen akcji, takie zakłócenia mogą wynikać z nagłych wydarzeń rynkowo-politycznych, np.: niespodziewanych decyzji regulacyjnych czy kryzysów gospodarczych \cite{brogaard2022what}.
-Aby skutecznie minimalizować wpływ takich szumów, stosuje się różne techniki filtracji danych \cite{welch1995introduction}.
 
-Ogólne pojęcie filtracji odnosi się do procesu usuwania niepożądanych części sygnału, w celu uzyskania czystszego sygnału \cite{welch1995introduction}.
+Aby skutecznie zaradzić temu problemowi, stosuje się różne techniki filtracji danych, których celem jest oddzielenie użytecznego sygnału od niepożądanego szumu \cite{welch1995introduction}.
 Jedną z zaawansowanych metod filtracji jest filtr Kalmana.
-Filtr Kalmana to algorytm rekurencyjny służący do estymacji stanu dynamicznego systemu (np. poruszającego się pojazdu, cen akcji) \cite{welch1995introduction}.
-Działa on poprzez łączenie dwóch źródeł informacji:
-\begin{itemize}
-    \item \textbf{Modelu predykcyjnego:} Opisuje, jak stan systemu zmienia się w czasie.
-    \item \textbf{Pomiarów obserwacyjnych:} Dostarcza informacji o aktualnym stanie systemu.
-\end{itemize}
-Obydwie z ww. informacji są obarczone niepewnością -- model predykcyjny może nie uwzględniać wszystkich czynników wpływających na system, a pomiary mogą być zanieczyszczone szumem.
-Z tego powodu filtr Kalmana wykorzystuje podejście probabilistyczne, aby w sposób optymalny łączyć te dwie informacje i uzyskać jak najlepszą estymację stanu systemu \cite{welch1995introduction}.
+Został on zaproponowany w 1960 roku przez Rudolfa E. Kalmana w pracy "A New Approach to Linear Filtering and Prediction Problems" \cite{kalman1960new}.
+Pierwszym praktycznym zastosowaniem filtru Kalmana było śledzenie trajektorii rakiet w programie kosmicznym Apollo.
+Od tamtej pory filtr Kalmana znalazł szerokie zastosowanie w różnych dziedzinach, takich jak robotyka, nawigacja czy ekonomia \cite{welch1995introduction}.
+
+Filtr Kalmana to algorytm rekurencyjny służący do estymacji stanu dynamicznego systemu.
+Wykorzystuje on podejście probabilistyczne -- na podstawie modelu matematycznego systemu oraz dostępnych pomiarów, filtr Kalmana optymalnie łączy te dwie informacje, aby uzyskać jak najlepszą estymację stanu systemu.
+Działa on w oparciu o cykl dwóch naprzemiennych króków: predykcji i aktualizacji.
+W kroku predykcji, na podstawie modelu matematycznego systemu, filtr Kalmana przewiduje stan systemu w następnym kroku czasowym wraz z niepewnością tej predykcji.
+W kroku aktualizacji, gdy dostępny jest nowy pomiar, filtr Kalmana koryguje swoją predykcję, uwzględniając zarówno przewidywany stan, jak i nowy pomiar.
+Dodatkowo filtr Kalmana oblicza zysk Kalmana, który określa, jak bardzo należy zaufać pomiarowi w porównaniu do predykcji w danym kroku czasowym \cite{welch1995introduction,labbe2015kalman}.
+
+W niniejszym rozdziale przedstawiono matematyczne podstawy filtru Kalmana, opisując jego kluczowe elementy oraz proces działania.
+
+\subsection{Model matematyczny filtru Kalmana}
 Proces działania filtru Kalmana można podzielić na trzy główne kroki \cite{welch1995introduction, labbe2015kalman}:
 \begin{enumerate}
     \item \textbf{Inicjalizacja stanu:} Na początku (\(k=0\)) definiuje się początkową estymatę stanu systemu \(\mathbf{x}_0\) oraz macierz kowariancji błędu tej estymacji \(\mathbf{P}_0\) \cite{labbe2015kalman}. Jeśli stan początkowy jest nieznany, macierz \(\mathbf{P}_0\) ustawia się na dużą wartość, co odzwierciedla wysoką niepewność.
@@ -838,6 +870,13 @@ Wydajność modelu w trakcie uczenia była na bieżąco monitorowana na zbiorze 
 Pozwoliło to na generowanie krzywych uczenia i weryfikację, czy model nie wykazuje oznak znacznego przeuczenia (ang. \textit{overfitting}).
 
 Cały proces uczenia został zaimplementowany jako pipeline w ramach projektu Kedro, co pozwoliło na ustrukturyzowanie i zautomatyzowanie wszystkich opisanych kroków. 
+Rysunek \ref{fig:training_pipeline} przedstawia schematycznie zwizualizowany proces uczenia.
+% \begin{figure}[H]
+%     \centering
+%     % \includegraphics[width=1\textwidth]{assets/training_pipeline.png}
+%     \caption{Schemat zwizualizowanego procesu uczenia modelu.}
+%     \label{fig:training_pipeline}
+% \end{figure}
 Parametry procesu, takie jak przeszukiwane zakresy hiperparametrów czy liczba prób optymalizacji, zostały umieszczone w plikach konfiguracyjnych. 
 Takie podejście zapewniło nie tylko przejrzystość i łatwość zarządzania eksperymentami, ale przede wszystkim gwarantowało powtarzalność (ang. \textit{reproducibility}) procesu uczenia dla każdego z trzech modeli.
 Po zakończeniu treningu, wytrenowane modele zostały poddane ewaluacji na zbiorze testowym.
@@ -1088,6 +1127,14 @@ Jednocześnie udowadnia, że zaawansowane techniki filtracji, choć nie zawsze g
 \clearpage
 \bibliographystyle{unsrt}
 \bibliography{references}
+
+\clearpage
+\section*{Dodatki}
+\subsection*{Kod źródłowy}
+Cały kod źródłowy projektu, obejmujący implementację modeli, proces przygotowania danych, uczenia oraz ewaluacji, jest dostępny publicznie w repozytorium GitHub pod adresem:
+\begin{center}
+    \url{https://github.com/EmD4blju/kalman_stock_prediction}
+\end{center}
 
 % %~ List of figures and tables
 % \section{Spis rysunków i tabel}

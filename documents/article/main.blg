@@ -3,9 +3,10 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 The style file: unsrt.bst
 Database file #1: references.bib
+Warning--I didn't find a database entry for "kalman1960new"
 You've used 24 entries,
             1791 wiz_defined-function locations,
-            589 strings with 7802 characters,
+            590 strings with 7815 characters,
 and the built_in function-call counts, 4461 in all, are:
 = -- 393
 > -- 177
@@ -44,3 +45,4 @@ warning$ -- 0
 while$ -- 36
 width$ -- 26
 write$ -- 269
+(There was 1 warning)
