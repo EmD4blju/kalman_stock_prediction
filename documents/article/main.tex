@@ -925,13 +925,6 @@ Wydajność modelu w trakcie uczenia była na bieżąco monitorowana na zbiorze 
 Pozwoliło to na generowanie krzywych uczenia i weryfikację, czy model nie wykazuje oznak znacznego przeuczenia (ang. \textit{overfitting}).
 
 Cały proces uczenia został zaimplementowany jako pipeline w ramach projektu Kedro, co pozwoliło na ustrukturyzowanie i zautomatyzowanie wszystkich opisanych kroków. 
-Rysunek \ref{fig:training_pipeline} przedstawia schematycznie zwizualizowany proces uczenia.
-% \begin{figure}[H]
-%     \centering
-%     % \includegraphics[width=1\textwidth]{assets/training_pipeline.png}
-%     \caption{Schemat zwizualizowanego procesu uczenia modelu.}
-%     \label{fig:training_pipeline}
-% \end{figure}
 Parametry procesu, takie jak przeszukiwane zakresy hiperparametrów czy liczba prób optymalizacji, zostały umieszczone w plikach konfiguracyjnych. 
 Takie podejście zapewniło nie tylko przejrzystość i łatwość zarządzania eksperymentami, ale przede wszystkim gwarantowało powtarzalność (ang. \textit{reproducibility}) procesu uczenia dla każdego z trzech modeli.
 Po zakończeniu treningu, wytrenowane modele zostały poddane ewaluacji na zbiorze testowym.
@@ -953,7 +946,14 @@ Tak przygotowane i zestawione wyniki posłużyły jako podstawa do przeprowadzen
 \vspace{0.5cm}
 W tym rozdziale przedstawiono kompleksową metodykę badań, obejmującą proces przygotowania danych, implementację i trenowanie trzech odrębnych modeli LSTM oraz procedurę ich ewaluacji.
 Taka struktura przeprowadzenia badania miała na celu zapewnienie rzetelności, powtarzalności i porównywalności wyników.
-W następnym rozdziale zaprezentowane zostaną wyniki przeprowadzonych eksperymentów oraz ich szczegółowa analiza.
+Rysunek \ref{fig:training_pipeline} stanowi podsumowanie całego procesu uczenia modeli w formie schematu pipeline'u.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{assets/workflow_visualized.png}
+    \caption{Schemat zwizualizowanego procesu uczenia modelu. Opracowanie własne.}
+    \label{fig:training_pipeline}
+\end{figure}
 
 \clearpage
 \section{Wyniki badań}
@@ -964,7 +964,6 @@ Całość zamyka podsekcja zestawiająca wyniki wszystkich modeli wraz z wizuali
 Analiza wyników obejmuje również interpretację uzyskanych rezultatów w kontekście postawionych hipotez badawczych.
 
 \subsection{Wyniki modelu bazowego}
-% Model bazowy, wykorzystujący jedynie historyczne ceny zamknięcia, osiągnął następujące wyniki na zbiorze testowym:
 Model bazowy, wykorzystujący jedynie historyczne ceny zamknięcia, niesie fundamentalną wartość porównawczą dla całości badania.
 Jego celem było ustalenie punktu odniesienia, jakie wyniki jest w stanie osiągnąć stosunkowo prosta architektura LSTM w kontekście przewidywania cen giełdowych.
 Tabela \ref{tab:base_model_metrics} przedstawia osiągnięte przez model bazowy metryki.
