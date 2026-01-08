@@ -15,12 +15,12 @@
 \usepackage{float}     % For stronger figure placement
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
+\usepackage{setspace}
 
 %~ Document settings
 \geometry{a4paper, margin=2.5cm}
-% \renewcommand{\familydefault}{\sfdefault} % Switched to Times
+\onehalfspacing
 
-% Adjust justification to prevent overfull boxes without hyphenation
 \tolerance=1000
 \emergencystretch=\maxdimen
 \hyphenpenalty=10000
@@ -35,42 +35,98 @@
 \begin{document}
 
 
-%~ Main Page
+%~ Main Page (Polish)
 \begin{titlepage}
     \centering
     
-    \includegraphics[width=0.4\textwidth]{assets/PJATK_PL_sygnet.png}
-
-    {\Large Polsko-Japońska Akademia Technik Komputerowych}
+    % University Logo and Name as a single image
+    \includegraphics[width=1\textwidth]{assets/PJATK_PL_poziom_2.png}
+    
+    
+    {\large\bfseries Wydział Informatyki}
     
     \vspace{0.5cm}
     
-    {\large Wydział Informatyki}
+    {\large\bfseries Katedra Systemy Inteligentne i Data Science} % <--- UZUPEŁNIJ
     
-    \vspace{2cm}
+    \vspace{0.2cm}
+
+    {\large Specjalizacja: Data Science}
+
+    \vspace{0.5cm}
+    
+    {\large\bfseries Mikołaj Warda}
+
+    \vspace{0.1cm}
+    
+    {\large Nr albumu: s28034}
+
+    \vspace{1cm}
     
     {\huge\bfseries Zastosowanie filtrów Kalmana do poprawy predykcji cen giełdowych przy użyciu sieci LSTM}
     
-    \vspace{2cm}
-    
-    {\Large Praca Dyplomowa}
-    
-    \vspace{2cm}
-    
-    \begin{flushleft}
-    \begin{tabular}{ll}
-        \textbf{Autor:} & Mikołaj Warda (s28034) \\
-        \textbf{Kierunek studiów:} & Informatyka \\
-        \textbf{Specjalizacja:} & Data Science \\
-        \textbf{Promotor:} & dr Sinh Hoa Nguyen Thi \\
-    \end{tabular}
-    \end{flushleft}
+    \vfill
+
+    \begin{flushright}
+        \begin{tabular}{l}
+            {\large Praca Inżynierska} \\
+            \vspace{0.3cm} \\
+            {\large Promotor: dr Sinh Hoa Nguyen Thi}
+        \end{tabular}
+    \end{flushright}
     
     \vfill
     
-    {\large \today}
+    {\large Warszawa, Styczeń 2026}
     
 \end{titlepage}
+\clearpage
+%~ Main Page (English)
+\begin{titlepage}
+    \centering
+    
+    % University Logo and Name as a single image
+    \includegraphics[width=1\textwidth]{assets/PJAIT_EN_poziom_2.png}
+    
+    
+    {\large\bfseries Faculty of Computer Science}
+    
+    \vspace{0.5cm}
+    
+    {\large\bfseries Department of Intelligent Systems and Data Science}
+    
+    \vspace{0.2cm}
+
+    {\large Specialization: Data Science}
+
+    \vspace{0.5cm}
+    
+    {\large\bfseries Mikołaj Warda}
+
+    \vspace{0.1cm}
+    
+    {\large Student ID: s28034}
+
+    \vspace{1cm}
+    
+    {\huge\bfseries Application of Kalman Filters to Improve Stock Price Prediction Using LSTM Networks}
+    
+    \vfill
+
+    \begin{flushright}
+        \begin{tabular}{l}
+            {\large Engineering Thesis} \\
+            \vspace{0.3cm} \\
+            {\large Supervisor: dr Sinh Hoa Nguyen Thi}
+        \end{tabular}
+    \end{flushright}
+    
+    \vfill
+    
+    {\large Warsaw, January 2026}
+    
+\end{titlepage}
+\clearpage
 
 %~ Abstract
 \begin{quote}
@@ -111,10 +167,9 @@
 \clearpage
 
 %~ Table of Contents
-\tableofcontents
-\clearpage
-
-\listoffigures
+\begin{spacing}{1.0}
+    \tableofcontents
+\end{spacing}
 \clearpage
 
 %~ Introduction
@@ -370,7 +425,7 @@ Typowa sieć neuronowa składa się z trzech głównych typów warstw \cite{good
 Warstwy można łączyć na różne sposoby. Najbardziej podstawowym jest pełne łączenie (ang. \textit{fully-connected} lub \textit{dense}), gdzie każdy neuron z jednej warstwy jest połączony z każdym neuronem w warstwie następnej. 
 Inne, bardziej zaawansowane metody to m.in. konwolucje czy rekurencje \cite{goodfellow-et-al-2016}.
 Przepływ sygnału w takiej sieci odbywa się na zasadzie propagacji w przód (ang. forward propagation) -- od warstwy wejściowej, przez warstwy ukryte, aż do warstwy wyjściowej.
-\clearpage
+
 Formalnie ten proces można opisać krokami obliczeniowymi dla każdej warstwy \cite{goodfellow-et-al-2016}:
 \begin{enumerate}
     \item \textbf{Warstwa wejściowa:}
@@ -1121,26 +1176,23 @@ W takich zastosowaniach zdolność do ignorowania krótkoterminowego szumu i kon
 Ostatecznie, praca ta częściowo potwierdza postawioną hipotezę badawczą.
 Zastosowanie filtracji Kalmana na etapie przetwarzania danych wejściowych znacząco poprawia zdolność modelu do nauki bazowego trendu cen akcji,
 jednak w bezpośredniej predykcji zaszumionych cen nie gwarantuje przewagi nad prostszym wariantem modelu.
-Jednocześnie udowadnia, że zaawansowane techniki filtracji, choć nie zawsze gwarantują lepszą predykcję wartości, otwierają nowe, wartościowe możliwości analityczne, które zasługują na dalszą eksplorację.
+
+
+\clearpage
+\listoffigures
+\listoftables
 
 % %~ Bibliography
 \clearpage
 \bibliographystyle{unsrt}
 \bibliography{references}
 
-\clearpage
 \section*{Dodatki}
 \subsection*{Kod źródłowy}
 Cały kod źródłowy projektu, obejmujący implementację modeli, proces przygotowania danych, uczenia oraz ewaluacji, jest dostępny publicznie w repozytorium GitHub pod adresem:
 \begin{center}
     \url{https://github.com/EmD4blju/kalman_stock_prediction}
 \end{center}
-
-% %~ List of figures and tables
-% \section{Spis rysunków i tabel}
-
-% %~ Attachments
-% \section{Załączniki}
 
 
 \end{document}

@@ -1,35 +1,5 @@
 \begin{thebibliography}{10}
 
-\bibitem{yfinance_data}
-{Yahoo Inc.}
-\newblock {Yahoo Finance}.
-\newblock \url{https://finance.yahoo.com/quote/AMZN/}, 2025.
-\newblock Dane historyczne spółki Amazon.com Inc (AMZN) pobrane za pośrednictwem biblioteki `yfinance`. Dostęp: 2025-12-30.
-
-\bibitem{geeksforgeeks_nn_architecture}
-{GeeksforGeeks}.
-\newblock Introduction to neural networks.
-\newblock GeeksforGeeks, 2023.
-\newblock Dostęp: \url{https://media.geeksforgeeks.org/wp-content/uploads/20251213151009129404/_neural_network.webp}. Dostęp pobrano: 2026-01-05.
-
-\bibitem{wikimedia_rnn_unfold}
-{LeCun, Yann}.
-\newblock Recurrent neural network unfold.
-\newblock Wikimedia Commons, 2015.
-\newblock Dostęp: \url{https://commons.wikimedia.org/wiki/File:Recurrent_neural_network_unfold.svg}. Domena publiczna. Dostęp pobrano: 2026-01-05.
-
-\bibitem{lstm_cell_drawing}
-Christopher Olah.
-\newblock Understanding lstm networks.
-\newblock colah.github.io, 2015.
-\newblock Dostęp: \url{http://colah.github.io/posts/2015-08-Understanding-LSTMs/}. Dostęp pobrano: 2026-01-05.
-
-\bibitem{kalman_filter_cycle_drawing}
-{kalmanfilter.net}.
-\newblock Kalman filter update cycle.
-\newblock kalmanfilter.net.
-\newblock Dostęp: \url{https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRUbFVsxbx7reT_RDfRuPoag-hyqN5fhDzmA&s}. Dostęp pobrano: 2026-01-05.
-
 \bibitem{xie2023stock}
 Yihui Xie.
 \newblock Stock price forecasting: Traditional statistical methods and deep learning methods.
@@ -58,6 +28,12 @@ Dhawani Shah and Manishkumar Thaker.
 \bibitem{tepelyan2025enhancingohlcdatatiming}
 Ruslan Tepelyan.
 \newblock Enhancing ohlc data with timing features: A machine learning evaluation, 2025.
+
+\bibitem{yfinance_data}
+{Yahoo Inc.}
+\newblock {Yahoo Finance}.
+\newblock \url{https://finance.yahoo.com/quote/AMZN/}, 2025.
+\newblock Dane historyczne spółki Amazon.com Inc (AMZN) pobrane za pośrednictwem biblioteki `yfinance`. Dostęp: 2025-12-30.
 
 \bibitem{MOSTAFAVI2025100631}
 Seyed~Mostafa Mostafavi and Ali~Reza Hooman.
@@ -96,15 +72,33 @@ Tomasz Szandała.
 \newblock Wikimedia Commons, 2007.
 \newblock Dostęp: \url{https://commons.wikimedia.org/wiki/File:Neuron_McCullocha-Pittsa.svg}. Licencja: CC BY-SA 2.5. Dostęp pobrano: 2025-12-30.
 
+\bibitem{geeksforgeeks_nn_architecture}
+{GeeksforGeeks}.
+\newblock Introduction to neural networks.
+\newblock GeeksforGeeks, 2023.
+\newblock Dostęp: \url{https://media.geeksforgeeks.org/wp-content/uploads/20251213151009129404/_neural_network.webp}. Dostęp pobrano: 2026-01-05.
+
 \bibitem{rumelhart1986learning}
 David~E Rumelhart, Geoffrey~E Hinton, and Ronald~J Williams.
 \newblock Learning representations by back-propagating errors.
 \newblock {\em Nature}, 323(6088):533--536, 1986.
 
+\bibitem{wikimedia_rnn_unfold}
+{LeCun, Yann}.
+\newblock Recurrent neural network unfold.
+\newblock Wikimedia Commons, 2015.
+\newblock Dostęp: \url{https://commons.wikimedia.org/wiki/File:Recurrent_neural_network_unfold.svg}. Domena publiczna. Dostęp pobrano: 2026-01-05.
+
 \bibitem{hochreiter1997long}
 Sepp Hochreiter and J{\"u}rgen Schmidhuber.
 \newblock Long short-term memory.
 \newblock {\em Neural computation}, 9(8):1735--1780, 1997.
+
+\bibitem{lstm_cell_drawing}
+Christopher Olah.
+\newblock Understanding lstm networks.
+\newblock colah.github.io, 2015.
+\newblock Dostęp: \url{http://colah.github.io/posts/2015-08-Understanding-LSTMs/}. Dostęp pobrano: 2026-01-05.
 
 \bibitem{welch1995introduction}
 Greg Welch and Gary Bishop.
@@ -112,11 +106,22 @@ Greg Welch and Gary Bishop.
 \newblock {\em Chapel Hill, NC, USA}, 8, 1995.
 \newblock Technical Report TR 95-041, University of North Carolina.
 
+\bibitem{kalman1960new}
+R.~E. Kalman.
+\newblock A new approach to linear filtering and prediction problems.
+\newblock {\em Journal of Basic Engineering}, 82(1):35--45, March 1960.
+
 \bibitem{labbe2015kalman}
 Roger~R. Labbe.
 \newblock {\em Kalman and Bayesian Filters in Python}.
 \newblock GitHub, 2015.
 \newblock Dostęp: \url{https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python}. Dostęp pobrano: 2026-01-05.
+
+\bibitem{kalman_filter_cycle_drawing}
+{kalmanfilter.net}.
+\newblock Kalman filter update cycle.
+\newblock kalmanfilter.net.
+\newblock Dostęp: \url{https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRUbFVsxbx7reT_RDfRuPoag-hyqN5fhDzmA&s}. Dostęp pobrano: 2026-01-05.
 
 \bibitem{akiba2019optuna}
 Takuya Akiba, Shotaro Sano, Toshihiko Yanase, Takeru Ohta, and Masanori Koyama.
