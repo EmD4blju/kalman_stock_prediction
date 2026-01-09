@@ -195,3 +195,16 @@ kalman_model_learning_curves_plot:
 combined_predictions_plot:
   type: kalman_stock_prediction.models.matplotlib_dataset.MatplotlibDataset
   filepath: models/combined_predictions.png
+
+# Hyperparameter tuning results
+base_model_best_params:
+  type: json.JSONDataset
+  filepath: models/base_model/best_params.json
+
+enriched_model_best_params:
+  type: json.JSONDataset
+  filepath: models/enhanced_model/best_params.json
+
+kalman_model_best_params:
+  type: json.JSONDataset
+  filepath: models/kalman_model/best_params.json

@@ -1,12 +1,11 @@
 {
-  "test_mse": 21.551128387451172,
-  "test_rmse": 4.6423192896925105,
-  "test_mae": 3.417290210723877,
-  "test_r2": 0.8685898780822754,
-  "mean_error": -0.9762440323829651,
-  "std_error": 4.538510322570801,
-  "min_error": -18.202789306640625,
-  "max_error": 14.314956665039062,
-  "model_type": "kalman_original",
-  "evaluation_data": "original"
+  "test_mse": 30.02485466003418,
+  "test_rmse": 5.479494014964719,
+  "test_mae": 4.055972099304199,
+  "test_r2": 0.8169205188751221,
+  "mean_error": 0.11728216707706451,
+  "std_error": 5.478238582611084,
+  "min_error": -18.55487060546875,
+  "max_error": 17.715194702148438,
+  "model_type": "kalman_original"
 }

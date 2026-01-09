@@ -15,29 +15,35 @@ kalman_Q: [[0.001, 0], [0, 0.001]]
 # Model training parameters
 base_model:
   target_column: "Close"
-  epochs: 20
-  batch_size: 16
-  learning_rate: 0.001
-  hidden_dim: 27
+  epochs: 47
+  batch_size: 32
+  learning_rate: 0.0010679497003381032
+  hidden_dim: 39
   layer_dim: 1
 
 enriched_model:
   target_column: "Close"
-  epochs: 50
-  batch_size: 16
-  learning_rate: 0.001
-  hidden_dim: 64
+  epochs: 78
+  batch_size: 32
+  learning_rate: 0.00033631492795631123
+  hidden_dim: 96
   layer_dim: 2
 
 kalman_model:
   target_column: "Close"
-  epochs: 20
-  batch_size: 16
-  learning_rate: 0.001
-  hidden_dim: 27
-  layer_dim: 1
+  epochs: 15
+  batch_size: 8
+  learning_rate: 0.00028718493624657664
+  hidden_dim: 41
+  layer_dim: 2
 
 # Model evaluation parameters
 evaluation:
   target_column: "Close"
   batch_size: 10
+
+# Hyperparameter tuning parameters
+tuning:
+  target_column: "Close"
+  timesteps: 3
+  n_trials: 150

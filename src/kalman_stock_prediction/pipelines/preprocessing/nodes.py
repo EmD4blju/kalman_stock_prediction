@@ -9,9 +9,14 @@ from filterpy.kalman import KalmanFilter
 def enrich_dataset(dataframe: pd.DataFrame, target_column: str, rsi_window: int = 14, bb_window: int = 20, bb_window_dev: int = 2) -> pd.DataFrame:
     """
     Enrich the dataset with technical indicators: RSI, Bandwidth, and %B.
+    Keeps only Close price and technical indicators, removes OHLCV columns.
     Drops rows with NaN values that result from window-based calculations.
     """
     enriched_dataframe = dataframe.copy()
+    
+    # Drop 'Date' column if it exists
+    if 'Date' in enriched_dataframe.columns:
+        enriched_dataframe = enriched_dataframe.drop(columns=['Date'])
     
     # Add RSI (Relative Strength Index)
     enriched_dataframe['RSI'] = RSIIndicator(close=enriched_dataframe[target_column], window=rsi_window).rsi()
@@ -20,6 +25,10 @@ def enrich_dataset(dataframe: pd.DataFrame, target_column: str, rsi_window: int 
     indicator_bb = BollingerBands(close=enriched_dataframe[target_column], window=bb_window, window_dev=bb_window_dev)
     enriched_dataframe['Bandwidth'] = indicator_bb.bollinger_wband()
     enriched_dataframe['%B'] = indicator_bb.bollinger_pband()
+    
+    # Keep only Close and technical indicators (4 features total)
+    columns_to_keep = [target_column, 'RSI', 'Bandwidth', '%B']
+    enriched_dataframe = enriched_dataframe[columns_to_keep]
     
     # Drop rows with NaN values caused by window calculations
     enriched_dataframe = enriched_dataframe.dropna()
@@ -67,96 +76,125 @@ def apply_kalman_filter(dataframe: pd.DataFrame, target_column: str, kalman_F: l
     filtered_dataframe[target_column] = filtered_data
     return filtered_dataframe
 
-def reformat_periodic_to_supervised_data(dataframe:pd.DataFrame, target_column:str, timesteps:int) -> pd.DataFrame:
+def reformat_to_supervised(df: pd.DataFrame, target_column: str, timesteps: int) -> pd.DataFrame:
+    """
+    Reformats a time-series DataFrame into a supervised learning format.
+    Uses only the target column (Close) for the base model.
 
-    #~ --- Prepare data for reformatting ---
-    data_array = dataframe[target_column].to_numpy()
-    dates = dataframe.index
+    Args:
+        df: The input DataFrame with a time-series index.
+        target_column: The name of the column to be predicted.
+        timesteps: The number of previous time steps to use as input variables.
+
+    Returns:
+        A DataFrame in a supervised learning format.
+    """
+    data = []
+    target_data = df[target_column].values
     
-    #~ --- Check for enrichment columns ---
-    enrichment_columns = []
-    has_enrichment = {'RSI', 'Bandwidth', '%B'}.issubset(dataframe.columns)
-    if has_enrichment:
-        enrichment_columns = ['RSI', 'Bandwidth', '%B']
-    
-    #~ --- Build column names ---
-    column_names = ['Date']
-    
-    if has_enrichment:
-        # Create columns for each timestep with all features
-        for i in range(timesteps - 1, -1, -1):  # timesteps-1, timesteps-2, ..., 1, 0
-            column_names.append(f'{target_column}_{i}')
-            for enr_col in enrichment_columns:
-                column_names.append(f'{enr_col}_{i}')
+    for i in range(len(target_data) - timesteps):
+        # Input sequence (t-timesteps, ..., t-1) - only target column
+        input_seq = target_data[i:i + timesteps]
+        # Target value (t)
+        target_val = target_data[i + timesteps]
+        
+        # Append target value to input sequence
+        row = np.append(input_seq, target_val)
+        data.append(row)
+
+    # Create column names
+    columns = []
+    for t in range(timesteps, 0, -1):
+        columns.append(f'{target_column}_t-{t}')
+    columns.append(f'{target_column}')
+
+    supervised_df = pd.DataFrame(data, columns=columns)
+    return supervised_df
+
+def reformat_enriched_to_supervised(df: pd.DataFrame, target_column: str, timesteps: int) -> pd.DataFrame:
+    """
+    Reformats an enriched time-series DataFrame into a supervised learning format.
+    This function is specifically for datasets with additional features.
+
+    Args:
+        df: The input DataFrame with a time-series index and enriched features.
+        target_column: The name of the column to be predicted.
+        timesteps: The number of previous time steps to use as input variables.
+
+    Returns:
+        A DataFrame in a supervised learning format.
+    """
+    data = []
+    for i in range(len(df) - timesteps):
+        # Input sequence (t-timesteps, ..., t-1)
+        input_seq = df.iloc[i:i + timesteps].values
+        # Target value (t)
+        target_val = df.iloc[i + timesteps][target_column]
+        
+        # Flatten input sequence and append target value
+        row = np.append(input_seq.flatten(), target_val)
+        data.append(row)
+
+    # Create column names
+    columns = []
+    for t in range(timesteps):
+        for col in df.columns:
+            columns.append(f'{col}_t-{timesteps-t}')
+    columns.append(f'{target_column}')
+
+    supervised_df = pd.DataFrame(data, columns=columns)
+    return supervised_df
+
+def fit_scalers(df: pd.DataFrame, scaling_method: str, target_column: str):
+    """
+    Fits scalers to the training data.
+
+    Args:
+        df: The training DataFrame.
+        scaling_method: The scaling method to use ('minmax' or 'standard').
+        target_column: The name of the target column (e.g., 'Close_t').
+
+    Returns:
+        A tuple containing the fitted feature scaler and target scaler.
+    """
+    if scaling_method == "minmax":
+        scaler_X = MinMaxScaler(feature_range=(0, 1))
+        scaler_y = MinMaxScaler(feature_range=(0, 1))
+    elif scaling_method == "standard":
+        scaler_X = StandardScaler()
+        scaler_y = StandardScaler()
     else:
-        # Create columns for regular data (only Close values)
-        for i in range(timesteps - 1, -1, -1):  # timesteps-1, timesteps-2, ..., 1, 0
-            column_names.append(f'{target_column}_{i}')
-    
-    # Add target column
-    column_names.append(target_column)
-    
-    supervised_dataframe = pd.DataFrame(columns=column_names)
-    
-    #~ --- Reformat ---
-    for i in range(timesteps, len(data_array)):
-        current_date = dates[i]
-        current_item = data_array[i]
-        
-        row_data = [current_date]
-        
-        if has_enrichment:
-            # Add historical timesteps with all features
-            for j in range(i - timesteps, i):  # From oldest to newest
-                row_data.append(data_array[j])
-                for enr_col in enrichment_columns:
-                    row_data.append(dataframe.loc[dates[j], enr_col])
-        else:
-            # Add only Close values for historical timesteps
-            previous_items = data_array[i-timesteps:i][::-1]
-            row_data.extend(previous_items)
-        
-        # Add target value
-        row_data.append(current_item)
-        
-        supervised_dataframe.loc[i-timesteps] = row_data
-    
-    supervised_dataframe = supervised_dataframe.set_index(keys=['Date'])
-    
-    #~ --- Return ---
-    return supervised_dataframe
+        raise ValueError(f"Unknown scaling_method: {scaling_method}")
+
+    feature_columns = [col for col in df.columns if col != target_column]
+    X = df[feature_columns]
+    y = df[[target_column]]
+
+    scaler_X.fit(X)
+    scaler_y.fit(y)
+
+    return scaler_X, scaler_y
 
 
-def scale_dataframe(dataframe:pd.DataFrame, scaling_method: str, target_column: str) -> pd.DataFrame:
-    
-    match scaling_method:
-        case "minmax":
-            scaler_X = MinMaxScaler()
-            scaler_y = MinMaxScaler()
-        
-        case "standard":
-            scaler_X = StandardScaler()
-            scaler_y = StandardScaler()
-            
-        case _:
-            raise ValueError(f"Unsupported scaling method: {scaling_method}")
-        
-    
-    feature_columns = dataframe.columns.tolist()
-    feature_columns.remove(target_column)   
-    X = dataframe[feature_columns]
-    y = dataframe[[target_column]]
-    
-    X_scaled = scaler_X.fit_transform(X)
-    y_scaled = scaler_y.fit_transform(y)
-    
-    scaled_dataframe = pd.DataFrame(
-        data = X_scaled,
-        columns = feature_columns,
-        index = dataframe.index
+def apply_scalers(df: pd.DataFrame, scaler_X, scaler_y, target_column: str) -> pd.DataFrame:
+    """
+    Applies pre-fitted scalers to a dataframe.
+    """
+    feature_columns = df.columns.tolist()
+    feature_columns.remove(target_column)
+    X = df[feature_columns]
+    y = df[[target_column]]
+
+    X_scaled = scaler_X.transform(X)
+    y_scaled = scaler_y.transform(y)
+
+    scaled_df = pd.DataFrame(
+        data=X_scaled,
+        columns=feature_columns,
+        index=df.index
     )
-    scaled_dataframe[target_column] = y_scaled
-    return scaled_dataframe, scaler_X, scaler_y
+    scaled_df[target_column] = y_scaled
+    return scaled_df
     
    
 def split_dataframe(dataframe:pd.DataFrame, val_size:float=0.2, test_size:float=0.1):
@@ -175,4 +213,3 @@ def split_dataframe(dataframe:pd.DataFrame, val_size:float=0.2, test_size:float=
     
 
     return train_df, val_df, test_df
-    

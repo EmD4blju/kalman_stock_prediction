@@ -1,0 +1,9 @@
+{
+  "hidden_dim": 96,
+  "layer_dim": 2,
+  "learning_rate": 0.00033631492795631123,
+  "epochs": 78,
+  "batch_size": 32,
+  "best_val_mse": 0.0019464350855569448,
+  "input_dim": 4
+}
