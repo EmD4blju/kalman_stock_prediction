@@ -717,6 +717,7 @@ Z tego powodu zaprojektowano i zaimplementowano trzy odrębne modele, z których
     \item \textbf{Model z filtrem Kalmana (Kalman Model):} Służył do zbadania głównej hipotezy pracy -- czy wstępna filtracja i odszumienie danych wejściowych przy użyciu filtru Kalmana pozytywnie wpływa na skuteczność prognoz sieci LSTM.
 \end{itemize}
 W niniejszym rozdziale przedstawiono szczegółowy opis metodologii badawczej zastosowanej w pracy, obejmujący proces przygotowania danych, implementację modeli, procedurę uczenia, metryki oceny wydajności i sposób ewaluacji.
+Cały proces badawczy, od przygotowania danych, przez trening, aż po ewaluację, został zaimplementowany jako zestaw modularnych i powtarzalnych pipeline'ów w ramach frameworku Kedro.
 
 \subsection{Środowisko badawcze}
 Do przeprowadzenia eksperymentów wykorzystano język programowania Python 3.12 oraz następujące biblioteki i narzędzia:
@@ -823,7 +824,7 @@ Po zakończeniu wszystkich etapów przetwarzania i inżynierii cech, zbiory dany
     \item \textbf{Zbiór walidacyjny (Validation Set):} Obejmuje 18\% danych i jest wykorzystywany do monitorowania wydajności modeli podczas treningu oraz do strojenia hiperparametrów.
     \item \textbf{Zbiór testowy (Test Set):} Obejmuje pozostałe 10\% danych i służy do ostatecznej oceny wydajności wytrenowanych modeli.
 \end{itemize}
-Podział danych został przeprowadzony w sposób chronologiczny, aby zachować naturalną kolejność czasową szeregów danych giełdowych i uniknąć potencjalnych problemów związanych z przeciekiem danych \cite{goodfellow-et-al-2016}.
+Podział danych został przeprowadzony w sposób chronologiczny, aby zachować naturalną kolejność czasową szeregów danych giełdowych \cite{goodfellow-et-al-2016}.
 
 \subsubsection{Skalowanie danych}
 Skalowanie cech wejściowych jest kluczowym krokiem w przygotowaniu danych do trenowania sieci neuronowych -- przyspiesza oraz stabilizuje proces uczenia sieci neuronowej \cite{goodfellow-et-al-2016}.
@@ -924,9 +925,6 @@ Liczba epok, przez które trenowano każdy model, została również ustalona ja
 Wydajność modelu w trakcie uczenia była na bieżąco monitorowana na zbiorze walidacyjnym z wykorzystaniem zdefiniowanych wcześniej metryk (MSE, RMSE, \(R^2\)).
 Pozwoliło to na generowanie krzywych uczenia i weryfikację, czy model nie wykazuje oznak znacznego przeuczenia (ang. \textit{overfitting}).
 
-Cały proces uczenia został zaimplementowany jako pipeline w ramach projektu Kedro, co pozwoliło na ustrukturyzowanie i zautomatyzowanie wszystkich opisanych kroków. 
-Parametry procesu, takie jak przeszukiwane zakresy hiperparametrów czy liczba prób optymalizacji, zostały umieszczone w plikach konfiguracyjnych. 
-Takie podejście zapewniło nie tylko przejrzystość i łatwość zarządzania eksperymentami, ale przede wszystkim gwarantowało powtarzalność (ang. \textit{reproducibility}) procesu uczenia dla każdego z trzech modeli.
 Po zakończeniu treningu, wytrenowane modele zostały poddane ewaluacji na zbiorze testowym.
 
 \subsection{Proces ewaluacji}
@@ -940,7 +938,6 @@ Produktami końcowymi ewaluacji były:
     \item Analiza błędów predykcji w postaci histogramów ich rozkładu.
     \item Krzywe uczenia ilustrujące przebieg procesu treningu dla każdego z modeli.
 \end{itemize}
-Cały proces ewaluacji również został zaimplementowany jako zautomatyzowany pipeline w ramach projektu Kedro, co zapewniło spójność i powtarzalność całego eksperymentu. 
 Tak przygotowane i zestawione wyniki posłużyły jako podstawa do przeprowadzenia szczegółowej analizy porównawczej, interpretacji rezultatów oraz sformułowania wniosków dotyczących skuteczności poszczególnych podejść.
 
 \vspace{0.5cm}

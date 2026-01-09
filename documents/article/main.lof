@@ -8,7 +8,7 @@
 \contentsline {figure}{\numberline {7}{\ignorespaces Budowa komórki rekurencyjnej w sieci RNN. Opracowanie własne na podstawie \cite {wikimedia_rnn_unfold}.}}{15}{figure.7}%
 \contentsline {figure}{\numberline {8}{\ignorespaces Budowa komórki LSTM z trzema bramkami: bramką zapominania, bramką wejścia i bramką wyjścia. Opracowanie własne na podstawie \cite {lstm_cell_drawing}.}}{17}{figure.8}%
 \contentsline {figure}{\numberline {9}{\ignorespaces Cykl działania filtru Kalmana, ilustrując kroki predykcji i aktualizacji. Opracowanie własne na podstawie \cite {kalman_filter_cycle_drawing}.}}{21}{figure.9}%
-\contentsline {figure}{\numberline {10}{\ignorespaces Schemat zwizualizowanego procesu uczenia modelu. Opracowanie własne.}}{31}{figure.10}%
-\contentsline {figure}{\numberline {11}{\ignorespaces Porównanie predykcji cen rzeczywistych z prognozami modeli: bazowego, wzbogaconego oraz z filtrem Kalmana.}}{35}{figure.11}%
-\contentsline {figure}{\numberline {12}{\ignorespaces Porównanie predykcji cen rzeczywistych z prognozami modelu z filtrem Kalmana na danych filtrowanych.}}{36}{figure.12}%
-\contentsline {figure}{\numberline {13}{\ignorespaces Wizualizacja porównawcza rozkładów błędów predykcji: (góra-lewo) model bazowy, (góra-prawo) model wzbogacony, (dół-lewo) model z filtrem Kalmana na danych filtrowanych, (dół-prawo) model z filtrem Kalmana na danych oryginalnych.}}{37}{figure.13}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Schemat zwizualizowanego procesu uczenia modelu. Opracowanie własne.}}{30}{figure.10}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Porównanie predykcji cen rzeczywistych z prognozami modeli: bazowego, wzbogaconego oraz z filtrem Kalmana.}}{34}{figure.11}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Porównanie predykcji cen rzeczywistych z prognozami modelu z filtrem Kalmana na danych filtrowanych.}}{35}{figure.12}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Wizualizacja porównawcza rozkładów błędów predykcji: (góra-lewo) model bazowy, (góra-prawo) model wzbogacony, (dół-lewo) model z filtrem Kalmana na danych filtrowanych, (dół-prawo) model z filtrem Kalmana na danych oryginalnych.}}{36}{figure.13}%
