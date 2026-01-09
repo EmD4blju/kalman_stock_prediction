@@ -1,8 +1,8 @@
 {
-  "hidden_dim": 25,
-  "layer_dim": 1,
-  "learning_rate": 0.0004485480009964587,
-  "epochs": 35,
+  "hidden_dim": 41,
+  "layer_dim": 2,
+  "learning_rate": 0.00028718493624657664,
+  "epochs": 15,
   "batch_size": 8,
-  "best_val_mse": 0.0027815573120374935
+  "best_val_mse": 0.000909419289649004
 }
