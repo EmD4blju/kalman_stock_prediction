@@ -17,8 +17,8 @@
 \contentsline {subsection}{\numberline {4.2}Przygotowanie danych}{23}{subsection.4.2}%
 \contentsline {subsubsection}{\numberline {4.2.1}Pobranie danych}{23}{subsubsection.4.2.1}%
 \contentsline {subsubsection}{\numberline {4.2.2}Przetwarzanie wstępne i inżynieria cech}{24}{subsubsection.4.2.2}%
-\contentsline {subsubsection}{\numberline {4.2.3}Skalowanie danych}{25}{subsubsection.4.2.3}%
-\contentsline {subsubsection}{\numberline {4.2.4}Podział danych}{26}{subsubsection.4.2.4}%
+\contentsline {subsubsection}{\numberline {4.2.3}Podział danych}{25}{subsubsection.4.2.3}%
+\contentsline {subsubsection}{\numberline {4.2.4}Skalowanie danych}{26}{subsubsection.4.2.4}%
 \contentsline {subsection}{\numberline {4.3}Architektura modeli}{26}{subsection.4.3}%
 \contentsline {subsubsection}{\numberline {4.3.1}Model bazowy (Base Model)}{26}{subsubsection.4.3.1}%
 \contentsline {subsubsection}{\numberline {4.3.2}Model wzbogacony (Enriched Model)}{27}{subsubsection.4.3.2}%

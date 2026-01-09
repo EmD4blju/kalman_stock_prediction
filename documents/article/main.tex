@@ -719,7 +719,7 @@ Z tego powodu zaprojektowano i zaimplementowano trzy odrębne modele, z których
 W niniejszym rozdziale przedstawiono szczegółowy opis metodologii badawczej zastosowanej w pracy, obejmujący proces przygotowania danych, implementację modeli, procedurę uczenia, metryki oceny wydajności i sposób ewaluacji.
 
 \subsection{Środowisko badawcze}
-Do przeprowadzenia eksperymentów wykorzystano język programowania Python 3.12 oraz następujące biblioteki:
+Do przeprowadzenia eksperymentów wykorzystano język programowania Python 3.12 oraz następujące biblioteki i narzędzia:
 \begin{itemize}
     \item \textbf{Pandas:} Biblioteka służąca do manipulacji i analizy danych, w szczególności do pracy z danymi tabelarycznymi i szeregami czasowymi. Została wykorzystana do wczytywania, czyszczenia oraz transformacji danych giełdowych.
     \item \textbf{NumPy:} Podstawowy pakiet do obliczeń naukowych w Pythonie, zapewniający wsparcie dla wielowymiarowych tablic i macierzy oraz szerokiej gamy funkcji matematycznych.
@@ -730,8 +730,8 @@ Do przeprowadzenia eksperymentów wykorzystano język programowania Python 3.12 
     \item \textbf{Technical Analysis (ta):} Biblioteka umożliwiająca obliczanie wskaźników analizy technicznej, które zostały wykorzystane do wzbogacenia zestawu cech wejściowych modeli.
     \item \textbf{Matplotlib \& Seaborn:} Biblioteki do wizualizacji danych, które posłużyły do generowania wszystkich wykresów przedstawionych w pracy, m.in. wykresów cen, krzywych uczenia i porównań predykcji z wartościami rzeczywistymi.
     \item \textbf{yfinance:} Biblioteka umożliwiająca pobieranie historycznych danych rynkowych z serwisu Yahoo! Finance.
+    \item \textbf{Kedro:} Framework do tworzenia modularnych i skalowalnych projektów uczenia maszynowego, który został użyty do zarządzania przepływem danych, konfiguracją eksperymentów oraz organizacją kodu źródłowego.
 \end{itemize}
-Całość kodu została zorganizowana w ramach projektu Kedro, co zapewniło modularność, reużywalność oraz łatwość zarządzania eksperymentami.
 
 \subsection{Przygotowanie danych}
 Proces przygotowania danych stanowił pierwszy etap badań.
@@ -816,15 +816,6 @@ Powodem tego była potrzeba przygotowania trzech odrębnych wariantów zbioru da
 
 Po zdefiniowaniu cech dla każdego z trzech wariantów, wszystkie zbiory zostały poddane tym samym, końcowym etapom przetwarzania, aby zapewnić spójność i rzetelność porównania.
 
-\subsubsection{Skalowanie danych}
-Skalowanie cech wejściowych jest kluczowym krokiem w przygotowaniu danych do trenowania sieci neuronowych -- przyspiesza oraz stabilizuje proces uczenia sieci neuronowej \cite{goodfellow-et-al-2016}.
-W ramach ninejszej pracy wykrzystano skalowanie min-max, które przekształca wartości cech do zdefiniowanego zakresu, zazwyczaj od 0 do 1 \cite{goodfellow-et-al-2016}.
-Proces skalowania został przeprowadzony przy użyciu klasy `MinMaxScaler` z biblioteki Scikit-learn.
-
-Ważnym aspektem metodologicznym było dopasowanie skalera wyłącznie na danych treningowych. 
-Następnie ten sam, dopasowany skaler został użyty do transformacji zarówno zbioru walidacyjnego, jak i testowego. 
-Takie podejście zapobiega "przeciekowi danych" (ang. data leakage) z przyszłości do modelu, co jest niezbędne dla uzyskania wiarygodnych i rzetelnych wyników \cite{goodfellow-et-al-2016}.
-
 \subsubsection{Podział danych}
 Po zakończeniu wszystkich etapów przetwarzania i inżynierii cech, zbiory danych zostały podzielone na trzy odrębne części:
 \begin{itemize}
@@ -833,6 +824,15 @@ Po zakończeniu wszystkich etapów przetwarzania i inżynierii cech, zbiory dany
     \item \textbf{Zbiór testowy (Test Set):} Obejmuje pozostałe 10\% danych i służy do ostatecznej oceny wydajności wytrenowanych modeli.
 \end{itemize}
 Podział danych został przeprowadzony w sposób chronologiczny, aby zachować naturalną kolejność czasową szeregów danych giełdowych i uniknąć potencjalnych problemów związanych z przeciekiem danych \cite{goodfellow-et-al-2016}.
+
+\subsubsection{Skalowanie danych}
+Skalowanie cech wejściowych jest kluczowym krokiem w przygotowaniu danych do trenowania sieci neuronowych -- przyspiesza oraz stabilizuje proces uczenia sieci neuronowej \cite{goodfellow-et-al-2016}.
+W ramach ninejszej pracy wykrzystano skalowanie min-max, które przekształca wartości cech do zdefiniowanego zakresu, zazwyczaj od 0 do 1 \cite{goodfellow-et-al-2016}.
+Proces skalowania został przeprowadzony przy użyciu klasy `MinMaxScaler` z biblioteki Scikit-learn.
+
+Ważnym aspektem metodologicznym było dopasowanie skalera wyłącznie na danych treningowych. 
+Następnie ten sam, dopasowany skaler został użyty do transformacji zarówno zbioru walidacyjnego, jak i testowego. 
+Takie podejście zapobiega "przeciekowi danych" (ang. data leakage) z przyszłości do modelu, co jest niezbędne dla uzyskania wiarygodnych i rzetelnych wyników \cite{goodfellow-et-al-2016}.
 
 \subsection{Architektura modeli}
 W niniejszej pracy porównano trzy różne modele LSTM, z których każdy charakteryzował się odmiennym podejściem do przetwarzania danych wejściowych.
@@ -940,7 +940,7 @@ Produktami końcowymi ewaluacji były:
     \item Analiza błędów predykcji w postaci histogramów ich rozkładu.
     \item Krzywe uczenia ilustrujące przebieg procesu treningu dla każdego z modeli.
 \end{itemize}
-Cały proces, od generowania metryk po wizualizacje, został zaimplementowany jako zautomatyzowany pipeline w ramach projektu Kedro, co zapewniło spójność i powtarzalność całego eksperymentu. 
+Cały proces ewaluacji również został zaimplementowany jako zautomatyzowany pipeline w ramach projektu Kedro, co zapewniło spójność i powtarzalność całego eksperymentu. 
 Tak przygotowane i zestawione wyniki posłużyły jako podstawa do przeprowadzenia szczegółowej analizy porównawczej, interpretacji rezultatów oraz sformułowania wniosków dotyczących skuteczności poszczególnych podejść.
 
 \vspace{0.5cm}
