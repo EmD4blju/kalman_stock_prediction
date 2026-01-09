@@ -140,7 +140,7 @@
     Przeprowadzono eksperyment na danych historycznych cen akcji Amazon.com Inc (AMZN), porównując trzy modele: bazowy LSTM, model z dodatkowymi wskaźnikami analizy technicznej oraz model uczony na danych przefiltrowanych.
 
     Wyniki pokazały, że w realistycznym scenariuszu testowym najskuteczniejszy był najprostszy model bazowy.
-    Model uczony na danych filtrowanych, pomimo braku przewagi względem modelu bazowego w realistycznym teście, osiągnął wysoką skuteczność (\(R^2=0.9756\)) w teście na danych odszumionych, co świadczy o zdolności do niemal perfekcyjnej ekstrakcji trendu.
+    Model uczony na danych filtrowanych, pomimo braku przewagi względem modelu bazowego w realistycznym teście, osiągnął wysoką skuteczność (\(R^2=0.9543\)) w teście na danych odszumionych, co świadczy o zdolności do niemal perfekcyjnej ekstrakcji trendu.
 
     Główny wniosek płynący z pracy jest taki, że filtracja Kalmana, choć nie gwarantuje lepszych prognoz konkretnych wartości cen akcji, to znacznie poprawia zdolność modelu do nauki trendu, co mogłoby się znacznie lepiej sprawdzić w zadaniach natury klasyfikacyjnej, np. prognozowania kierunku zmian cen.
 
@@ -157,7 +157,7 @@
 
     This thesis investigates the effectiveness of the Kalman filter as a data pre-processing technique for denoising input data to improve the prediction quality of an LSTM network. An experiment was conducted on historical stock price data for Amazon.com Inc. (AMZN), comparing three models: a baseline LSTM, a model enriched with additional technical analysis indicators, and a model trained on filtered data.
 
-    The results showed that in a realistic test scenario, the simplest baseline model was the most effective. The model trained on filtered data, despite showing no advantage over the baseline model in the realistic test, achieved high performance (\(R^2=0.9756\)) when tested on denoised data, demonstrating its ability to almost perfectly extract the underlying trend.
+    The results showed that in a realistic test scenario, the simplest baseline model was the most effective. The model trained on filtered data, despite showing no advantage over the baseline model in the realistic test, achieved high performance (\(R^2=0.9543\)) when tested on denoised data, demonstrating its ability to almost perfectly extract the underlying trend.
 
     The main conclusion of this work is that while Kalman filtering does not guarantee better predictions of specific stock price values, it significantly enhances the model's ability to learn the trend. This could prove much more effective in classification tasks, such as forecasting the direction of price changes.
 
@@ -909,12 +909,12 @@ W celu znalezienia optymalnych wartości hiperparametrów dla każdego z modeli,
 Przeszukiwana przestrzeń hiperparametrów była wspólna dla wszystkich modeli i obejmowała:
 \begin{itemize}
     \item \textbf{Liczba warstw LSTM:} wartości całkowite z zakresu [1, 3].
-    \item \textbf{Liczba neuronów w warstwach ukrytych:} wartości całkowite z zakresu [16, 128].
+    \item \textbf{Liczba neuronów w warstwach ukrytych:} wartości całkowite z zakresu [20, 50].
     \item \textbf{Współczynnik nauki (learning rate):} wartości z rozkładu logarytmicznego w zakresie [1e-4, 1e-2].
-    \item \textbf{Wielkość partii treningowej (batch size):} wybór spośród wartości [16, 32, 64, 128].
-    \item \textbf{Liczba epok treningowych:} wartości całkowite z zakresu [10, 100].
+    \item \textbf{Wielkość partii treningowej (batch size):} wybór spośród wartości [8, 16, 32].
+    \item \textbf{Liczba epok treningowych:} wartości całkowite z zakresu [10, 50].
 \end{itemize}
-Dla każdego modelu przeprowadzono 50 prób optymalizacji (ang. \textit{trials}), a najlepsze zestawy hiperparametrów zostały następnie wykorzystane w treningu modeli.
+Dla każdego modelu przeprowadzono 150 prób optymalizacji (ang. \textit{trials}), a najlepsze zestawy hiperparametrów zostały następnie wykorzystane w treningu modeli.
 
 \subsubsection{Przebieg procesu uczenia}
 Proces uczenia modeli przeprowadzono na zbiorze treningowym, stanowiącym 72\% wszystkich danych, wykorzystując zoptymalizowane hiperparametry. 
@@ -973,9 +973,9 @@ Tabela \ref{tab:base_model_metrics} przedstawia osiągnięte przez model bazowy 
         \hline
         \textbf{Metryka} & \textbf{Wartość} \\
         \hline
-        MSE & 20.8176 \\
-        RMSE & 4.5626 \\
-        \(R^2\) & 0.8730 \\
+        MSE & 26.1835 \\
+        RMSE & 5.1169 \\
+        \(R^2\) & 0.8403 \\
         \hline
     \end{tabular}
 \end{table}
@@ -995,16 +995,16 @@ Osiągnięte wartości metryk przez model wzbogacony przedstawia tabela \ref{tab
         \hline
         \textbf{Metryka} & \textbf{Wartość} \\
         \hline
-        MSE & 30.0347 \\
-        RMSE & 5.4803 \\
-        \(R^2\) & 0.7961 \\
+        MSE & 31.0509 \\
+        RMSE & 5.5723 \\
+        \(R^2\) & 0.7892 \\
         \hline
     \end{tabular}
 \end{table}
 
 W porównaniu do modelu bazowego, model wzbogacony uzyskał gorsze wyniki we wszystkich analizowanych metrykach.
-Błąd RMSE na poziomie 5.4803 sugeruje, że średnie odchylenie prognoz od rzeczywistych cen zamknięcia wynosi około 5.48 jednostek (dolarów).
-Wskaźnik \(R^2\) na poziomie 0.7961 oznacza, że model wyjaśnia około 79.6\% wariancji w danych testowych. 
+Błąd RMSE na poziomie 5.5723 sugeruje, że średnie odchylenie prognoz od rzeczywistych cen zamknięcia wynosi około 5.6 jednostek (dolarów).
+Wskaźnik \(R^2\) na poziomie 0.7892 oznacza, że model wyjaśnia około 79\% wariancji w danych testowych. 
 
 Uzyskane wyniki sugerują, że dostarczenie modelowi dodatkowych informacji w postaci wskaźników analizy technicznej nie poprawiło, a wręcz pogorszyło jakość predykcji i zdolność generalizacji.
 Prawdopodobną przyczyną jest wprowadzenie dodatkowego szumu informacyjnego przez wskaźniki techniczne. 
@@ -1026,17 +1026,17 @@ Wyniki obu testów przedstawiono w tabeli \ref{tab:kalman_model_metrics}.
         \hline
         \textbf{Rodzaj testu} & \textbf{MSE} & \textbf{RMSE} & \textbf{\(R^2\)} \\
         \hline
-        Test na danych filtrowanych & 3.9563 & 1.9891 & 0.9756 \\
-        Test na danych oryginalnych & 21.5511 & 4.6423 & 0.8685 \\
+        Test na danych filtrowanych & 7.4117 & 2.7224 & 0.9543 \\
+        Test na danych oryginalnych & 30.02485 & 5.4794 & 0.8169 \\
         \hline
     \end{tabular}
 \end{table}
 
-W teście na danych filtrowanych model osiągnął rewelacyjną skuteczność -- błąd RMSE wyniósł 1.9891 oraz współczynnik \(R^2\) wynoszący 0.9756. 
-Oznacza to, że model był w stanie wyjaśnić niemal 98\% wariancji w odszumionych danych. 
+W teście na danych filtrowanych model osiągnął rewelacyjną skuteczność -- błąd RMSE wyniósł 2.7224 oraz współczynnik \(R^2\) wynoszący 0.9543. 
+Oznacza to, że model był w stanie wyjaśnić ponad 95\% wariancji w odszumionych danych. 
 Potwierdza to, że usunięcie szumu za pomocą filtru Kalmana pozwoliło sieci LSTM na nauczenie się bazowego trendu z bardzo wysoką precyzją.
 
-Z kolei w teście na danych oryginalnych, ten sam model wykazał znaczny spadek wydajności -- błąd RMSE wzrósł do 4.6423, a \(R^2\) spadł do 0.8685.
+Z kolei w teście na danych oryginalnych, ten sam model wykazał znaczny spadek wydajności -- błąd RMSE wzrósł do 5.4794, a \(R^2\) spadł do 0.8169.
 Względem modelu bazowego, wyniki te są bardzo zbliżone, co sugeruje, że model wytrenowany na odszumionych danych, gdy staje przed zadaniem predykcji zaszumionych danych, zachowuje się podobnie do modelu, który od początku uczył się na tych zaszumionych danych.
 
 Wyniki te potwierdzają hipotezę, że wstępna filtracja danych za pomocą filtru Kalmana znacząco poprawia jakość prognozy, gdy model jest testowany na odszumionych danych.
@@ -1061,11 +1061,11 @@ W przypadku modelu z filtrem Kalmana, przedstawiono wyniki zarówno dla testu na
         \hline
         \textbf{Model} & \textbf{MSE} & \textbf{RMSE} & \textbf{\(R^2\)} \\
         \hline
-        Model bazowy & 20.8176 & 4.5626 & 0.8730 \\
-        Model wzbogacony & 30.0347 & 5.4803 & 0.7961 \\
-        Model z filtrem Kalmana (dane oryginalne) & 21.5511 & 4.6423 & 0.8685 \\
+        Model bazowy & 26.1835 & 5.1169 & 0.8403 \\
+        Model wzbogacony & 31.0509 & 5.5723 & 0.7892 \\
+        Model z filtrem Kalmana (dane oryginalne) & 30.0248 & 5.4794 & 0.8169 \\
         \hline
-        Model z filtrem Kalmana (dane filtrowane) & 3.9563 & 1.9891 & 0.9756 \\
+        Model z filtrem Kalmana (dane filtrowane) & 7.4117 & 2.7224 & 0.9543 \\
         \hline
     \end{tabular}
 \end{table}
@@ -1101,7 +1101,7 @@ Aby w pełni zrozumieć potencjał filtracji, na rysunku \ref{fig:kalman_filtere
     \label{fig:kalman_filtered_actual_vs_predicted}
 \end{figure}
 
-Wykres ten doskonale ilustruje, dlaczego model osiągnął tak wysoki współczynnik \(R^2\) (0.9756) w tym scenariuszu. 
+Wykres ten doskonale ilustruje, dlaczego model osiągnął tak wysoki współczynnik \(R^2\) (0.9543) w tym scenariuszu. 
 Linia predykcji niemal idealnie pokrywa się z odszumionym sygnałem, co dowodzi, że w określonych warunkach, sieć LSTM była w stanie niemal perfekcyjnie nauczyć się bazowego trendu.
 Kontrast między rysunkiem \ref{fig:all_models_comparison} a \ref{fig:kalman_filtered_actual_vs_predicted} stanowi wizualny dowód na skuteczność samej filtracji, nawet jeśli nie przełożyło się to na ostateczną przewagę w predykcji na danych zaszumionych.
 
@@ -1138,7 +1138,7 @@ Jego prosta architektura, operująca wyłącznie na historycznych cenach zamkni�
 Wynik modelu wzbogaconego sugeruje, że wskaźniki analizy technicznej, mimo iż niosą informację o rynku, w tej formie działają jak szum informacyjny. 
 Sieć neuronowa, zamiast skupić się na głównym sygnale cenowym, modelowała również wahania wskaźników, co doprowadziło do pogorszenia wyników.
 
-Najciekawsze wnioski płyną z analizy modelu z filtrem Kalmana. Mimo że nie pokonał on modelu bazowego w realistycznym teście, jego rewelacyjne wyniki na danych filtrowanych (RMSE 1.9891, \(R^2\) 0.9756) dowodzą, że filtracja skutecznie usuwa szum i pozwala sieci LSTM na niemal perfekcyjne nauczenie się bazowego trendu. 
+Najciekawsze wnioski płyną z analizy modelu z filtrem Kalmana. Mimo że nie pokonał on modelu bazowego w realistycznym teście, jego rewelacyjne wyniki na danych filtrowanych (RMSE 2.7224, \(R^2\) 0.9543) dowodzą, że filtracja skutecznie usuwa szum i pozwala sieci LSTM na niemal perfekcyjne nauczenie się bazowego trendu. 
 Fakt, że model ten nie przełożył tej wiedzy na lepsze prognozy zaszumionych danych, otwiera pole do dalszych badań -- być może zamiast prognozować dokładną cenę, model wytrenowany na odszumionym sygnale mógłby być znacznie skuteczniejszy w zadaniach takich jak prognozowanie kierunku zmiany ceny lub identyfikacja punktów zwrotnych na rynku.
 
 Tym samym główna hipoteza pracy została potwierdzona częściowo -- filtracja Kalmana drastycznie poprawia zdolność modelu do nauki trendu, jednak w bezpośredniej predykcji zaszumionych cen nie gwarantuje przewagi nad prostszym wariantem modelu.
