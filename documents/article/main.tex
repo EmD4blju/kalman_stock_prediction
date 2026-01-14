@@ -155,7 +155,7 @@
 
     Forecasting stock prices using neural networks, such as LSTM, is a challenging task due to high market volatility. These models often learn random fluctuations instead of underlying trends, which negatively affects their ability to make precise predictions.
 
-    This thesis investigates the effectiveness of the Kalman filter as a data pre-processing technique for denoising input data to improve the prediction quality of an LSTM network. An experiment was conducted on historical stock price data for Amazon.com Inc. (AMZN), comparing three models: a baseline LSTM, a model enriched with additional technical analysis indicators, and a model trained on filtered data.
+    This thesis investigates the effectiveness of the Kalman filter as a data pre-processing technique for filtering input data to improve the prediction quality of an LSTM network. An experiment was conducted on historical stock price data for Amazon.com Inc. (AMZN), comparing three models: a baseline LSTM, a model enriched with additional technical analysis indicators, and a model trained on filtered data.
 
     The results showed that in a realistic test scenario (prediction on original, unfiltered data), neither of the more complex models achieved a clear advantage over the simplest baseline model. The model trained on filtered data, despite showing no advantage in the realistic test, achieved high performance (\(R^2=0.9543\)) when tested on data that was also filtered, demonstrating its ability to almost perfectly extract the underlying trend.
 
@@ -235,7 +235,7 @@ Przedstawione w takiej postaci informacje tworzą szereg czasowy, w którym każ
 \end{itemize}
 Na potrzeby tej pracy, wykorzystano składnik \textit{Close}, ze względu na jego powszechne wykorzystanie w analizie i prognozie cen akcji.
 
-Rysunek \ref{fig:amzn_stock_prices} przedstawia przykładowy wykres cenowy względem składnika \textit{Close} spółki Amazon.com Inc (AMZN) na przestrzeni kilku lat w odstępach dziennych. 
+Rysunek \ref{fig:amzn_stock_prices} przedstawia przykładowy wykres cenowy względem składnika \textit{Close} spółki Amazon.com Inc (AMZN) na przestrzeni lat 2022-2025 w odstępach dziennych. 
 Dane przedstawione na wykresie są nieregularne i zawierają liczne fluktuacje, co jest charakterystyczne dla danych finansowych.
 Ta wysoka zmienność stanowi główne wyzwanie dla modeli predykcyjnych, co motywuje do poszukiwania skutecznych metod filtrujących \cite{cheeneebash2007improving}.
 \begin{figure}[H]
@@ -702,7 +702,7 @@ Rysunek \ref{fig:kalman_filter_cycle} przedstawia schematyczny cykl działania f
     \label{fig:kalman_filter_cycle}
 \end{figure}
 
-W kontekście prognozowania cen akcji, filtr Kalmana może być użyty do odszumienia danych w fazie ich wstępnego przetwarzania.
+W kontekście prognozowania cen akcji, filtr Kalmana może być użyty do filtracji danych w fazie ich wstępnego przetwarzania.
 Dzięki temu sieć LSTM otrzymuje czystsze dane wejściowe, co może prowadzić do bardziej trafnych prognoz.
 Integracja filtru Kalmana z siecią LSTM pozwala na skuteczne łączenie zalet obu metod: zdolności LSTM do modelowania złożonych zależności czasowych oraz umiejętności filtru Kalmana do redukcji szumów w danych \cite{cheeneebash2007improving}.
 
@@ -714,7 +714,7 @@ Z tego powodu zaprojektowano i zaimplementowano trzy odrębne modele, z których
 \begin{itemize}
     \item \textbf{Model bazowy (Base Model):} Stanowił punkt odniesienia (ang. \textit{baseline}). Jego zadaniem było prognozowanie cen wyłącznie na podstawie ich historycznych wartości, przy użyciu prostej architektury LSTM.
     \item \textbf{Model wzbogacony (Enriched Model):} Miał na celu weryfikację, czy dostarczenie modelowi dodatkowego kontekstu rynkowego w postaci wskaźników analizy technicznej poprawi jakość predykcji.
-    \item \textbf{Model z filtrem Kalmana (Kalman Model):} Służył do zbadania głównej hipotezy pracy -- czy wstępna filtracja i odszumienie danych wejściowych przy użyciu filtru Kalmana pozytywnie wpływa na skuteczność prognoz sieci LSTM.
+    \item \textbf{Model z filtrem Kalmana (Kalman Model):} Służył do zbadania głównej hipotezy pracy -- czy wstępna filtracja danych wejściowych przy użyciu filtru Kalmana pozytywnie wpływa na skuteczność prognoz sieci LSTM.
 \end{itemize}
 W niniejszym rozdziale przedstawiono szczegółowy opis metodologii badawczej zastosowanej w pracy, obejmujący proces przygotowania danych, implementację modeli, procedurę uczenia, metryki oceny wydajności i sposób ewaluacji.
 Cały proces badawczy, od przygotowania danych, przez trening, aż po ewaluację, został zaimplementowany jako zestaw modularnych i powtarzalnych pipeline'ów w ramach frameworku Kedro.
@@ -727,7 +727,7 @@ Do przeprowadzenia eksperymentów wykorzystano język programowania Python 3.12 
     \item \textbf{PyTorch:} Jedna z wiodących platform do uczenia głębokiego, wykorzystana do zdefiniowania architektury sieci LSTM, implementacji pętli treningowej oraz przeprowadzenia procesu uczenia modeli.
     \item \textbf{Optuna:} Biblioteka do automatycznej optymalizacji hiperparametrów modeli uczenia maszynowego, która została użyta do znalezienia optymalnych wartości takich parametrów jak liczba warstw LSTM, liczba neuronów w warstwach, współczynnik nauki oraz wielkość partii treningowej (batch size).
     \item \textbf{Scikit-learn:} Kompleksowa biblioteka do uczenia maszynowego, z której wykorzystano m.in. narzędzia do skalowania danych (MinMaxScaler) oraz obliczania metryk oceny modeli (MSE, RMSE).
-    \item \textbf{FilterPy:} Specjalistyczna biblioteka dostarczająca implementacje różnych algorytmów filtrujących, w tym filtru Kalmana, który został użyty do odszumiania danych wejściowych.
+    \item \textbf{FilterPy:} Specjalistyczna biblioteka dostarczająca implementacje różnych algorytmów filtrujących, w tym filtru Kalmana, który został użyty do filtracji danych wejściowych.
     \item \textbf{Technical Analysis (ta):} Biblioteka umożliwiająca obliczanie wskaźników analizy technicznej, które zostały wykorzystane do wzbogacenia zestawu cech wejściowych modeli.
     \item \textbf{Matplotlib \& Seaborn:} Biblioteki do wizualizacji danych, które posłużyły do generowania wszystkich wykresów przedstawionych w pracy, m.in. wykresów cen, krzywych uczenia i porównań predykcji z wartościami rzeczywistymi.
     \item \textbf{yfinance:} Biblioteka umożliwiająca pobieranie historycznych danych rynkowych z serwisu Yahoo! Finance.
@@ -1041,7 +1041,7 @@ Trzeci model, stanowiący sedno niniejszej pracy, został wytrenowany na danych 
 Jego celem była weryfikacja głównej hipotezy badawczej, mówiącej o pozytywnym wpływie filtracji danych na jakość predykcji.
 Aby w pełni ocenić skuteczność tego podejścia, przeprowadzono dwuetapową ewaluację. 
 Najpierw oceniono, jak dobrze model radzi sobie z przewidywaniem na danych testowych już poddanych filtracji.
-Następnie sprawdzono jego wydajność w realistycznym scenariuszu, czyli podczas predykcji na oryginalnych, zaszumionych danych testowych. 
+Następnie sprawdzono jego wydajność w realistycznym scenariuszu, czyli podczas predykcji na oryginalnych, niefiltrowanych danych testowych. 
 Wyniki obu testów przedstawiono w tabeli \ref{tab:kalman_model_metrics}.
 
 \begin{table}[H]
@@ -1103,7 +1103,7 @@ Analiza powyższych wyników prowadzi do kilku kluczowych obserwacji:
     \item Przy testach na danych filtrowanych, model z filtrem Kalmana zdecydowanie przewyższa pozostałe modele pod względem wszystkich metryk.
     \item Model bazowy osiąga najlepsze wyniki spośród modeli testowanych na oryginalnych danych.
     \item Model wzbogacony, mimo dodatkowych cech wejściowych, wykazuje najgorszą wydajność, co sugeruje, że wprowadzenie wskaźników analizy technicznej mogło wprowadzić więcej szumu niż użytecznej informacji.
-    \item Model z filtrem Kalmana, gdy jest testowany na oryginalnych danych, osiąga wyniki zbliżone do modelu bazowego, co wskazuje na ograniczoną zdolność do generalizacji na zaszumione dane.
+    \item Model z filtrem Kalmana, gdy jest testowany na oryginalnych danych, osiąga wyniki zbliżone do modelu bazowego, co wskazuje na ograniczoną zdolność do generalizacji na dane niefiltrowane.
 \end{enumerate}
 
 \subsubsection{Wizualne porównanie predykcji}
@@ -1118,11 +1118,11 @@ Wszystkie modele poprawnie podążają za ogólnym trendem cen akcji, jednak ró
 \end{figure}
 
 Na powyższym wykresie widać, że wszystkie modele poprawnie podążają za ogólnym trendem cen akcji. 
-Model z filtrem Kalmana wykazuje podobne wyniki do pozostałych modeli, co świadczy, że filtracja nie przyniosła znaczącej przewagi w kontekście predykcji na zaszumionych danych.
+Model z filtrem Kalmana wykazuje podobne wyniki do pozostałych modeli, co świadczy, że filtracja nie przyniosła znaczącej przewagi w kontekście predykcji na danych niefiltrowanych.
 Z kolei Model wzbogacony, pomimo najgorszych wyników metrycznych, najlepiej poradził sobie z anomalią cenową w okolicach 60 dnia testowego, co sugeruje, że dodatkowe cechy mogły pomóc w uchwyceniu tego nietypowego zachowania.
 
 
-Aby w pełni zrozumieć potencjał filtracji, na rysunku \ref{fig:kalman_filtered_actual_vs_predicted} przedstawiono wyniki modelu z filtrem Kalmana w laboratoryjnym teście na danych odszumionych.
+Aby w pełni zrozumieć potencjał filtracji, na rysunku \ref{fig:kalman_filtered_actual_vs_predicted} przedstawiono wyniki modelu z filtrem Kalmana w laboratoryjnym teście na danych filtrowanych.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{assets/kalman_actual_vs_predicted_filtered.png}
@@ -1131,8 +1131,8 @@ Aby w pełni zrozumieć potencjał filtracji, na rysunku \ref{fig:kalman_filtere
 \end{figure}
 
 Wykres ten doskonale ilustruje, dlaczego model osiągnął tak wysoki współczynnik \(R^2\) (0.9543) w tym scenariuszu. 
-Linia predykcji niemal idealnie pokrywa się z odszumionym sygnałem, co dowodzi, że w określonych warunkach, sieć LSTM była w stanie niemal perfekcyjnie nauczyć się bazowego trendu.
-Kontrast między rysunkiem \ref{fig:all_models_comparison} a \ref{fig:kalman_filtered_actual_vs_predicted} stanowi wizualny dowód na skuteczność samej filtracji, nawet jeśli nie przełożyło się to na ostateczną przewagę w predykcji na danych zaszumionych.
+Linia predykcji niemal idealnie pokrywa się z przefiltrowanym sygnałem, co dowodzi, że w określonych warunkach, sieć LSTM była w stanie niemal perfekcyjnie nauczyć się bazowego trendu.
+Kontrast między rysunkiem \ref{fig:all_models_comparison} a \ref{fig:kalman_filtered_actual_vs_predicted} stanowi wizualny dowód na skuteczność samej filtracji, nawet jeśli nie przełożyło się to na ostateczną przewagę w predykcji na danych oryginalnych.
 
 Dodatkowo, analiza rozkładów błędów (rys. \ref{fig:all_errors_distribution}) dostarcza dalszych informacji.
 \begin{figure}[H]
@@ -1158,7 +1158,7 @@ Dodatkowo, analiza rozkładów błędów (rys. \ref{fig:all_errors_distribution}
 \end{figure}
 Histogramy potwierdzają, że model wzbogacony ma najszerszy rozkład błędów, co świadczy o największej niepewności. 
 Z kolei najwęższy rozkład błędów prezentuje model Kalmana na danych filtrowanych (dół-lewo), co zgadza z jego doskonałymi wynikami metrycznymi w tym teście.
-Kluczowe jest jednak zwrócenie uwagi na rozkład błędów modelu Kalmana na danych oryginalnych (dół-prawo), który jest zbliżony do rozkładu modelu bazowego (góra-lewo) oraz modelu wzbogaconego (góra-prawo), co ponownie podkreśla ograniczoną zdolność do generalizacji na zaszumione dane.
+Kluczowe jest jednak zwrócenie uwagi na rozkład błędów modelu Kalmana na danych oryginalnych (dół-prawo), który jest zbliżony do rozkładu modelu bazowego (góra-lewo) oraz modelu wzbogaconego (góra-prawo), co ponownie podkreśla ograniczoną zdolność do generalizacji na niefiltrowane dane.
 
 \subsubsection{Dyskusja i wnioski końcowe}
 Analiza porównawcza jednoznacznie wskazuje, że w przeprowadzonym badaniu najskuteczniejszym podejściem okazał się model bazowy. 
@@ -1169,9 +1169,9 @@ Jednakże, dodatkowe cechy mogły również wprowadzić pewną dozę szumu infor
 Sieć neuronowa, zamiast skupić się na głównym sygnale cenowym, modelowała również wahania wskaźników, co doprowadziło do pogorszenia wyników.
 
 Najciekawsze wnioski płyną z analizy modelu z filtrem Kalmana. Mimo że nie pokonał on modelu bazowego w realistycznym teście, jego rewelacyjne wyniki na danych filtrowanych (RMSE 2.7224, \(R^2\) 0.9543) dowodzą, że filtracja skutecznie usuwa szum i pozwala sieci LSTM na niemal perfekcyjne nauczenie się bazowego trendu. 
-Fakt, że model ten nie przełożył tej wiedzy na lepsze prognozy zaszumionych danych, otwiera pole do dalszych badań -- być może zamiast prognozować dokładną cenę, model wytrenowany na odszumionym sygnale mógłby być znacznie skuteczniejszy w zadaniach takich jak prognozowanie kierunku zmiany ceny lub identyfikacja punktów zwrotnych na rynku.
+Fakt, że model ten nie przełożył tej wiedzy na lepsze prognozy danych niefiltrowanych, otwiera pole do dalszych badań -- być może zamiast prognozować dokładną cenę, model wytrenowany na filtrowanym sygnale mógłby być znacznie skuteczniejszy w zadaniach takich jak prognozowanie kierunku zmiany ceny lub identyfikacja punktów zwrotnych na rynku.
 
-Tym samym główna hipoteza pracy została potwierdzona częściowo -- filtracja Kalmana drastycznie poprawia zdolność modelu do nauki trendu, jednak w bezpośredniej predykcji zaszumionych cen nie gwarantuje przewagi nad prostszym wariantem modelu.
+Tym samym główna hipoteza pracy została potwierdzona częściowo -- filtracja Kalmana drastycznie poprawia zdolność modelu do nauki trendu, jednak w bezpośredniej predykcji oryginalnych cen nie gwarantuje przewagi nad prostszym wariantem modelu.
 
 
 %~ Summary
@@ -1191,18 +1191,18 @@ Jednak ten sam model lepiej poradził sobie z nietypowymi zdarzeniami cenowymi, 
 
 Najważniejszych wyników dostarczył model z filtrem Kalmana.
 W teście na danych filtrowanych osiągnął on rewelacyjną skuteczność, niemal perfekcyjnie odwzorowując bazowy trend cen akcji.
-Jednakże, w teście na oryginalnych, zaszumionych danych, jego wydajność była zbliżona do modelu bazowego, co wskazywało na ograniczoną zdolność do generalizacji na zaszumione dane.
-Fakt, że model ten nie przełożył tej wiedzy na lepsze prognozy cen akcji, stanowi sedno odkryć tej pracy i jednocześnie otwiera pole do dalszych badań.
+Jednakże, w teście na oryginalnych, niefiltrowanych danych, jego wydajność była zbliżona do modelu bazowego, co wskazywało na ograniczoną zdolność do generalizacji na niefiltrowane dane.
+Fakt, że model ten nie przełożył tej wiedzy na lepsze prognozy danych niefiltrowanych, stanowi sedno odkryć tej pracy i jednocześnie otwiera pole do dalszych badań.
 
 Należy zaznaczyć, że przeprowadzone badania ograniczały się do analizy danych jednej spółki (Amazon.com Inc) w konkretnym okresie.
 Otrzymanych wyników nie można w pełni generalizować na inne instrumenty finansowe czy odmienne warunki rynkowe.
 Mimo to, ciekawe rezultaty modelu z zastosowaniem filtracji Kalmana wskazują na obiecujące kierunki dla przyszłych badań.
-Zamiast prognozować dokładną wartość ceny, model wytrenowany na odszumionym sygnale mógłby okazać się znacznie skuteczniejszy w zadaniach klasyfikacyjnych, takich jak przewidywanie rynkowego kierunku zmiany ceny.
+Zamiast prognozować dokładną wartość ceny, model wytrenowany na filtrowanym sygnale mógłby okazać się znacznie skuteczniejszy w zadaniach klasyfikacyjnych, takich jak przewidywanie rynkowego kierunku zmiany ceny.
 W takich zastosowaniach zdolność do ignorowania krótkoterminowego szumu i koncentracji na głównym trendzie mogłaby okazać się decydującą przewagą.
 
 Ostatecznie, praca ta częściowo potwierdza postawioną hipotezę badawczą.
 Zastosowanie filtracji Kalmana na etapie przetwarzania danych wejściowych znacząco poprawia zdolność modelu do nauki bazowego trendu cen akcji,
-jednak w bezpośredniej predykcji zaszumionych cen nie gwarantuje przewagi nad prostszym wariantem modelu.
+jednak w bezpośredniej predykcji oryginalnych cen nie gwarantuje przewagi nad prostszym wariantem modelu.
 
 
 \clearpage
