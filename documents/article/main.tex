@@ -136,13 +136,13 @@
     Prognozowanie cen akcji przy użyciu sieci neuronowych, takich jak LSTM, nie jest łatwym zadaniem ze względu na wysoką niestabilność rynkową.
     Modele te często uczą się losowych fluktuacji zamiast bazowych trendów, co wpływa negatywnie na ich zdolność do precyzyjnych prognoz.
 
-    W pracy zbadano skuteczność filtru Kalmana jako techniki wstępnego odszumiania danych celem poprawy jakości predykcji sieci LSTM.
+    W pracy zbadano skuteczność filtru Kalmana jako techniki wstępnego przetwarzania danych celem poprawy jakości predykcji sieci LSTM.
     Przeprowadzono eksperyment na danych historycznych cen akcji Amazon.com Inc (AMZN), porównując trzy modele: bazowy LSTM, model z dodatkowymi wskaźnikami analizy technicznej oraz model uczony na danych przefiltrowanych.
 
-    Wyniki pokazały, że w realistycznym scenariuszu testowym najskuteczniejszy był najprostszy model bazowy.
-    Model uczony na danych filtrowanych, pomimo braku przewagi względem modelu bazowego w realistycznym teście, osiągnął wysoką skuteczność (\(R^2=0.9543\)) w teście na danych odszumionych, co świadczy o zdolności do niemal perfekcyjnej ekstrakcji trendu.
+    Wyniki pokazały, że w realistycznym scenariuszu testowym (predykcja na oryginalnych danych, nie poddanych filtracji) żaden z bardziej złożonych modeli nie uzyskał przewagi nad najprostszym modelem bazowym. 
+    Jednocześnie model uczony na danych po filtracji Kalmana, testowany w warunkach laboratoryjnych (predykcja na danych również poddanych filtracji), osiągnął niemal perfekcyjną skuteczność (\(R^2=0.9543\)), co dowodzi jego zdolności do ekstrakcji bazowego trendu.
 
-    Główny wniosek płynący z pracy jest taki, że filtracja Kalmana, choć nie gwarantuje lepszych prognoz konkretnych wartości cen akcji, to znacznie poprawia zdolność modelu do nauki trendu, co mogłoby się znacznie lepiej sprawdzić w zadaniach natury klasyfikacyjnej, np. prognozowania kierunku zmian cen.
+    Główny wniosek płynący z pracy jest taki, że zastosowanie filtracji Kalmana, choć nie gwarantuje lepszych prognoz konkretnych wartości cen akcji, to znacznie poprawia zdolność modelu do nauki trendu, co mogłoby się znacznie lepiej sprawdzić w zadaniach natury klasyfikacyjnej, np. prognozowania kierunku zmian cen.
 
     \vspace{1cm}
     \noindent \textbf{Słowa kluczowe:} \it{prognozowanie cen akcji}, \it{sieci LSTM, filtr Kalmana}, \it{szeregi czasowe}, \it{uczenie maszynowe}, \it{analiza finansowa}
@@ -157,10 +157,10 @@
 
     This thesis investigates the effectiveness of the Kalman filter as a data pre-processing technique for denoising input data to improve the prediction quality of an LSTM network. An experiment was conducted on historical stock price data for Amazon.com Inc. (AMZN), comparing three models: a baseline LSTM, a model enriched with additional technical analysis indicators, and a model trained on filtered data.
 
-    The results showed that in a realistic test scenario, the simplest baseline model was the most effective. The model trained on filtered data, despite showing no advantage over the baseline model in the realistic test, achieved high performance (\(R^2=0.9543\)) when tested on denoised data, demonstrating its ability to almost perfectly extract the underlying trend.
+    The results showed that in a realistic test scenario (prediction on original, unfiltered data), neither of the more complex models achieved a clear advantage over the simplest baseline model. The model trained on filtered data, despite showing no advantage in the realistic test, achieved high performance (\(R^2=0.9543\)) when tested on data that was also filtered, demonstrating its ability to almost perfectly extract the underlying trend.
 
     The main conclusion of this work is that while Kalman filtering does not guarantee better predictions of specific stock price values, it significantly enhances the model's ability to learn the trend. This could prove much more effective in classification tasks, such as forecasting the direction of price changes.
-
+    
     \vspace{1cm}
     \noindent \textbf{Keywords:} \it{stock price prediction}, \it{LSTM networks}, \it{Kalman filter}, \it{time series}, \it{machine learning}, \it{financial analysis}.
 \end{quote}
@@ -846,16 +846,16 @@ Poniżej przedstawiono szczegółowy opis każdego z trzech modeli.
 
 \subsubsection{Model bazowy (Base Model)}
 Model bazowy stanowił najprostszą implementację, zaprojektowaną w celu ustanowienia punktu odniesienia (ang. \textit{baseline}). 
-Architektura modelu bazowego składała się z jednej warstwy LSTM z 27 neuronami w warstwie ukrytej, co zapewniało wystarczającą zdolność modelowania prostych zależności czasowych w danych wejściowych.
+Architektura modelu bazowego składała się z jednej warstwy LSTM z 39 neuronami w warstwie ukrytej, co zapewniało wystarczającą zdolność modelowania prostych zależności czasowych w danych wejściowych.
 
 \subsubsection{Model wzbogacony (Enriched Model)}
 Model wzbogacony rozszerzał architekturę modelu bazowego poprzez dodanie trzech wskaźników analizy technicznej (RSI, BBW, \%B) jako dodatkowych cech wejściowych.
-Z tego względu zastosowano bardziej złożoną architekturę, obejmującą dwie warstwy LSTM oraz większą liczbę neuronów w warstwach ukrytych.
-
+Z tego względu zastosowano bardziej złożoną architekturę, obejmującą dwie warstwy LSTM oraz większą liczbę neuronów (96) w warstwach ukrytych.
 
 \subsubsection{Model z filtrem Kalmana (Kalman Model)}
 Model ten operował na takich samych danych jak model bazowy, jednak przed podaniem ich na wejście sieci LSTM, dane te były poddawane procesowi filtracji przy użyciu filtru Kalmana.
-Jego architektura była tożsama z architekturą modelu bazowego, co pozwalało na bezpośrednie porównanie wpływu samej filtracji danych na wyniki predykcji.
+W wyniku procesu optymalizacji hiperparametrów, jego finalna architektura okazała się nieco bardziej złożona niż w przypadku modelu bazowego, składając się z dwóch warstw LSTM i 41 neuronów w warstwach ukrytych. 
+Mimo tych różnic, głównym czynnikiem odróżniającym oba modele pozostał sposób przygotowania danych wejściowych.
 
 \vspace{0.5cm}
 Tabela \ref{tab:model_architecture_params} przedstawia zestawienie kluczowych hiperparametrów architektury każdego z modeli, które uzyskano w wyniku procesu optymalizacji.
@@ -868,16 +868,15 @@ Tabela \ref{tab:model_architecture_params} przedstawia zestawienie kluczowych hi
         \textbf{Hiperparametr} & \textbf{Base Model} & \textbf{Enriched Model} & \textbf{Kalman Model} \\
         \hline
         Wymiar wejścia & 1 & 4 & 1 \\
-        Liczba warstw LSTM & 1 & 2 & 1 \\
-        Liczba neuronów ukrytych & 27 & 64 & 27 \\
+        Liczba warstw LSTM & 1 & 2 & 2 \\
+        Liczba neuronów ukrytych & 39 & 96 & 41 \\
         Wymiar wyjścia & 1 & 1 & 1 \\
         \hline
     \end{tabular}
 \end{table}
 
-Podsumowując, architektury trzech modeli zostały świadomie zróżnicowane, aby umożliwić rzetelne zbadanie postawionych hipotez. 
-Model bazowy i model z filtrem Kalmana posiadały identyczną, prostą architekturę, co pozwoliło na wyizolowanie i ocenę wpływu samej filtracji danych. 
-Z kolei model wzbogacony, ze względu na wielowymiarowy charakter danych wejściowych, został wyposażony w bardziej złożoną strukturę, zdolną do przetwarzania bogatszego zestawu informacji. 
+Podsumowując, architektury trzech modeli zostały świadomie zróżnicowane w procesie automatycznego strojenia, aby jak najlepiej dopasować ich złożoność do charakteru danych wejściowych.
+Mimo to, porównanie modelu bazowego i modelu z filtrem Kalmana wciąż pozwala na wyciągnięcie wniosków na temat wpływu filtracji, analizując, jak modele o różnej, optymalnej dla siebie złożoności radzą sobie z danymi o różnej charakterystyce.
 W kolejnej sekcji opisano proces uczenia i ewaluacji tych modeli.
 
 \subsection{Metryki oceny}
@@ -907,6 +906,8 @@ Każdy z trzech modeli był trenowany niezależnie, z zastosowaniem tych samych 
 \subsubsection{Strojenie hiperparametrów}
 W celu znalezienia optymalnych wartości hiperparametrów dla każdego z modeli, zastosowano bibliotekę Optuna do automatyzacji tego procesu \cite{akiba2019optuna}.
 Przeszukiwana przestrzeń hiperparametrów była wspólna dla wszystkich modeli i obejmowała:
+
+Dla modelu bazowego oraz modelu z filtrem Kalmana, które operowały na jednowymiarowych danych wejściowych (tylko cena zamknięcia), przeszukiwana przestrzeń hiperparametrów obejmowała:
 \begin{itemize}
     \item \textbf{Liczba warstw LSTM:} wartości całkowite z zakresu [1, 3].
     \item \textbf{Liczba neuronów w warstwach ukrytych:} wartości całkowite z zakresu [20, 50].
@@ -914,7 +915,32 @@ Przeszukiwana przestrzeń hiperparametrów była wspólna dla wszystkich modeli 
     \item \textbf{Wielkość partii treningowej (batch size):} wybór spośród wartości [8, 16, 32].
     \item \textbf{Liczba epok treningowych:} wartości całkowite z zakresu [10, 50].
 \end{itemize}
-Dla każdego modelu przeprowadzono 150 prób optymalizacji (ang. \textit{trials}), a najlepsze zestawy hiperparametrów zostały następnie wykorzystane w treningu modeli.
+
+Z kolei dla modelu wzbogaconego, który przetwarzał czterowymiarowe dane wejściowe (cena zamknięcia oraz trzy wskaźniki techniczne), zdefiniowano szerszą przestrzeń poszukiwań dla kluczowych parametrów architektury, aby umożliwić modelowi dopasowanie się do większej złożoności danych:
+\begin{itemize}
+    \item \textbf{Liczba warstw LSTM:} wartości całkowite z zakresu [1, 3].
+    \item \textbf{Liczba neuronów w warstwach ukrytych:} wartości całkowite z zakresu [50, 100].
+    \item \textbf{Współczynnik nauki (learning rate):} wartości z rozkładu logarytmicznego w zakresie [1e-4, 1e-2].
+    \item \textbf{Wielkość partii treningowej (batch size):} wybór spośród wartości [8, 16, 32].
+    \item \textbf{Liczba epok treningowych:} wartości całkowite z zakresu [20, 80].
+\end{itemize}
+Dla każdego modelu przeprowadzono 150 prób optymalizacji (ang. \textit{trials}). Najlepsze znalezione zestawy hiperparametrów, które zostały następnie wykorzystane w finalnym treningu modeli, przedstawiono w tabeli \ref{tab:optimal_hyperparams}.
+\begin{table}[H]
+    \centering
+    \caption{Optymalne hiperparametry uzyskane w procesie strojenia dla każdego z modeli.}
+    \label{tab:optimal_hyperparams}
+    \begin{tabular}{lccc}
+        \hline
+        \textbf{Hiperparametr} & \textbf{Base Model} & \textbf{Enriched Model} & \textbf{Kalman Model} \\
+        \hline
+        Liczba warstw LSTM & 1 & 2 & 2 \\
+        Liczba neuronów ukrytych & 39 & 96 & 41 \\
+        Współczynnik nauki & 0.00107 & 0.00034 & 0.00029 \\
+        Wielkość partii treningowej & 32 & 32 & 8 \\
+        Liczba epok treningowych & 47 & 78 & 15 \\
+        \hline
+    \end{tabular}
+\end{table}
 
 \subsubsection{Przebieg procesu uczenia}
 Proces uczenia modeli przeprowadzono na zbiorze treningowym, stanowiącym 72\% wszystkich danych, wykorzystując zoptymalizowane hiperparametry. 

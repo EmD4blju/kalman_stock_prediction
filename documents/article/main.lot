@@ -2,7 +2,8 @@
 \contentsline {table}{\numberline {1}{\ignorespaces Przykładowe rekordy z surowego zbioru danych dla spółki AMZN. Źródło: \cite {yfinance_data}}}{24}{table.1}%
 \contentsline {table}{\numberline {2}{\ignorespaces Przykładowa struktura danych po przekształceniu do formatu nadzorowanego.}}{24}{table.2}%
 \contentsline {table}{\numberline {3}{\ignorespaces Zestawienie kluczowych hiperparametrów architektury modeli.}}{27}{table.3}%
-\contentsline {table}{\numberline {4}{\ignorespaces Metryki wydajności modelu bazowego na zbiorze testowym.}}{31}{table.4}%
-\contentsline {table}{\numberline {5}{\ignorespaces Metryki wydajności modelu wzbogaconego na zbiorze testowym.}}{31}{table.5}%
-\contentsline {table}{\numberline {6}{\ignorespaces Metryki wydajności modelu z filtrem Kalmana w zależności od rodzaju zbioru testowego.}}{32}{table.6}%
-\contentsline {table}{\numberline {7}{\ignorespaces Zestawienie metryk wydajności modeli na zbiorze testowym.}}{33}{table.7}%
+\contentsline {table}{\numberline {4}{\ignorespaces Optymalne hiperparametry uzyskane w procesie strojenia dla każdego z modeli.}}{29}{table.4}%
+\contentsline {table}{\numberline {5}{\ignorespaces Metryki wydajności modelu bazowego na zbiorze testowym.}}{32}{table.5}%
+\contentsline {table}{\numberline {6}{\ignorespaces Metryki wydajności modelu wzbogaconego na zbiorze testowym.}}{32}{table.6}%
+\contentsline {table}{\numberline {7}{\ignorespaces Metryki wydajności modelu z filtrem Kalmana w zależności od rodzaju zbioru testowego.}}{33}{table.7}%
+\contentsline {table}{\numberline {8}{\ignorespaces Zestawienie metryk wydajności modeli na zbiorze testowym.}}{34}{table.8}%
