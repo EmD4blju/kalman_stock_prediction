@@ -1038,10 +1038,10 @@ Wskaźniki te, choć niosą pewien sygnał, same w sobie również podlegają fl
 
 \subsection{Wyniki modelu z filtrem Kalmana}
 Trzeci model, stanowiący sedno niniejszej pracy, został wytrenowany na danych wejściowych poddanych wstępnej filtracji za pomocą filtru Kalmana. 
-Jego celem była weryfikacja głównej hipotezy badawczej, mówiącej o pozytywnym wpływie odszumiania danych na jakość predykcji.
+Jego celem była weryfikacja głównej hipotezy badawczej, mówiącej o pozytywnym wpływie filtracji danych na jakość predykcji.
 Aby w pełni ocenić skuteczność tego podejścia, przeprowadzono dwuetapową ewaluację. 
-Najpierw oceniono, jak dobrze model radzi sobie z przewidywaniem danych o tej samej, odszumionej charakterystyce (test na danych filtrowanych). 
-Następnie sprawdzono jego wydajność w bardziej realistycznym scenariuszu, czyli podczas predykcji na oryginalnych, zaszumionych danych testowych. 
+Najpierw oceniono, jak dobrze model radzi sobie z przewidywaniem na danych testowych już poddanych filtracji.
+Następnie sprawdzono jego wydajność w realistycznym scenariuszu, czyli podczas predykcji na oryginalnych, zaszumionych danych testowych. 
 Wyniki obu testów przedstawiono w tabeli \ref{tab:kalman_model_metrics}.
 
 \begin{table}[H]
@@ -1059,13 +1059,13 @@ Wyniki obu testów przedstawiono w tabeli \ref{tab:kalman_model_metrics}.
 \end{table}
 
 W teście na danych filtrowanych model osiągnął rewelacyjną skuteczność -- błąd RMSE wyniósł 2.7224 oraz współczynnik \(R^2\) wynoszący 0.9543. 
-Oznacza to, że model był w stanie wyjaśnić ponad 95\% wariancji w odszumionych danych. 
+Oznacza to, że model był w stanie wyjaśnić ponad 95\% wariancji na danych poddanych filtracji. 
 Potwierdza to, że usunięcie szumu za pomocą filtru Kalmana pozwoliło sieci LSTM na nauczenie się bazowego trendu z bardzo wysoką precyzją.
 
 Z kolei w teście na danych oryginalnych, ten sam model wykazał znaczny spadek wydajności -- błąd RMSE wzrósł do 5.4794, a \(R^2\) spadł do 0.8169.
-Względem modelu bazowego, wyniki te są bardzo zbliżone, co sugeruje, że model wytrenowany na odszumionych danych, gdy staje przed zadaniem predykcji zaszumionych danych, zachowuje się podobnie do modelu, który od początku uczył się na tych zaszumionych danych.
+Względem modelu bazowego, wyniki te są bardzo zbliżone, co sugeruje, że model wytrenowany na filtrowanych danych, gdy staje przed zadaniem predykcji w oparciu o oryginalne dane, zachowuje się podobnie do modelu, który od początku uczył się na danych oryginalnych.
 
-Wyniki te potwierdzają hipotezę, że wstępna filtracja danych za pomocą filtru Kalmana znacząco poprawia jakość prognozy, gdy model jest testowany na odszumionych danych.
+Wyniki te potwierdzają hipotezę, że wstępna filtracja danych za pomocą filtru Kalmana znacząco poprawia jakość prognozy, gdy model jest uczony i testowany na przefiltrowanych danych.
 Jednakże, w rzeczywistości rynkowej, model ten nie wykazuje przewagi nad modelem bazowym.
 Sugeruje to, że choć filtracja może nie być korzystna w przypadku predykcji dokładnych cen akcji, to jednak w przypadku przewidywania następnych ruchów cenowych lub trendów, gdzie szum może mieć mniejsze znaczenie, takie podejście mogłoby przynieść korzyści.
 
@@ -1077,7 +1077,9 @@ Celem ninejszej podsekcji jest zestawienie i porównanie wyników uzyskanych prz
 \subsubsection{Zestawienie metryk wydajności}
 Pierwszym krokiem w analizie jest porównanie kluczowych metryk wydajności (MSE, RMSE, \(R^2\)) uzyskanych przez każdy z modeli na zbiorze testowym.
 Tabela \ref{tab:comparison_metrics} przedstawia zestawienie tych metryk dla wszystkich trzech modeli.
-W przypadku modelu z filtrem Kalmana, przedstawiono wyniki zarówno dla testu na danych filtrowanych, jak i oryginalnych.
+Należy podkreślić, że dla modelu z filtrem Kalmana przedstawiono dwa zestawy wyników.
+Pierwszy (dane oryginalne) odzwierciedla realistyczny scenariusz, w którym model uczony na danych filtrowanych jest testowany na oryginalnych, niefiltrowanych danych testowych. 
+Drugi zestaw (dane filtrowane) pokazuje wydajność tego samego modelu w warunkach laboratoryjnych, czyli podczas testu na danych również poddanych filtracji.
 
 \begin{table}[H]
     \centering

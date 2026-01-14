@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex main"] 1768401750.39431 "main.aux" "main.bbl" "main" 1768401944.77369 0
+["bibtex main"] 1768401750.39431 "main.aux" "main.bbl" "main" 1768402785.07586 0
   "./references.bib" 1767902548.83159 8398 51bfece96342d0c9fc9cc9809e51728d ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/unsrt.bst" 1292289607 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "main.aux" 1768401944.33462 17256 2cc262ef9bd910cd75bd6fb6ff63da4b "pdflatex"
+  "main.aux" 1768402784.63039 17256 2cc262ef9bd910cd75bd6fb6ff63da4b "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1768401938.1992 "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" "main.pdf" "main" 1768401944.77398 0
+["pdflatex"] 1768402778.70437 "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" "main.pdf" "main" 1768402785.07619 0
   "/etc/texmf/web2c/texmf.cnf" 1759393268.57976 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" 1768401937.91058 86766 71d7b9a7091a3720dd00e1fa39fa3b02 ""
+  "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" 1768402778.44236 87054 e4ab25cf45ad40d0019287f299a94889 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm" 1136768653 1292 bd42be2f344128bff6d35d98474adfe3 ""
@@ -145,13 +145,13 @@
   "assets/sigmoid_w_min_figure.png" 1764156088.53684 17778 05ce7490df5af9eb8fcf1733e3c72da8 ""
   "assets/step_figure.png" 1764156088.53784 12443 b74fda3afebbeb3a800c355a2fd8d45a ""
   "assets/workflow_visualized.png" 1768400481.42113 125136 c6b0c469f11e9d72ecf42b24c625901d ""
-  "main.aux" 1768401944.33462 17256 2cc262ef9bd910cd75bd6fb6ff63da4b "pdflatex"
+  "main.aux" 1768402784.63039 17256 2cc262ef9bd910cd75bd6fb6ff63da4b "pdflatex"
   "main.bbl" 1768401750.62347 5700 758fa84a21864c0b263164240345e205 "bibtex main"
-  "main.lof" 1768401944.33803 2554 66c80cdb0746001256ba2161bd09e042 "pdflatex"
-  "main.lot" 1768401944.33803 1152 0f77e844a4f368637f9c3a1a7b30ac9d "pdflatex"
-  "main.out" 1768401944.33662 7442 1b4a32e1215a8be0e6bb33cb091ee855 "pdflatex"
-  "main.tex" 1768401937.91058 86766 71d7b9a7091a3720dd00e1fa39fa3b02 ""
-  "main.toc" 1768401944.33803 3679 4b2981726e04fa69c8e7a8acc512797f "pdflatex"
+  "main.lof" 1768402784.63439 2554 66c80cdb0746001256ba2161bd09e042 "pdflatex"
+  "main.lot" 1768402784.63439 1152 0f77e844a4f368637f9c3a1a7b30ac9d "pdflatex"
+  "main.out" 1768402784.63439 7442 1b4a32e1215a8be0e6bb33cb091ee855 "pdflatex"
+  "main.tex" 1768402778.44236 87054 e4ab25cf45ad40d0019287f299a94889 ""
+  "main.toc" 1768402784.63439 3679 4b2981726e04fa69c8e7a8acc512797f "pdflatex"
   (generated)
   "main.aux"
   "main.lof"
