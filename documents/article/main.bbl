@@ -20,6 +20,12 @@ Jayrani Cheeneebash, George Galanis, Ashvin Gopaul, and Muddun Bhuruth.
 \newblock Improving artificial neural network forecasts with kalman filtering.
 \newblock {\em Special Issue- UOM Research Journal}, 01 2007.
 
+\bibitem{yfinance_data}
+{Yahoo Inc.}
+\newblock {Yahoo Finance}.
+\newblock \url{https://finance.yahoo.com/quote/AMZN/}, 2025.
+\newblock Dane historyczne spółki Amazon.com Inc (AMZN) pobrane za pośrednictwem biblioteki `yfinance`. Dostęp: 2025-12-30.
+
 \bibitem{shah2024timeseries}
 Dhawani Shah and Manishkumar Thaker.
 \newblock A review of time series forecasting methods.
@@ -28,12 +34,6 @@ Dhawani Shah and Manishkumar Thaker.
 \bibitem{tepelyan2025enhancingohlcdatatiming}
 Ruslan Tepelyan.
 \newblock Enhancing ohlc data with timing features: A machine learning evaluation, 2025.
-
-\bibitem{yfinance_data}
-{Yahoo Inc.}
-\newblock {Yahoo Finance}.
-\newblock \url{https://finance.yahoo.com/quote/AMZN/}, 2025.
-\newblock Dane historyczne spółki Amazon.com Inc (AMZN) pobrane za pośrednictwem biblioteki `yfinance`. Dostęp: 2025-12-30.
 
 \bibitem{MOSTAFAVI2025100631}
 Seyed~Mostafa Mostafavi and Ali~Reza Hooman.
