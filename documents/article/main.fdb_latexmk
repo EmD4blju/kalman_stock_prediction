@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex main"] 1768915405.43486 "main.aux" "main.bbl" "main" 1769071697.41347 0
+["bibtex main"] 1769076448.59691 "main.aux" "main.bbl" "main" 1769076459.56688 0
   "./references.bib" 1767902548.83159 8398 51bfece96342d0c9fc9cc9809e51728d ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/unsrt.bst" 1292289607 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "main.aux" 1769071696.96691 17256 2cc262ef9bd910cd75bd6fb6ff63da4b "pdflatex"
+  "main.aux" 1769076458.64076 17246 d7f975a309200d074d5f4a4cd3056901 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1769071691.18326 "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" "main.pdf" "main" 1769071697.41381 0
+["pdflatex"] 1769076448.88544 "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" "main.pdf" "main" 1769076459.56748 0
   "/etc/texmf/web2c/texmf.cnf" 1759393268.57976 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" 1769071690.81392 87255 fae3828b08bbd77ad09e558c7d862032 ""
+  "/home/emdablju/Documents/projects/kalman_stock_prediction/documents/article/main.tex" 1769076435.08263 87263 88c718740bd3dd588d6b90bd69ed769b ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm" 1136768653 1292 bd42be2f344128bff6d35d98474adfe3 ""
@@ -140,18 +140,18 @@
   "assets/rnn_cell.png" 1764156088.53623 78904 f420c0f2d5e642d4887176239b6f710e ""
   "assets/sigmoid_b_max_figure.png" 1764156088.53623 16282 748458ea51ae8c4d2ee97fbd396e7938 ""
   "assets/sigmoid_b_min_figure.png" 1764156088.53623 17990 ca234828090aadd5502020a3b376d948 ""
-  "assets/sigmoid_figure.png" 1764156088.53684 17840 855e52b9a5603b92e092e88dddee059d ""
+  "assets/sigmoid_figure.png" 1769075461.56804 15166 83b45376e3f3d28d2ba6b76a15b9fd91 ""
   "assets/sigmoid_w_max_figure.png" 1764156088.53684 14343 85a977bb67ebede219272544aa797325 ""
   "assets/sigmoid_w_min_figure.png" 1764156088.53684 17778 05ce7490df5af9eb8fcf1733e3c72da8 ""
   "assets/step_figure.png" 1764156088.53784 12443 b74fda3afebbeb3a800c355a2fd8d45a ""
   "assets/workflow_visualized.png" 1768400481.42113 125136 c6b0c469f11e9d72ecf42b24c625901d ""
-  "main.aux" 1769071696.96691 17256 2cc262ef9bd910cd75bd6fb6ff63da4b "pdflatex"
-  "main.bbl" 1768915405.58932 5700 758fa84a21864c0b263164240345e205 "bibtex main"
-  "main.lof" 1769071696.96991 2554 66c80cdb0746001256ba2161bd09e042 "pdflatex"
-  "main.lot" 1769071696.96991 1152 0f77e844a4f368637f9c3a1a7b30ac9d "pdflatex"
-  "main.out" 1769071696.96991 7442 1b4a32e1215a8be0e6bb33cb091ee855 "pdflatex"
-  "main.tex" 1769071690.81392 87255 fae3828b08bbd77ad09e558c7d862032 ""
-  "main.toc" 1769071696.96991 3679 4b2981726e04fa69c8e7a8acc512797f "pdflatex"
+  "main.aux" 1769076458.64076 17246 d7f975a309200d074d5f4a4cd3056901 "pdflatex"
+  "main.bbl" 1769076448.87442 5700 758fa84a21864c0b263164240345e205 "bibtex main"
+  "main.lof" 1769076458.64576 2554 66c80cdb0746001256ba2161bd09e042 "pdflatex"
+  "main.lot" 1769076458.64576 1152 0f77e844a4f368637f9c3a1a7b30ac9d "pdflatex"
+  "main.out" 1769076458.64476 7432 e3ce9164d1b53c84bcf642ce449d1e92 "pdflatex"
+  "main.tex" 1769076435.08263 87263 88c718740bd3dd588d6b90bd69ed769b ""
+  "main.toc" 1769076458.64576 3669 0450b1e9c6634acdc32f0c86f9e130c9 "pdflatex"
   (generated)
   "main.aux"
   "main.lof"

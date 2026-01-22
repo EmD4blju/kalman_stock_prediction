@@ -35,5 +35,5 @@
 \contentsline {subsection}{\numberline {5.4}Porównanie i analiza wyników}{34}{subsection.5.4}%
 \contentsline {subsubsection}{\numberline {5.4.1}Zestawienie metryk wydajności}{34}{subsubsection.5.4.1}%
 \contentsline {subsubsection}{\numberline {5.4.2}Wizualne porównanie predykcji}{35}{subsubsection.5.4.2}%
-\contentsline {subsubsection}{\numberline {5.4.3}Dyskusja i wnioski końcowe}{37}{subsubsection.5.4.3}%
+\contentsline {subsection}{\numberline {5.5}Dyskusja i wnioski końcowe}{38}{subsection.5.5}%
 \contentsline {section}{\numberline {6}Podsumowanie}{39}{section.6}%
