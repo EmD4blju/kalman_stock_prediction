@@ -7,7 +7,7 @@ This project was developed as part of an engineering thesis. Its goal is to anal
 ### Prerequisites
 
 - Python 3.12+
-- `pip`
+- `astral-uv` or `pip`
 
 ### Installation
 
