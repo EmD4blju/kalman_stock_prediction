@@ -1,6 +1,6 @@
 # Stock Price Prediction Using Kalman Filter and LSTM Network
 
-This project was developed as part of an engineering thesis. Its goal is to analyze and predict stock prices using advanced modeling techniques. The core concept involves using the Kalman Filter for initial time-series data denoising and state estimation, followed by a Long Short-Term Memory (LSTM) neural network to forecast future values.
+This project was developed as part of an engineering thesis at Polish-Japanese Academy of Information-Technology. Its goal is to analyze and predict stock prices using advanced modeling techniques. The core concept involves using the Kalman Filter for initial time-series data denoising and state estimation, followed by a Long Short-Term Memory (LSTM) neural network to forecast future values.
 
 ## How to Run
 
